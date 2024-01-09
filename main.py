@@ -16,7 +16,7 @@ def start_program():
         # Prompt the user for their choice
         choice = input('Please select your choice: (1,2,3,4,5,6,7,8)\n'
                        '\t1. Add/Modify assignment statement\n'
-                       '\t2. Encrypt/Decrypt File\n'
+                       '\t2. Display current assignment statements\n'
                        '\t3. Analyze letter frequency distribution\n'
                        '\t4. Infer Caesar cipher key from file\n'
                        '\t5. Analyze, and sort encrypted files\n'
@@ -29,10 +29,9 @@ def start_program():
             match choice:
                 case '1':
                     interface.option1(options.add_or_modify)
-                    print(options.get_saved_statements())
                     pass
                 case '2':
-                    # interface.option2(options.file_cryptography)
+                    interface.option2(options.display_statements)
                     pass
                 case '3':
                     # interface.option3(options.freq_distribution)

@@ -30,8 +30,16 @@ class Interface:
     # Option 1
     def option1(self, add_or_modify):
         """
-        Executes the first option in the menu: Encrypt or Decrypt a user-entered message.
+        Executes the first option in the menu: add or modify an assignment statement.
         """
         statement = input(f"Enter the assignment statement you want to add/modify:\nFor example, a=(1+2)\n")
-        result = add_or_modify(statement)
+        result = add_or_modify(statement )
+        self.pause()
+
+    # Option 2
+    def option2(self, display_statements):
+        print(f"\nCURRENT ASSIGNMENTS:\n{'*'*20}")
+        statement_and_answers = display_statements()
+        for statement, answer in statement_and_answers.items():
+            print(f"{statement}=> {answer}")
         self.pause()
