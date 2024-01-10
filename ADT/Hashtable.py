@@ -1,20 +1,20 @@
-# """
-# Quadratic Probing: This technique involves looking for the next slot at an 
-# incrementally increasing distance from the original index. 
-# This helps to reduce clustering of entries.
+"""
+Quadratic Probing: This technique involves looking for the next slot at an 
+incrementally increasing distance from the original index. 
+This helps to reduce clustering of entries.
 
-# Double Hashing: This method uses a second hash function to determine the 
-# step size for probing. This can be more effective than quadratic probing 
-# in reducing clustering but is slightly more complex to implement.
+Double Hashing: This method uses a second hash function to determine the 
+step size for probing. This can be more effective than quadratic probing 
+in reducing clustering but is slightly more complex to implement.
 
-# Now, let's address dynamic resizing:
+Now, let's address dynamic resizing:
 
-# Dynamic Resizing: The hash table should be able to resize itself when it 
-# becomes too full. A common strategy is to resize when the load factor 
-# (number of entries divided by the table size) exceeds a certain threshold, 
-# such as 0.7. Resizing involves creating a new, larger table and rehashing 
-# all the current entries into it.
-# """
+Dynamic Resizing: The hash table should be able to resize itself when it 
+becomes too full. A common strategy is to resize when the load factor 
+(number of entries divided by the table size) exceeds a certain threshold, 
+such as 0.7. Resizing involves creating a new, larger table and rehashing 
+all the current entries into it.
+"""
 
 class Hashtable:
     def __init__(self, initial_size=10):
@@ -25,9 +25,15 @@ class Hashtable:
         self.current_index = 0
 
     def hash_function(self, key):
+        if isinstance(key, str): 
+            key = int(ord(key))
+            
         return key % self.size
 
     def rehash_function(self, key, attempt):
+        if isinstance(key, str): 
+            key = int(ord(key))
+            
         return (self.hash_function(key) + attempt ** 2) % self.size
 
     def __setitem__(self, key, value):
