@@ -25,16 +25,24 @@ class Hashtable:
         self.current_index = 0
 
     def hash_function(self, key):
-        if isinstance(key, str): 
-            key = int(ord(key))
-            
-        return key % self.size
+        if isinstance(key, str):
+            # Convert the string to an integer by summing the ASCII values of its characters
+            key_sum = sum(ord(char) for char in key)
+        else:
+            key_sum = key
+
+        return key_sum % self.size
 
     def rehash_function(self, key, attempt):
-        if isinstance(key, str): 
-            key = int(ord(key))
-            
-        return (self.hash_function(key) + attempt ** 2) % self.size
+        if isinstance(key, str):
+            print(key)
+            # Convert the string to an integer by summing the ASCII values of its characters
+            key_sum = sum(ord(char) for char in key)
+        else:
+            key_sum = key
+
+        # Use the modified hash function for rehashing
+        return (self.hash_function(key_sum) + attempt ** 2) % self.size
 
     def __setitem__(self, key, value):
         if self.load_factor() > 0.7:
