@@ -42,3 +42,5 @@ class BinaryTree:
         right = self.rightTree
         return f"({left.key}+{right.key})"
     
+    
+    
