@@ -38,6 +38,9 @@ class BinaryTree:
             self.rightTree.printPreorder(level+1)
 
     def shallow_tree(self):
-        left = self.leftTree
-        right = self.rightTree
-        return f"({left.key}+{right.key})"
+        if self.leftTree and self.rightTree:
+            left = self.leftTree
+            right = self.rightTree
+            return f"({left.key}+{right.key})"
+        else:
+            return self.key

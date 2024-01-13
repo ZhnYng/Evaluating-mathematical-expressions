@@ -5,6 +5,10 @@ from program import Interface, Options
 interface = Interface()
 options = Options()
 
+# Test cases
+options.add_or_modify('apple=(1+pine)')
+options.add_or_modify('pineapple=(30*p)')
+
 # Define a function to start the program
 def start_program():
     # Display the program banner

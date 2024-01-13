@@ -35,7 +35,6 @@ class Hashtable:
 
     def rehash_function(self, key, attempt):
         if isinstance(key, str):
-            print(key)
             # Convert the string to an integer by summing the ASCII values of its characters
             key_sum = sum(ord(char) for char in key)
         else:

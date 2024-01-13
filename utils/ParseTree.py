@@ -1,12 +1,13 @@
 from ADT import Stack, BinaryTree, Hashtable
+import re
 
 class ParseTree:
     def __init__(self):
-        self.statements = Hashtable()
-        # self.statements = {}  # Stores statements and their expression trees
+        self.statements = Hashtable() # Stores statements and their expression trees
+        self.active_evaluations = set()
 
     def buildParseTree(self, exp):
-        tokens = [token for token in exp]
+        tokens = re.findall(r'[\d.]+|\w+|[^\s\w]', exp)
         stack = Stack()
         tree = BinaryTree('?')
         stack.push(tree)
@@ -30,14 +31,14 @@ class ParseTree:
 
             # RULE 3: If token is number, set key of the current node
             # to that number and return to parent
-            elif t not in ['(', '+', '-', '*', '/', ')'] and t.isnumeric():
+            elif t.isnumeric():
                 currentTree.setKey(int(t))
                 parent = stack.pop()
                 currentTree = parent
 
             # RULE 4: If token is a letter, set key of the current node
             # to that letter and return to parent
-            elif t not in ['(', '+', '-', '*', '/', ')'] and t.isalpha():
+            elif t.isalpha():
                 currentTree.setKey(t)
                 parent = stack.pop()
                 currentTree = parent
@@ -49,12 +50,24 @@ class ParseTree:
                 raise ValueError
         return tree
     
-    def evaluate(self, tree):
+    def evaluate(self, var, tree:BinaryTree):
+        if var in self.active_evaluations:
+            raise ValueError(f"Circular dependency detected for variable: {var}")
+        
+        self.active_evaluations.add(var)
+        result = self.evaluate_expression(tree)
+        if result == 'None':
+            self.active_evaluations.clear()
+        else:
+            self.active_evaluations.remove(var)    
+        return result
+        
+    def evaluate_expression(self, tree:BinaryTree):
         if tree:
             if tree.getLeftTree() and tree.getRightTree():
                 op = tree.getKey()
-                left = self.evaluate(tree.getLeftTree())
-                right = self.evaluate(tree.getRightTree())
+                left = self.evaluate_expression(tree.getLeftTree())
+                right = self.evaluate_expression(tree.getRightTree())
                 if left == 'None' or right == 'None': return 'None'
                 elif op == '+': return left + right
                 elif op == '-': return left - right
@@ -65,27 +78,11 @@ class ParseTree:
                 key = tree.getKey()
                 if isinstance(key, int):
                     return key
-                elif key in self.statements: # Error in hashing here
-                    return self.evaluate(self.statements[key])
+                elif key in self.statements:
+                    return self.evaluate(key, self.statements[key])
                 else:
                     return 'None'
 
     def add_statement(self, var, exp):
-        # Check for circular dependency
-        for char in exp:
-            if char.isalpha() and char in self.statements:
-                raise ValueError(f"Circular dependency detected for variable {var}. Variable {char} is dependent on variable {var}")
-
-        if var in exp or var in self.statements:
-            raise ValueError("Circular dependency detected for variable " + var)
-        
         tree = self.buildParseTree(exp)
         self.statements[var] = tree
-
-# Usage
-# pt = ParseTree()
-# pt.addVariable("b", "(1+5)")
-# pt.addVariable("a", "(1+b)")
-
-# result_a = pt.evaluate(pt.statements["a"])
-# print("Value of a:", result_a)

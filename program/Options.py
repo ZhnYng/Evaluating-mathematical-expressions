@@ -32,7 +32,7 @@ class Options:
             expression = self.__parse_tree.statements[key]
             statement = f"{key}={expression.shallow_tree()}"
             
-            answer = self.__parse_tree.evaluate(expression)
+            answer = self.__parse_tree.evaluate(key, expression)
             statement_and_answers[statement] = answer
         return statement_and_answers
     
