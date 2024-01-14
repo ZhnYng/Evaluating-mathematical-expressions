@@ -14,15 +14,13 @@ def start_program():
     choice = ''
     while choice != '8':
         # Prompt the user for their choice
-        choice = input('Please select your choice: (1,2,3,4,5,6,7,8)\n'
+        choice = input("Please select your choice: ('1','2','3','4','5','6'):\n"
                        '\t1. Add/Modify assignment statement\n'
                        '\t2. Display current assignment statements\n'
-                       '\t3. Analyze letter frequency distribution\n'
-                       '\t4. Infer Caesar cipher key from file\n'
-                       '\t5. Analyze, and sort encrypted files\n'
-                       '\t6. Craft Encryption\n'
-                       '\t7. Encrypt with multiple keys\n'
-                       '\t8. Exit\n'
+                       '\t3. Evaluate a single variable\n'
+                       '\t4. Read assignment statements from file\n'
+                       '\t5. Sort assignment statements\n'
+                       '\t6. Exit\n'
                        'Enter choice: ')
         # try:
         # Use a match statement to handle user choices

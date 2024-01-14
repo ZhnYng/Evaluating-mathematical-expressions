@@ -10,16 +10,13 @@ class Interface:
         """
         Prints the introductory banner for the application.
         """
-        print('*'*58)
-        print('* ST1507 DSAA: Welcome To:', ' '*29, '*')
-        print('*', ' '*54, '*')
-        print('*', ' '*4, '~ Ceaser Cipher Encrypted Message Analyser ~', ' '*4, '*')
-        print('*', '-'*54, '*')
-        print('*', ' '*54, '*')
-        print('* - Done by: Lim Zhen Yang (2214506)', ' '*19, '*')
-        print('* - Class DAAA/FT/2B04', ' '*33, '*')
-        print('hello')
-        print('*'*58, end='\n\n')
+        print('*'*65)
+        print('* ST1507 DSAA: Evaluating & Sorting Assignment Statements ', ' '*4, '*')
+        print('*', '-'*61, '*')
+        print('*', ' '*61, '*')
+        print('* - Done by: Lim Zhen Yang (2214506) & Ashley Bai (2237871)', ' '*3, '*')
+        print('* - Class DAAA/FT/2B04', ' '*40, '*')
+        print('*'*58, end='\n\n\n')
 
     def pause(self):
         """
