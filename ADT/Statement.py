@@ -52,6 +52,14 @@ class Statement(Node):
         if not isinstance(other, Statement):
             raise TypeError("Comparison not supported between instances of 'Statement' and other types")
         return self.__var < other.__var
+
+    def __gt__(self, other):
+        """
+        Greater than comparison for Files.
+        """
+        if not isinstance(other, Statement):
+            raise TypeError("Comparison not supported between instances of 'Statement' and other types")
+        return self.__var > other.__var
     
     def __str__(self):
         return f"{self.__statement}"

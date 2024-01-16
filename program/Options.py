@@ -53,10 +53,27 @@ class Options:
         return self.display_statements()
     
     def sorting_expressions(self, output_file):
-        for key in self.__parse_tree.statements:
-            
-        sorted_statements = ''
+        def custom_sort(item):
+            equation, answer = item
+            if answer == 'None':
+                return (-float('-inf'), equation)
+            return (-float(answer), equation)
+
+        # Sort the dictionary based on the custom sorting key
+        sorted_eqns = dict(sorted(self.display_statements().items(), key=custom_sort))
+        swapped_dict = {}
+        for key, value in sorted_eqns.items():
+            if value not in swapped_dict:
+                swapped_dict[value] = []
+            swapped_dict[value].append(key)
+
+        sorted_output = ''
+        for answer, list_of_eqns in swapped_dict.items():
+            formatted = f'\n*** Statements with value=> {answer}\n'
+            for eqn in list_of_eqns:
+                formatted += f'{eqn}\n'
+            sorted_output += formatted
 
         # Write to file
         file_handler = FileHandler()
-        file_handler.write(output_file, sorted_statements)
+        file_handler.write(output_file, sorted_output)
