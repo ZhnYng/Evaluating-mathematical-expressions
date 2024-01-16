@@ -12,6 +12,11 @@ class ParseTree:
         tree = BinaryTree('?')
         stack.push(tree)
         currentTree = tree
+        def isfloat(string):
+            if string.replace(".", "").isnumeric():
+                return True
+            else:
+                return False
         for t in tokens:
             # RULE 1: If token is '(' add a new node as left child
             # and descend into that node
@@ -23,7 +28,7 @@ class ParseTree:
             # RULE 2: If token is operator set key of current node
             # to that operator and add a new node as right child
             # and descend into that node
-            elif t in ['+', '-', '*', '/']:
+            elif t in ['+', '-', '*', '/', '**']:
                 currentTree.setKey(t)
                 currentTree.insertRight('?')
                 stack.push(currentTree)
@@ -43,7 +48,14 @@ class ParseTree:
                 parent = stack.pop()
                 currentTree = parent
 
-            # RULE 5: If token is ')' go to parent of current node
+            # RULE 5: If token is a float, set key of the current node
+            # to that float and return to parent
+            elif isfloat(t):
+                currentTree.setKey(float(t))
+                parent = stack.pop()
+                currentTree = parent
+
+            # RULE 6: If token is ')' go to parent of current node
             elif t == ')':
                 currentTree = stack.pop()
             else:
@@ -72,7 +84,11 @@ class ParseTree:
                 elif op == '+': return left + right
                 elif op == '-': return left - right
                 elif op == '*': return left * right
-                elif op == '/': return left / right
+                elif op == '/': 
+                    if right == 0:
+                        return None
+                    return left / right
+                elif op == '**': return left ** right
             else:
                 # Handle statements and numbers
                 key = tree.getKey()

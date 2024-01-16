@@ -17,7 +17,7 @@ all the current entries into it.
 """
 
 class Hashtable:
-    def __init__(self, initial_size=10):
+    def __init__(self, initial_size=100):
         self.size = initial_size
         self.count = 0
         self.keys = [None] * self.size
@@ -28,8 +28,11 @@ class Hashtable:
         if isinstance(key, str):
             # Convert the string to an integer by summing the ASCII values of its characters
             key_sum = sum(ord(char) for char in key)
+        elif isinstance(key, float):
+            # Convert the float to an integer by multiplying by a large number
+            key_sum = int(key * 1000000)  # This multiplier can be adjusted based on precision needs
         else:
-            key_sum = key
+            key_sum = int(key)  # Convert other types to int (for example, if key is already an int)
 
         return key_sum % self.size
 

@@ -18,14 +18,10 @@ class Options:
         except:
             return 'Set hash table failed'
 
-    def add_or_modify(self, statement):
-        statement = statement.replace(" ", "")
-        statement_split = statement.split('=')
-        variable = statement_split[0]
-        expression = statement_split[1]
-
+    def add_or_modify(self, statement:Statement):
+        statement = Statement(statement)
         # Record new statement
-        self.__parse_tree.add_statement(variable, expression)
+        self.__parse_tree.add_statement(statement.var, statement.exp)
 
     def display_statements(self):
         statement_and_answers = {}
@@ -51,7 +47,16 @@ class Options:
             statement = Statement(statement)
             sorted_list.insert(statement)
         
-        return sorted_list.items()
+        for statement in sorted_list.items():
+            self.add_or_modify(statement)
+
+        return self.display_statements()
     
-    def sorting_expressions():
-        pass
+    def sorting_expressions(self, output_file):
+        for key in self.__parse_tree.statements:
+            
+        sorted_statements = ''
+
+        # Write to file
+        file_handler = FileHandler()
+        file_handler.write(output_file, sorted_statements)

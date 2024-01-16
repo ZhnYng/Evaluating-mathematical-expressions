@@ -4,6 +4,7 @@ from exceptions import UnbalancedParenthesesError
 
 class Statement(Node):
     def __init__(self, statement):
+        statement = statement.replace(" ", "")
         var, exp = statement.split('=')
         bracket_checker = BracketChecker()
         is_fully_paren = bracket_checker.check(exp)
@@ -19,11 +20,30 @@ class Statement(Node):
     def statement(self):
         """Returns the statement."""
         return self.__statement
+    
+    @property
+    def var(self):
+        """Returns the statement."""
+        return self.__var
+    @property
+    def exp(self):
+        """Returns the statement."""
+        return self.__exp
 
     @statement.setter
     def statement(self, statement):
         """Sets the statement."""
         self.__statement = statement
+
+    @var.setter
+    def var(self, var):
+        """Sets the statement."""
+        self.__statement = var
+
+    @exp.setter
+    def exp(self, exp):
+        """Sets the statement."""
+        self.__statement = exp
 
     def __lt__(self, other):
         """

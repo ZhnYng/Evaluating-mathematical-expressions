@@ -6,12 +6,13 @@ interface = Interface()
 options = Options()
 
 # Test cases
-# options.add_or_modify('Apple=(2+(4*5))')
+options.add_or_modify('Apple=(2+(4*5))')
 # options.add_or_modify('Pear=(Apple*3)')
 # options.add_or_modify('Mango=((Apple+(Durian+(Pear*(Blueberry*(Coconut/Strawberry)))))/2)')
 
-print(options.read_from_file('fruits.txt'))
-
+# print(options.read_from_file('fruits.txt'))
+# print(options.display_statements())
+print(options.eval_one_var('Apple'))
 # # Define a function to start the program
 # def start_program():
 #     # Display the program banner
