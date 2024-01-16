@@ -31,7 +31,7 @@ class Interface:
         Executes the first option in the menu: add or modify an assignment statement.
         """
         statement = input(f"Enter the assignment statement you want to add/modify:\nFor example, a=(1+2)\n")
-        result = add_or_modify(statement )
+        result = add_or_modify(statement)
         self.pause()
 
     # Option 2

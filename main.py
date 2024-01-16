@@ -5,12 +5,18 @@ from program import Interface, Options
 interface = Interface()
 options = Options()
 
+# Backend/Options test cases
+# options.add_or_modify('Apple=(2+(4*5))')
+# options.add_or_modify('Pear=(Apple*3)')
+# options.add_or_modify('Mango=((Apple+(Durian+(Pear*(Blueberry*(Coconut/Strawberry)))))/2)')
+# (options.read_from_file('fruits.txt'))
+# print(options.sorting_expressions('fruits_sorted.txt'))
+
 # Define a function to start the program
 def start_program():
     # Display the program banner
     interface.banner()
-
-    # Main program loop
+    #Main program loop
     choice = ''
     while choice != '8':
         # Prompt the user for their choice
