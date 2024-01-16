@@ -30,17 +30,17 @@ class BinaryTree:
             t =BinaryTree(key)
             self.rightTree , t.rightTree = t, self.rightTree
 
-    def printPreorder(self, level):
-        print( str(level*'-') + str(self.key))
-        if self.leftTree != None:
-            self.leftTree.printPreorder(level+1)
-        if self.rightTree != None:
-            self.rightTree.printPreorder(level+1)
+    def printPostorder(self, level=0):
+        if self.rightTree is not None:
+            self.rightTree.printPostorder(level + 1)
+        print('.' * level + str(self.key))
+        if self.leftTree is not None:
+            self.leftTree.printPostorder(level + 1)
 
-    def shallow_tree(self):
-        left = self.leftTree
-        right = self.rightTree
-        return f"({left.key}+{right.key})"
-    
-    
-    
+    def return_tree(self):
+        if self.leftTree and self.rightTree:
+            left = self.leftTree.return_tree()
+            right = self.rightTree.return_tree()
+            return f"({left}{self.key}{right})"
+        else:
+            return self.key

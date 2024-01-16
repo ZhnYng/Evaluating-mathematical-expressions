@@ -17,7 +17,7 @@ all the current entries into it.
 """
 
 class Hashtable:
-    def __init__(self, initial_size=10):
+    def __init__(self, initial_size=100):
         self.size = initial_size
         self.count = 0
         self.keys = [None] * self.size
@@ -25,16 +25,26 @@ class Hashtable:
         self.current_index = 0
 
     def hash_function(self, key):
-        if isinstance(key, str): 
-            key = int(ord(key))
-            
-        return key % self.size
+        if isinstance(key, str):
+            # Convert the string to an integer by summing the ASCII values of its characters
+            key_sum = sum(ord(char) for char in key)
+        elif isinstance(key, float):
+            # Convert the float to an integer by multiplying by a large number
+            key_sum = int(key * 1000000)  # This multiplier can be adjusted based on precision needs
+        else:
+            key_sum = int(key)  # Convert other types to int (for example, if key is already an int)
+
+        return key_sum % self.size
 
     def rehash_function(self, key, attempt):
-        if isinstance(key, str): 
-            key = int(ord(key))
-            
-        return (self.hash_function(key) + attempt ** 2) % self.size
+        if isinstance(key, str):
+            # Convert the string to an integer by summing the ASCII values of its characters
+            key_sum = sum(ord(char) for char in key)
+        else:
+            key_sum = key
+
+        # Use the modified hash function for rehashing
+        return (self.hash_function(key_sum) + attempt ** 2) % self.size
 
     def __setitem__(self, key, value):
         if self.load_factor() > 0.7:
