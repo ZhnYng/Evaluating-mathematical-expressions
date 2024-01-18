@@ -38,20 +38,17 @@ def start_program():
                 interface.option2(options.display_statements)
                 pass
             case '3':
-                # interface.option3(options.freq_distribution)
+                interface.option3(options.eval_one_var)
                 pass
             case '4':
-                # interface.option4(options.infer_caesar_key_from_file, options.file_cryptography)
+                interface.option4(options.read_from_file)
                 pass
             case '5':
-                # interface.option5(options.analyze_sort_encrypted_files)
+                interface.option5(options.sorting_expressions)
                 pass
             case '6':
-                # interface.option6(options.craft_encryption)
-                pass
-            case '7':
-                # interface.option7(options.multi_cryptography)
-                pass
+                print("\nBye, thanks for using ST1507 DSAA: Assignment Statement Evaluator & Sorter!")
+                break
         # except Exception as e:
         #     # Handle exceptions and display an error message
         #     print(f'\n{e}')

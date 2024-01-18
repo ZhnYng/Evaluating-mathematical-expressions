@@ -41,3 +41,55 @@ class Interface:
         for statement, answer in statement_and_answers.items():
             print(f"{statement}=> {answer}")
         self.pause()
+        
+    # Option 3
+    def option3(self, eval_one_var):
+        """
+        Evaluates and prints a parse tree of an individual variable.
+        """
+        # Get user input for the variable to be evaluated
+        variable = input("Please enter the variable you want to evaluate:\n")
+        # Evaluate the specified variable using the eval_one_var function
+        result = eval_one_var(variable)
+
+        # Print result
+        print(f"Value for variable \"{variable}\" is {result}\n")
+
+        # Print additional message
+        input("Press enter key, to continue...\n")
+        
+        
+    # Option 4
+    def option4(self, read_from_file):
+        """
+        Reads and evaluates all the statements from the file and followed by the display
+        of the list of current assignments. 
+        """
+        # Get user input for input file
+        file = input("Please enter input file: ")
+        
+        # Call the read_from_file method to read and evaluate statements
+        assignments_dict = read_from_file(file)
+
+        print("\nCURRENT ASSIGNMENTS:")
+        print("****************************")
+
+        # Sort the assignments alphabetically
+        for assignment, value in sorted(assignments_dict.items()):
+            print(f'{assignment} => {value}')
+            
+        input("\nPress enter key, to continue...\n")
+        
+    # Option 5 
+    def option5(self, sorting_expressions):
+        """
+        Sorts the expressions and store the sorted assignment statements in an output file. 
+        """
+        # Get user input for output file
+        file = input("Please enter output file: ")
+        
+        # Call the sorting expression function 
+        sorting_expressions(file)
+        
+        print('\n')
+        
