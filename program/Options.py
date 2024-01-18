@@ -36,6 +36,7 @@ class Options:
         return statement_and_answers
 
     def eval_one_var(self, var:str):
+        print('\nExpression Tree:')
         expression = self.__parse_tree.statements[var]
         expression.printPostorder(0)
         return self.__parse_tree.evaluate(var, expression)

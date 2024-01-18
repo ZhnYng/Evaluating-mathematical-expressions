@@ -3,23 +3,50 @@ import unittest
 if __name__ == '__main__':
     unittest.main()
 
-# from program import Interface, Options
+# Define a function to start the program
+def start_program():
+    # Display the program banner
+    interface.banner()
+    #Main program loop
+    choice = ''
+    while choice != '8':
+        # Prompt the user for their choice
+        choice = input("Please select your choice: ('1','2','3','4','5','6'):\n"
+                       '\t1. Add/Modify assignment statement\n'
+                       '\t2. Display current assignment statements\n'
+                       '\t3. Evaluate a single variable\n'
+                       '\t4. Read assignment statements from file\n'
+                       '\t5. Sort assignment statements\n'
+                       '\t6. Exit\n'
+                       'Enter choice: ')
+        # try:
+        # Use a match statement to handle user choices
+        match choice:
+            case '1':
+                interface.option1(options.add_or_modify)
+                pass
+            case '2':
+                interface.option2(options.display_statements)
+                pass
+            case '3':
+                interface.option3(options.eval_one_var)
+                pass
+            case '4':
+                interface.option4(options.read_from_file)
+                pass
+            case '5':
+                interface.option5(options.sorting_expressions)
+                pass
+            case '6':
+                print("\nBye, thanks for using ST1507 DSAA: Assignment Statement Evaluator & Sorter!")
+                break
+        # except Exception as e:
+        #     # Handle exceptions and display an error message
+        #     print(f'\n{e}')
+    else:
+        # Display a goodbye message when the program exits
+        print('\nBye, thanks for using ST1507 DSAA: Caesar Cipher Encrypted Message Analyzer')
 
-# interface = Interface()
-# options = Options()
-
-# Backend/Options test cases
-# options.add_or_modify('Apple=(2+(4*5))')
-# options.add_or_modify('Pear=(Apple*3)')
-# options.add_or_modify('Mango=((Apple+(Durian+(Pear*(Blueberry*(Coconut/Strawberry)))))/2)')
-# print(options.display_statements())
-# print(options.eval_one_var('Pear'))
-# (options.read_from_file('fruits.txt'))
-# print(options.sorting_expressions('fruits_sorted.txt'))
-# options.add_or_modify("x=(5)")
-# options.add_or_modify("y=(x+1)")
-# print(options.eval_one_var('y'))
-
-# options.add_or_modify("pine_apple=(y+1)")
-# options.add_or_modify("y=(x+2)")
-# print(options.display_statements())
+# Entry point of the program
+if __name__ == '__main__':
+    start_program()
