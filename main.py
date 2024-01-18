@@ -1,7 +1,11 @@
-from program import TestOptions
-import unittest
-if __name__ == '__main__':
-    unittest.main()
+# from program import TestOptions
+# import unittest
+# if __name__ == '__main__':
+#     unittest.main()
+
+from program import Interface, Options
+interface = Interface()
+options = Options()
 
 # Define a function to start the program
 def start_program():

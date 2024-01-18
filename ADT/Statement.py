@@ -5,7 +5,10 @@ import re
 class Statement(Node):
     def __init__(self, statement):
         statement = statement.replace(" ", "")
-        var, exp = statement.split('=')
+        try:
+            var, exp = statement.split('=')
+        except ValueError:
+            raise ValueError("Invalid statement format. It should be in the form 'var = exp'")
 
         if '=' not in statement or statement.count('=') != 1 or not var or not exp:
             raise ValueError("Invalid statement format. It should be in the form 'var = exp'")
