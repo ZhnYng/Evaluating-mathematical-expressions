@@ -15,7 +15,8 @@ class Statement(Node):
 
         # Validating value of expression
         supported_operators = ['+', '-', '*', '/', '**']
-        supported = any(operator in exp for operator in supported_operators)
+        tokens = re.findall(r'\*\*|[\d.]+|\w+|[^\s\w]', exp)
+        supported = any(operator in tokens for operator in supported_operators)
         if not supported:
             def strip_all_brackets(expression):
                 while '(' in expression:
@@ -33,7 +34,7 @@ class Statement(Node):
 
         # Expression must be fully parenthesized
         bracket_checker = BracketChecker()
-        is_fully_paren = bracket_checker.check(exp)
+        is_fully_paren = bracket_checker.check(tokens)
         if not is_fully_paren:
             raise ValueError('Expressions must be fully parenthesized')
 

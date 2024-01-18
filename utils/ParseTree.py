@@ -88,7 +88,7 @@ class ParseTree:
             else:
                 # Handle statements and numbers
                 key = tree.getKey()
-                if isinstance(key, int):
+                if isinstance(key, int) or isinstance(key, float):
                     return key
                 elif key in self.statements:
                     return self.evaluate(key, self.statements[key])
