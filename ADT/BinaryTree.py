@@ -44,12 +44,14 @@ class BinaryTree:
             t = BinaryTree(key)
             self.rightTree , t.rightTree = t, self.rightTree
 
-    def printPostorder(self, level=0):
+    def printInOrder(self, level=0):
+        traversal_str = ''
         if self.rightTree is not None:
-            self.rightTree.printPostorder(level + 1)
-        print('.' * level + str(self.key))
+            traversal_str += self.rightTree.printInOrder(level + 1)
+        traversal_str += '.' * level + str(self.key) + '\n'
         if self.leftTree is not None:
-            self.leftTree.printPostorder(level + 1)
+            traversal_str += self.leftTree.printInOrder(level + 1)
+        return traversal_str
 
     def return_tree(self):
         if self.leftTree and self.rightTree:

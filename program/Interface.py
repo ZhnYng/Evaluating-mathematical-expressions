@@ -16,7 +16,7 @@ class Interface:
         print('*', ' '*61, '*')
         print('* - Done by: Lim Zhen Yang (2214506) & Ashley Bai (2237871)', ' '*3, '*')
         print('* - Class DAAA/FT/2B04', ' '*40, '*')
-        print('*'*58, end='\n\n\n')
+        print('*'*65, end='\n\n\n')
 
     def pause(self):
         """
@@ -31,7 +31,7 @@ class Interface:
         Executes the first option in the menu: add or modify an assignment statement.
         """
         statement = input(f"Enter the assignment statement you want to add/modify:\nFor example, a=(1+2)\n")
-        result = add_or_modify(statement)
+        add_or_modify(statement)
         self.pause()
 
     # Option 2
@@ -50,9 +50,10 @@ class Interface:
         # Get user input for the variable to be evaluated
         variable = input("Please enter the variable you want to evaluate:\n")
         # Evaluate the specified variable using the eval_one_var function
-        result = eval_one_var(variable)
+        expression_tree_str, result = eval_one_var(variable)
 
         # Print result
+        print(expression_tree_str, end='')
         print(f"Value for variable \"{variable}\" is {result}\n")
 
         # Print additional message

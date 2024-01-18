@@ -57,7 +57,7 @@ class TestOptions(unittest.TestCase):
         # Test if expressions are evaluated correctly
         self.options.add_or_modify("x=(5)")
         self.options.add_or_modify("y=(x+1)")
-        result = self.options.eval_one_var("y")
+        expression_tree_str, result = self.options.eval_one_var("y")
         self.assertEqual(result, 6)
 
     def test_edge_cases(self):

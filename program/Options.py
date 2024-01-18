@@ -38,8 +38,8 @@ class Options:
     def eval_one_var(self, var:str):
         print('\nExpression Tree:')
         expression = self.__parse_tree.statements[var]
-        expression.printPostorder(0)
-        return self.__parse_tree.evaluate(var, expression)
+        expression_tree_str = expression.printInOrder(0)
+        return expression_tree_str, self.__parse_tree.evaluate(var, expression)
     
     def read_from_file(self, file):
         sorted_list = SortedList()
@@ -72,7 +72,10 @@ class Options:
 
         sorted_output = ''
         for answer, list_of_eqns in swapped_dict.items():
-            formatted = f'\n*** Statements with value=> {answer}\n'
+            formatted = ''
+            if sorted_output:
+                formatted += '\n'
+            formatted += f'*** Statements with value=> {answer}\n'
             for eqn in list_of_eqns:
                 formatted += f'{eqn}\n'
             sorted_output += formatted

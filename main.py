@@ -16,12 +16,12 @@ def start_program():
     while choice != '8':
         # Prompt the user for their choice
         choice = input("Please select your choice: ('1','2','3','4','5','6'):\n"
-                       '\t1. Add/Modify assignment statement\n'
-                       '\t2. Display current assignment statements\n'
-                       '\t3. Evaluate a single variable\n'
-                       '\t4. Read assignment statements from file\n'
-                       '\t5. Sort assignment statements\n'
-                       '\t6. Exit\n'
+                       '    1. Add/Modify assignment statement\n'
+                       '    2. Display current assignment statements\n'
+                       '    3. Evaluate a single variable\n'
+                       '    4. Read assignment statements from file\n'
+                       '    5. Sort assignment statements\n'
+                       '    6. Exit\n'
                        'Enter choice: ')
         # try:
         # Use a match statement to handle user choices
