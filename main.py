@@ -38,7 +38,7 @@ def start_program():
                 interface.option2(options.display_statements)
                 pass
             case '3':
-                # interface.option3(options.freq_distribution)
+                interface.option3(options.eval_one_var)
                 pass
             case '4':
                 # interface.option4(options.infer_caesar_key_from_file, options.file_cryptography)

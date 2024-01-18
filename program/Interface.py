@@ -41,3 +41,23 @@ class Interface:
         for statement, answer in statement_and_answers.items():
             print(f"{statement}=> {answer}")
         self.pause()
+        
+    # Option 3
+    def option3(self, eval_one_var):
+        """
+        Evaluates and prints a parse tree of an individual variable.
+        """
+        # Get user input for the variable to be evaluated
+        variable = input("Please enter the variable you want to evaluate:\n")
+        # Evaluate the specified variable using the eval_one_var function
+        result = eval_one_var(variable)
+
+        # Print result
+        print(f"Value for variable \"{variable}\" is {result}\n")
+
+        # Print additional message
+        input("Press enter key, to continue...\n")
+        
+        
+    # Option 4
+    # def option4(self):
