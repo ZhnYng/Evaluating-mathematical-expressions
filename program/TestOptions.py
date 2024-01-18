@@ -20,7 +20,7 @@ class TestOptions(unittest.TestCase):
 
     def test_valid_statements(self):
         # Test adding valid statements
-        valid_statements = ["x=(5)", "y=(x+1)", "z=(y*2)"]
+        valid_statements = ["x=(5)", "y=(x+1)", "z=(y*2)", "a=((1+1)+(1+1))"]
         for statement in valid_statements:
             with self.subTest(statement=statement):
                 self.options.add_or_modify(statement)
@@ -81,3 +81,14 @@ class TestOptions(unittest.TestCase):
             "x", self.options.parse_tree.statements["x"]
         )
         self.assertEqual(result, 1024)
+
+    # def test_display_statements(self):
+    #     valid_statements = ["x=(5)", "y=(x+1)", "z=(y*2)", "a=((1+1)+(1+1))"]
+    #     for statement in valid_statements:
+    #         with self.subTest(statement=statement):
+    #             self.options.add_or_modify(statement)
+    #             var, exp = statement.split('=')
+    #             self.assertDictEqual(
+    #                 {var: exp}, 
+    #                 self.options.display_statements()
+    #             )    
