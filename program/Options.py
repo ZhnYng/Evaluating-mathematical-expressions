@@ -8,15 +8,17 @@ class Options:
         self.__parse_tree = ParseTree()
 
     # Getter function
-    def get_saved_statements(self):
+    @property
+    def parse_tree(self):
         return self.__parse_tree
 
     # Setter function
-    def set_hashtable(self, new_hashtable:Hashtable):
+    @parse_tree.setter
+    def parse_tree(self, new_parse_tree:ParseTree):
         try:
-            self.__parse_tree = new_hashtable
+            self.__parse_tree = new_parse_tree
         except:
-            return 'Set hash table failed'
+            return 'Set parse tree failed'
 
     def add_or_modify(self, statement:Statement):
         statement = Statement(statement)

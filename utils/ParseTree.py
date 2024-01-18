@@ -12,11 +12,7 @@ class ParseTree:
         tree = BinaryTree('?')
         stack.push(tree)
         currentTree = tree
-        def isfloat(string):
-            if string.replace(".", "").isnumeric():
-                return True
-            else:
-                return False
+            
         for t in tokens:
             # RULE 1: If token is '(' add a new node as left child
             # and descend into that node
@@ -50,7 +46,7 @@ class ParseTree:
 
             # RULE 5: If token is a float, set key of the current node
             # to that float and return to parent
-            elif isfloat(t):
+            elif t.replace(".", "").isnumeric():
                 currentTree.setKey(float(t))
                 parent = stack.pop()
                 currentTree = parent
@@ -102,3 +98,4 @@ class ParseTree:
     def add_statement(self, var, exp):
         tree = self.buildParseTree(exp)
         self.statements[var] = tree
+        self.evaluate(var, tree) # Test for circular dependency
