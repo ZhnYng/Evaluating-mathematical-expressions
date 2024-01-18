@@ -8,7 +8,7 @@ class BracketChecker:
         and bracket pairs.
         """
         self.opening = "([{"
-        self.closing = ")]"
+        self.closing = ")]}"
         self.pairs = {')': '(', ']': '[', '}': '{'}
 
     def check(self, input_str):
@@ -22,15 +22,21 @@ class BracketChecker:
             bool: True if brackets are properly matched, False otherwise.
         """
         stack = []
+        operator_count = 0
 
         for char in input_str:
             if char in self.opening:
                 stack.append(char)
+            elif char in ['+', '-', '*', '/', '**']:
+                operator_count += 1
+                if len(stack) < operator_count:
+                    return False
             elif char in self.closing:
                 # If a closing bracket is encountered, check if the corresponding opening bracket is on the stack.
                 if not stack or stack[-1] != self.pairs[char]:
                     return False
+                operator_count = 0
                 stack.pop()
 
         # If the stack is empty at the end, all brackets have been properly matched.
-        return not stack
+        return not stack and any(char in self.opening or char in self.closing for char in input_str)

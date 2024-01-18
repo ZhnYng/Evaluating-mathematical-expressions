@@ -1,16 +1,7 @@
-# Import necessary modules and classes
-from program import Interface, Options
-
-# Create an instance of the Interface and Options classes
-interface = Interface()
-options = Options()
-
-# Backend/Options test cases
-# options.add_or_modify('Apple=(2+(4*5))')
-# options.add_or_modify('Pear=(Apple*3)')
-# options.add_or_modify('Mango=((Apple+(Durian+(Pear*(Blueberry*(Coconut/Strawberry)))))/2)')
-# (options.read_from_file('fruits.txt'))
-# print(options.sorting_expressions('fruits_sorted.txt'))
+from program import TestOptions
+import unittest
+if __name__ == '__main__':
+    unittest.main()
 
 # Define a function to start the program
 def start_program():

@@ -5,6 +5,7 @@ class ParseTree:
     def __init__(self):
         self.statements = Hashtable() # Stores statements and their expression trees
         self.active_evaluations = set()
+        self.memo = {}  # For memoization
 
     def buildParseTree(self, exp):
         tokens = re.findall(r'[\d.]+|\w+|[^\s\w]', exp)
@@ -70,30 +71,67 @@ class ParseTree:
             self.active_evaluations.remove(var)    
         return result
         
-    def evaluate_expression(self, tree:BinaryTree):
-        if tree:
-            if tree.getLeftTree() and tree.getRightTree():
-                op = tree.getKey()
-                left = self.evaluate_expression(tree.getLeftTree())
-                right = self.evaluate_expression(tree.getRightTree())
-                if left == 'None' or right == 'None': return 'None'
-                elif op == '+': return left + right
-                elif op == '-': return left - right
-                elif op == '*': return left * right
-                elif op == '/': 
-                    if right == 0:
-                        return None
-                    return left / right
-                elif op == '**': return left ** right
+    def evaluate_expression(self, tree: BinaryTree):
+        stack = []
+        last_visited = None
+        while stack or tree:
+            if tree:
+                stack.append(tree)
+                tree = tree.getLeftTree()
             else:
-                # Handle statements and numbers
-                key = tree.getKey()
-                if isinstance(key, int):
-                    return key
-                elif key in self.statements:
-                    return self.evaluate(key, self.statements[key])
+                peek = stack[-1]
+                if peek.getRightTree() and last_visited != peek.getRightTree():
+                    tree = peek.getRightTree()
                 else:
-                    return 'None'
+                    stack.pop()
+                    key = peek.getKey()
+
+                    # Evaluate operation or return value
+                    result = self.operate(peek)
+
+                    if stack:
+                        parent = stack[-1]
+                        if parent.getLeftTree() == last_visited:
+                            parent.setLeftValue(result)
+                        else:
+                            parent.setRightValue(result)
+                    else:
+                        return result
+
+                    last_visited = peek
+
+        return 'None'
+
+    def operate(self, node):
+        op = node.getKey()
+        if node.getLeftTree() and node.getRightTree():
+            left = node.getLeftValue()
+            right = node.getRightValue()
+
+            # Check if left or right values are None
+            if left is None or right is None:
+                return None
+
+            if op == '+':
+                return left + right
+            elif op == '-':
+                return left - right
+            elif op == '*':
+                return left * right
+            elif op == '/':
+                if right == 0:
+                    return None
+                return left / right
+            elif op == '**':
+                return left ** right
+        else:
+            # Handle statements and numbers
+            if isinstance(op, (int, float)):
+                return op
+            elif op in self.statements:
+                return self.evaluate(op, self.statements[op])
+            else:
+                return None
 
     def add_statement(self, var, exp):
         tree = self.buildParseTree(exp)
