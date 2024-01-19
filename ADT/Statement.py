@@ -17,6 +17,7 @@ class Statement(Node):
         supported_operators = ['+', '-', '*', '/', '**']
         tokens = re.findall(r'\*\*|[\d.]+|\w+|[^\s\w]', exp)
         supported = any(operator in tokens for operator in supported_operators)
+        # Handle single values
         if not supported:
             def strip_all_brackets(expression):
                 while '(' in expression:
@@ -32,6 +33,11 @@ class Statement(Node):
             else:
                 exp = f'({temp_exp}+0)' # Keep format of expressions consistent
 
+        # Function to handle negative numbers
+        def handle_negative_numbers(expression):
+            # Replace standalone negative numbers (e.g., (-3) becomes (0-3))
+            return re.sub(r'(?<=\()\s*-(?=\d)', '0-', expression)
+        exp = handle_negative_numbers(exp)
         # Expression must be fully parenthesized
         bracket_checker = BracketChecker()
         is_fully_paren = bracket_checker.check(tokens)

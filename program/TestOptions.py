@@ -20,8 +20,24 @@ class TestOptions(unittest.TestCase):
 
     def test_valid_statements(self):
         # Test adding valid statements
-        valid_statements = ["x=(5)", "y=(x+1)", "z=(y*2)", "a=((1+1)+(1+1))"]
-        answers = [5, 6, 12, 4]
+        valid_statements = [
+            "x=(5)",
+            "y=(x+1)",
+            "z=(y*2)",
+            "a=((1+1)+(1+1))",
+            "b=(a*3)",
+            "c=(b-2)",
+            "d=((c*2)+5)",
+            "e=(d/2)",
+            "f=(e+3)",
+            "g=(f*2)",
+            "h=((g-1)/2)",
+            "i=(h**2)",
+            "z=((-3)*5)",
+            "x=(0.1+0.2)",
+        ]
+        answers = [5, 6, 12, 4, 12, 10, 25, 12.5, 15.5, 31, 15, 225, -15, 0.3]
+
         for statement, answer in zip(valid_statements, answers):
             with self.subTest(statement=statement):
                 self.options.add_or_modify(statement)
@@ -43,6 +59,10 @@ class TestOptions(unittest.TestCase):
             "x=(2%2)",
             "x=(2+1)+(2+1)",
             "x=(2+1), (2+1)",
+            "x=5 + 2",
+            "x = (2 + 2) * (3 - 1)",
+            "x=(5!)",
+            "x=(5e6+1.23e-4)",
         ]
         for statement in invalid_statements:
             with self.subTest(statement=statement):
@@ -55,6 +75,18 @@ class TestOptions(unittest.TestCase):
         self.options.add_or_modify("y=(z+2)")
         with self.assertRaises(ValueError):
             self.options.add_or_modify("z=(x+3)")
+
+    def test_simple_circular_dependencies(self):
+        self.options.add_or_modify("a=(b+1)")
+        with self.assertRaises(ValueError):
+            self.options.add_or_modify("b=(a+2)")
+
+    def test_multiple_circular_dependencies(self):
+        self.options.add_or_modify("p=(q+1)")
+        self.options.add_or_modify("q=(r+2)")
+        self.options.add_or_modify("r=(s+3)")
+        with self.assertRaises(ValueError):
+            self.options.add_or_modify("s=(p+4)")
 
     def test_expression_evaluation(self):
         # Test if expressions are evaluated correctly
@@ -85,13 +117,18 @@ class TestOptions(unittest.TestCase):
         )
         self.assertEqual(result, 1024)
 
-    # def test_display_statements(self):
-    #     valid_statements = ["x=(5)", "y=(x+1)", "z=(y*2)", "a=((1+1)+(1+1))"]
-    #     for statement in valid_statements:
-    #         with self.subTest(statement=statement):
-    #             self.options.add_or_modify(statement)
-    #             var, exp = statement.split('=')
-    #             self.assertDictEqual(
-    #                 {var: exp}, 
-    #                 self.options.display_statements()
-    #             )    
+    def test_division_by_zero(self):
+        # Test division by zero
+        with self.assertRaises(ValueError):
+            self.options.add_or_modify("x=(1/0)")
+
+    def test_display_statements(self):
+        valid_statements = ["x=(5)", "y=(x+1)", "z=(y*2)", "a=((1+1)+(1+1))"]
+        for statement in valid_statements:
+            with self.subTest(statement=statement):
+                self.options.add_or_modify(statement)
+                var, exp = statement.split('=')
+                self.assertDictEqual(
+                    {var: exp},
+                    self.options.display_statements()
+                )
