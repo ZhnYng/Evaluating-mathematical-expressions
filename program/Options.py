@@ -54,6 +54,9 @@ class Options:
         return self.display_statements()
     
     def sorting_expressions(self, output_file):
+        if str(self.display_statements()) == '{}':
+            raise ValueError('No statements to sort.')
+            
         sorter = MergeSort(self.display_statements())
         sorter.merge_sort()
         sorted_dict = sorter.get_sorted_dict()

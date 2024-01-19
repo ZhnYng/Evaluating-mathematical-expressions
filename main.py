@@ -7,10 +7,6 @@ from program import Interface, Options
 interface = Interface()
 options = Options()
 
-# options.read_from_file('fruits.txt')
-# options.sorting_expressions('fruits_sorted.txt')
-# print(options.display_statements())
-
 # Define a function to start the program
 def start_program():
     # Display the program banner
