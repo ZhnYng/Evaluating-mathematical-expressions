@@ -21,12 +21,15 @@ class TestOptions(unittest.TestCase):
     def test_valid_statements(self):
         # Test adding valid statements
         valid_statements = ["x=(5)", "y=(x+1)", "z=(y*2)", "a=((1+1)+(1+1))"]
-        for statement in valid_statements:
+        answers = [5, 6, 12, 4]
+        for statement, answer in zip(valid_statements, answers):
             with self.subTest(statement=statement):
                 self.options.add_or_modify(statement)
                 self.assertIn(
                     statement.split("=")[0], self.options.parse_tree.statements
                 )
+                _, result = self.options.eval_one_var(statement.split("=")[0])
+                self.assertEqual(result, answer)
 
     def test_invalid_statements(self):
         # Test adding invalid statements, should raise exceptions

@@ -53,6 +53,7 @@ class Interface:
         expression_tree_str, result = eval_one_var(variable)
 
         # Print result
+        print('\nExpression Tree:')
         print(expression_tree_str, end='')
         print(f"Value for variable \"{variable}\" is {result}\n")
 

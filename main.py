@@ -1,14 +1,14 @@
-# from program import TestOptions
-# import unittest
-# if __name__ == '__main__':
-#     unittest.main()
+from program import TestOptions
+import unittest
+if __name__ == '__main__':
+    unittest.main()
 
-from program import Interface, Options
-interface = Interface()
-options = Options()
+# from program import Interface, Options
+# interface = Interface()
+# options = Options()
 
-options.read_from_file('fruits.txt')
-options.sorting_expressions('fruits_sorted.txt')
+# options.read_from_file('fruits.txt')
+# options.sorting_expressions('fruits_sorted.txt')
 # print(options.display_statements())
 
 # # Define a function to start the program
