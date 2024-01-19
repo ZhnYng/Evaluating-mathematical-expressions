@@ -67,7 +67,8 @@ class ParseTree:
         if result == 'None':
             self.active_evaluations.clear()
         else:
-            self.active_evaluations.remove(var)    
+            self.active_evaluations.remove(var)
+        if isinstance(result, float): result = round(result, 4) # Handles rounded erros such as 0.1 + 0.2 = 0.3000...04
         return result
         
     def evaluate_expression(self, tree:BinaryTree):
@@ -82,7 +83,7 @@ class ParseTree:
                 elif op == '*': return left * right
                 elif op == '/': 
                     if right == 0:
-                        return None
+                        raise ValueError('You have provided an expression with a divisor of 0')
                     return left / right
                 elif op == '**': return left ** right
             else:
