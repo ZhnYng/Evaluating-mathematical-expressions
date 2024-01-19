@@ -12,7 +12,7 @@ class MergeSort:
         - data (dict): The dictionary to be sorted. The values can be numeric or 'None'.
         """
         # Separate entries with 'None' values and sort them alphabetically
-        self.none_entries = sorted([k for k, v in data.items() if v == 'None'])
+        self.none_entries = [k for k, v in data.items() if v == 'None']
         # Entries with numeric values for sorting
         self.data = [(k, v) for k, v in data.items() if v != 'None']
 
@@ -61,12 +61,20 @@ class MergeSort:
 
         # Merge the two halves in a sorted manner
         while i < len(L) and j < len(R):
-            if L[i][1] > R[j][1] or (L[i][1] == R[j][1] and L[i][0] < R[j][0]):
-                result.append(L[i])
-                i += 1
+            if not isinstance(L[i][1], str) and not isinstance(R[i][1], str):
+                if L[i][1] > R[j][1] or (L[i][1] == R[j][1] and L[i][0] < R[j][0]):
+                    result.append(L[i])
+                    i += 1
+                else:
+                    result.append(R[j])
+                    j += 1
             else:
-                result.append(R[j])
-                j += 1
+                if L[i][0] < R[j][0]:
+                    result.append(L[i])
+                    i += 1
+                else:
+                    result.append(R[j])
+                    j += 1
 
         # Append any remaining elements
         result.extend(L[i:])
@@ -87,5 +95,5 @@ class MergeSort:
             sorted_dict[value].append(key)
 
         # Add 'None' entries at the end, already sorted alphabetically
-        sorted_dict['None'] = self.none_entries
+        sorted_dict['None'] = self.merge_sort_rec(self.none_entries)
         return sorted_dict
