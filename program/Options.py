@@ -36,8 +36,11 @@ class Options:
 
     def eval_one_var(self, var:str):
         expression = self.__parse_tree.statements[var]
-        expression_tree_str = expression.printInOrder(0)
-        return expression_tree_str, self.__parse_tree.evaluate(var, expression)
+        if expression:
+            expression_tree_str = expression.printInOrder(0)
+            return expression_tree_str, self.__parse_tree.evaluate(var, expression)
+        else:
+            raise ValueError('Expression does not exist.')
     
     def read_from_file(self, file):
         sorted_list = SortedList()
