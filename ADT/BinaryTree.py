@@ -3,20 +3,6 @@ class BinaryTree:
         self.key = key
         self.leftTree = leftTree
         self.rightTree = rightTree
-        self.leftValue = None  # Additional fields to store values
-        self.rightValue = None
-
-    def setLeftValue(self, value):
-        self.leftValue = value
-
-    def getLeftValue(self):
-        return self.leftValue
-
-    def setRightValue(self, value):
-        self.rightValue = value
-
-    def getRightValue(self):
-        return self.rightValue
 
     def setKey(self, key):
         self.key = key
