@@ -16,6 +16,7 @@ class Interface:
         print('*', ' '*61, '*')
         print('* - Done by: Lim Zhen Yang (2214506) & Ashley Bai (2237871)', ' '*3, '*')
         print('* - Class DAAA/FT/2B04', ' '*40, '*')
+        print('*', ' '*61, '*')
         print('*'*65, end='\n\n\n')
 
     def pause(self):
