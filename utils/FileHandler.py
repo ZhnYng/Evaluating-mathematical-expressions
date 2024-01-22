@@ -36,7 +36,11 @@ class FileHandler:
             elif read_mode == 'line':
                 lines = f.read().splitlines()
                 contents.extend(lines)
-        return contents
+
+        if contents:
+            return contents
+        else:
+            raise ValueError('File is empty!')
 
     def write(self, filename: str, content: str, mode: str='w'):
         """
