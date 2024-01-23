@@ -23,8 +23,7 @@ class Interface:
         """
         Pauses the program execution and waits for user input to continue.
         """
-        print('')
-        return os.system('pause')
+        input("\nPress enter key, to continue...\n")
 
     # Option 1
     def option1(self, add_or_modify):
@@ -59,7 +58,7 @@ class Interface:
         print(f"Value for variable \"{variable}\" is {result}\n")
 
         # Print additional message
-        input("Press enter key, to continue...\n")
+        self.pause()
         
         
     # Option 4
@@ -81,7 +80,7 @@ class Interface:
         for assignment, value in sorted(assignments_dict.items()):
             print(f'{assignment} => {value}')
             
-        input("\nPress enter key, to continue...\n")
+        self.pause()
         
     # Option 5 
     def option5(self, sorting_expressions):
