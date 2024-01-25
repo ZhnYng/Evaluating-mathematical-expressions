@@ -60,6 +60,8 @@ class ParseTree:
     
     def evaluate(self, var, tree:BinaryTree):
         if var in self.active_evaluations:
+            del self.statements[var]
+            self.active_evaluations.clear()
             raise ValueError(f"Circular dependency detected for variable: {var}")
         
         self.active_evaluations.add(var)
@@ -68,7 +70,7 @@ class ParseTree:
             self.active_evaluations.clear()
         else:
             self.active_evaluations.remove(var)
-        if isinstance(result, float): result = round(result, 4) # Handles rounded erros such as 0.1 + 0.2 = 0.3000...04
+        if isinstance(result, float): result = round(result, 4) # Handles rounded errors such as 0.1 + 0.2 = 0.3000...04
         return result
         
     def evaluate_expression(self, tree:BinaryTree):

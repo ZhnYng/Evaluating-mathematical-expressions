@@ -80,7 +80,7 @@ def start_program(choice):
                         interface.option5(options.sorting_expressions)
                         pass
                     case '6':
-                        print('\nBye, thanks for using ST1507 DSAA: Caesar Cipher Encrypted Message Analyzer')
+                        print('\nBye, thanks for using ST1507 DSAA: Assignment Statement Evaluator & Sorter')
                         break
             except Exception as e:
                 # Handle exceptions and display an error message
