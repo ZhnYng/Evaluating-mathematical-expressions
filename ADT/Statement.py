@@ -8,10 +8,10 @@ class Statement(Node):
         try:
             var, exp = statement.split('=')
         except ValueError:
-            raise ValueError("Invalid statement format. It should be in the form 'var = exp'")
+            raise ValueError(f"Invalid statement format in {statement}. It should be in the form 'var = exp'")
 
         if '=' not in statement or statement.count('=') != 1 or not var or not exp:
-            raise ValueError("Invalid statement format. It should be in the form 'var = exp'")
+            raise ValueError(f"Invalid statement format in {statement}. It should be in the form 'var = exp'")
 
         tokens = re.findall(r'\*\*|[\d.]+|\w+|[^\s\w]', exp)
 
@@ -23,10 +23,10 @@ class Statement(Node):
         for char in tokens:
             if char in supported_operators:
                 no_of_operators += 1
-            if char.isalnum():
+            if char.isalnum() or char.replace(".", "").isnumeric():
                 no_of_var_or_num += 1
         if no_of_operators+1 != no_of_var_or_num:
-            raise ValueError('Number of valid operators do not match the number of variables.')
+            raise ValueError(f'Number of valid operators do not match the number of variables in {statement}.')
 
         supported = any(operator in tokens for operator in supported_operators)
 

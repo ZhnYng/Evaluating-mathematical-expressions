@@ -55,7 +55,7 @@ class Options:
             self.add_or_modify(statement)
 
         return self.display_statements()
-    
+
     def sorting_expressions(self, output_file):
         if str(self.display_statements()) == '{}':
             raise ValueError('No statements to sort.')

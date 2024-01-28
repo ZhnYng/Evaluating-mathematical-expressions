@@ -42,7 +42,7 @@ class FileHandler:
         else:
             raise ValueError('File is empty!')
 
-    def write(self, filename: str, content: str, mode: str='w'):
+    def write(self, filename: str, content: str):
         """
         Writes content to a file, either overwriting the existing content or appending to it.
 
@@ -53,9 +53,25 @@ class FileHandler:
         """
         if not filename.lower().endswith(('.txt')):
             raise ValueError('File type invalid!')
+        elif os.path.isfile(filename):
+            handle_file_exists = ''
+            while handle_file_exists != 'O' and handle_file_exists != 'A' and handle_file_exists != 'F':
+                handle_file_exists = input(f'\n{'File already exists!'}\nWould you like to overwrite(O), append(A), or write into a different file(F)?\n').upper()
+            match handle_file_exists:
+                case 'O':
+                    with open(filename, 'w') as f:
+                        f.write(content)
+                case 'A':
+                    with open(filename, 'a') as f:
+                        content = '='*60 + '\n' + content
+                        f.write(content)
+                case 'F':
+                    new_file = input('New file name: ')
+                    self.write(new_file, content)
+        else:
+            with open(filename, 'w') as f:
+                f.write(content)
 
-        with open(filename, mode) as f:
-            f.write(content)
 
     def read_folder(self, folder: str):
         """
