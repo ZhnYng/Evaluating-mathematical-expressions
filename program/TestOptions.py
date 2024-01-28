@@ -63,6 +63,11 @@ class TestOptions(unittest.TestCase):
             "x = (2 + 2) * (3 - 1)",
             "x=(5!)",
             "x=(5e6+1.23e-4)",
+            "x=(**)"
+            "x=(*)"
+            "x=(/)"
+            "x=/"
+            "x=((a*b)+)"
         ]
         for statement in invalid_statements:
             with self.subTest(statement=statement):

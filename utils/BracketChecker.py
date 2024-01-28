@@ -10,7 +10,7 @@ class BracketChecker:
         self.opening = "([{"
         self.closing = ")]}"
         self.pairs = {')': '(', ']': '[', '}': '{'}
-
+    
     def check(self, input_str):
         """
         Check if the brackets in the input string are properly matched.

@@ -5,57 +5,19 @@ import re
 class Statement(Node):
     def __init__(self, statement):
         statement = statement.replace(" ", "")
-        try:
-            var, exp = statement.split('=')
-        except ValueError:
-            raise ValueError(f"Invalid statement format in {statement}. It should be in the form 'var = exp'")
+        var, exp = self.split_statement(statement)
+        tokens = re.findall(r'\*\*|[\d.]+|\w+|[^\s\w]', exp) # Tokenize expression
 
-        if '=' not in statement or statement.count('=') != 1 or not var or not exp:
-            raise ValueError(f"Invalid statement format in {statement}. It should be in the form 'var = exp'")
-
-        tokens = re.findall(r'\*\*|[\d.]+|\w+|[^\s\w]', exp)
-
-        # Validating operation of expression
-        supported_operators = ['+', '-', '*', '/', '**']
-
-        no_of_operators = 0
-        no_of_var_or_num = 0
-        for char in tokens:
-            if char in supported_operators:
-                no_of_operators += 1
-            if char.isalnum() or char.replace(".", "").isnumeric():
-                no_of_var_or_num += 1
-        if no_of_operators+1 != no_of_var_or_num:
-            raise ValueError(f'Number of valid operators do not match the number of variables in {statement}.')
-
-        supported = any(operator in tokens for operator in supported_operators)
+        # Validating operations of expression
+        operators, var_or_num = self.validate_operators(tokens)
 
         # Handle single values
-        if not supported:
-            # Strip brackets to check validity of expression
-            def strip_all_brackets(expression):
-                while '(' in expression:
-                    start = expression.rfind('(')
-                    end = expression.find(')', start)
-                    if start != -1 and end != -1:
-                        expression = expression[:start] + expression[start+1:end] + expression[end+1:]
-                return expression
-            temp_exp = strip_all_brackets(exp)
-            if any(not c.isalnum() for c in temp_exp): # If expression contains any special characters 
-                if not temp_exp.isalpha(): # Test for expression containing alphabet
-                    raise ValueError(f"Expression must have at least one variable or number")
-                elif not temp_exp.isnumeric() or not temp_exp.replace(".", "").isnumeric(): # Test for expression containing number/float
-                    raise ValueError(f"Invalid expression format. Only {supported_operators} are accepted.")
+        if len(var_or_num) == 1:
+            if len(operators) == 1 and operators[0] == '-':
+                exp = f'(0-{var_or_num[0]})' # Keep forrmat of expressions the same
             else:
-                exp = f'({temp_exp}+0)' # Keep format of expressions consistent
-
-        # Function to handle negative numbers
-        def handle_negative_numbers(expression):
-            # Replace standalone negative numbers (e.g., (-3) becomes (0-3))
-            return re.sub(r'(?<=\()\s*-(?=\d)', '0-', expression)
-        
-        exp = handle_negative_numbers(exp)
-
+                exp = f'({var_or_num[0]}+0)' # Keep forrmat of expressions the same
+                
         # Expression must be fully parenthesized
         bracket_checker = BracketChecker()
         is_fully_paren = bracket_checker.check(tokens)
@@ -97,6 +59,34 @@ class Statement(Node):
         """Sets the statement."""
         self.__statement = exp
 
+    def split_statement(self, statement):
+        try:
+            var, exp = statement.split('=')
+        except ValueError:
+            raise ValueError(f"Invalid statement format in {statement}. It should be in the form 'var = exp'")
+        
+        if '=' not in statement or statement.count('=') != 1 or not var or not exp:
+            raise ValueError(f"Invalid statement format in {statement}. It should be in the form 'var = exp'")
+
+        return var, exp
+        
+    def validate_operators(self, tokenized_expression):
+        supported_operators = ['+', '-', '*', '/', '**']
+
+        operators = []
+        var_or_num = []
+        for term in tokenized_expression:
+            if term in supported_operators: # Check for supported operators
+                operators.append(term)
+            elif term.isalnum() or term.replace(".", "").isnumeric(): # Check for integer or float term
+                var_or_num.append(term)
+        
+        if len(operators)+1 != len(var_or_num): # Number of operators will always be one more than the number of variables or constant/number
+            if len(var_or_num) != 1 and len(operators) == 1 and operators[0] == '-':
+                raise ValueError(f'Number of valid operators do not match the number of variables in {''.join(tokenized_expression)}.')
+
+        return operators, var_or_num
+    
     def __lt__(self, other):
         """
         Less than comparison for Files.
