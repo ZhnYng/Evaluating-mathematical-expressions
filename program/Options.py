@@ -22,7 +22,7 @@ class Options:
     def add_or_modify(self, statement:Statement):
         statement = Statement(statement)
         # Record new statement
-        self.__parse_tree.add_statement(statement.var, statement.exp)
+        self.__parse_tree.add_statement(statement.var, statement.tokens)
 
     def display_statements(self):
         statement_and_answers = {}

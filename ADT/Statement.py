@@ -1,23 +1,19 @@
 from AbstractClasses import Node
 from utils import BracketChecker
+from utils import ExpressionTokenizer
 import re
 
 class Statement(Node):
     def __init__(self, statement):
         statement = statement.replace(" ", "")
         var, exp = self.split_statement(statement)
-        tokens = re.findall(r'\*\*|[\d.]+|\w+|[^\s\w]', exp) # Tokenize expression
+
+        tokenizer = ExpressionTokenizer()
+        tokens = tokenizer.tokenize_expression(exp)
 
         # Validating operations of expression
-        operators, var_or_num = self.validate_operators(tokens)
+        self.validate_operators(tokens)
 
-        # Handle single values
-        if len(var_or_num) == 1:
-            if len(operators) == 1 and operators[0] == '-':
-                exp = f'(0-{var_or_num[0]})' # Keep forrmat of expressions the same
-            else:
-                exp = f'({var_or_num[0]}+0)' # Keep forrmat of expressions the same
-                
         # Expression must be fully parenthesized
         bracket_checker = BracketChecker()
         is_fully_paren = bracket_checker.check(tokens)
@@ -28,6 +24,7 @@ class Statement(Node):
         self.__statement = statement
         self.__var = var
         self.__exp = exp
+        self.tokens = tokens
 
     @property
     def statement(self):
@@ -80,13 +77,12 @@ class Statement(Node):
                 operators.append(term)
             elif term.isalnum() or term.replace(".", "").isnumeric(): # Check for integer or float term
                 var_or_num.append(term)
-        
-        if len(operators)+1 != len(var_or_num): # Number of operators will always be one more than the number of variables or constant/number
-            if len(var_or_num) != 1 and len(operators) == 1 and operators[0] == '-':
-                raise ValueError(f'Number of valid operators do not match the number of variables in {''.join(tokenized_expression)}.')
 
-        return operators, var_or_num
-    
+        if len(var_or_num) == 0:
+            raise ValueError(f'Expression must have at least one number or variable')
+        if len(operators)+1 != len(var_or_num): # Number of operators will always be one less than the number of variables or constant/number
+            raise ValueError(f'Number of valid operators do not match the number of variables in {''.join(tokenized_expression)}.')
+
     def __lt__(self, other):
         """
         Less than comparison for Files.

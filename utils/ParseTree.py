@@ -6,14 +6,13 @@ class ParseTree:
         self.statements = Hashtable() # Stores statements and their expression trees
         self.active_evaluations = set()
 
-    def buildParseTree(self, exp):
-        tokens = re.findall(r'\*\*|[\d.]+|\w+|[^\s\w]', exp)
+    def buildParseTree(self, exp_tokens):
         stack = Stack()
         tree = BinaryTree('?')
         stack.push(tree)
         currentTree = tree
             
-        for t in tokens:
+        for t in exp_tokens:
             # RULE 1: If token is '(' add a new node as left child
             # and descend into that node
             if t == '(':
@@ -98,7 +97,7 @@ class ParseTree:
                 else:
                     return 'None'
 
-    def add_statement(self, var, exp):
-        tree = self.buildParseTree(exp)
+    def add_statement(self, var, exp_tokens):
+        tree = self.buildParseTree(exp_tokens)
         self.statements[var] = tree
         self.evaluate(var, tree) # Test for circular dependency

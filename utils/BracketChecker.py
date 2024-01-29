@@ -23,6 +23,7 @@ class BracketChecker:
         """
         stack = []
         operator_count = 0
+        var_or_num_count = 0
 
         for char in input_str:
             if char in self.opening:
@@ -31,6 +32,10 @@ class BracketChecker:
                 operator_count += 1
                 if len(stack) < operator_count:
                     return False
+            # elif char.isalnum() or char.replace('.', '').isnumeric():
+            #     var_or_num_count += 1
+            #     if len(stack)+1 < var_or_num_count:
+            #         return False
             elif char in self.closing:
                 # If a closing bracket is encountered, check if the corresponding opening bracket is on the stack.
                 if not stack or stack[-1] != self.pairs[char]:
