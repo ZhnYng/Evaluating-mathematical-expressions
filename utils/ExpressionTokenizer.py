@@ -1,10 +1,10 @@
 class ExpressionTokenizer:
     def __init__(self):
-        self.valid_operators = {'+', '-', '*', '/', '**', '(', ')'}
+        self.valid_special_chars = {'+', '-', '*', '/', '**', '(', ')'}
         self.tokens = []
 
-    def __is_valid_operator(self, char):
-        return char in self.valid_operators
+    def __is_valid_special_char(self, char):
+        return char in self.valid_special_chars
 
     def tokenize_expression(self, expression):
         current_token = ''
@@ -20,7 +20,7 @@ class ExpressionTokenizer:
                 current_token += char
                 last_token = char
                 
-            elif self.__is_valid_operator(char):
+            elif self.__is_valid_special_char(char):
                 if current_token:
                     self.tokens.append(current_token)
                     current_token = ''
@@ -49,23 +49,5 @@ class ExpressionTokenizer:
 
         if current_token:
             self.tokens.append(current_token)
-
-        supported_operators = ['+', '-', '*', '/', '**']
-
-        operators = []
-        var_or_num = []
-        for term in self.tokens:
-            if term in supported_operators: # Check for supported operators
-                operators.append(term)
-            elif term.isalnum() or term.replace(".", "").isnumeric(): # Check for integer or float term
-                var_or_num.append(term)
-
-        if len(var_or_num) == 0:
-            raise ValueError(f'Expression must have at least one number or variable')
-        if len(operators)+1 != len(var_or_num): # Number of operators will always be one less than the number of variables or constant/number
-            raise ValueError(f'Number of valid operators do not match the number of variables in {''.join(self.tokens)}.')
-        
-        if len(var_or_num) != len(operators) + 1:
-            raise ValueError("Invalid expression: Operators have an invalid number of operands")
 
         return self.tokens
