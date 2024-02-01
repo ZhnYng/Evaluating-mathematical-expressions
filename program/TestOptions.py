@@ -70,6 +70,7 @@ class TestOptions(unittest.TestCase):
             "x=((a*b)+)",
             "a=(1+2)3",
             "a=()"
+            "a=(2*4)$",
         ]
         for statement in invalid_statements:
             with self.subTest(statement=statement):
