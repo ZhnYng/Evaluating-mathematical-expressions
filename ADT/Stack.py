@@ -3,14 +3,14 @@ class Stack:
         """
         Initialize an empty stack.
         """
-        self._items = []
+        self.__items = []
 
     @property
     def items(self):
         """
         Get the items in the stack.
         """
-        return self._items
+        return self.__items
 
     def is_empty(self):
         """

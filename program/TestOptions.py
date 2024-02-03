@@ -129,3 +129,41 @@ class TestOptions(unittest.TestCase):
         # Test division by zero
         with self.assertRaises(ValueError):
             self.options.add_or_modify("x=(1/0)")
+
+    def test_valid_variable_naming_syntax(self):
+        # Test valid Python variable naming syntax requirements
+        valid_variable_names = [
+            "variable_name",
+            "anotherVariable",
+            "myVar123",
+            "_private_var",
+        ]
+
+        for variable_name in valid_variable_names:
+            with self.subTest(variable_name=variable_name):
+                statement = f"{variable_name}=(5)"
+                self.options.add_or_modify(statement)
+                self.assertIn(variable_name, self.options.parse_tree.statements)
+
+    def test_invalid_variable_naming_syntax(self):
+        # Test invalid Python variable naming syntax requirements
+        invalid_variable_names = [
+            ("123Invalid", "Variable name must start with a letter or underscore."),
+            ("with spaces", "Variable name contains invalid characters."),
+            ("Special-Char", "Variable name contains invalid characters."),
+            ("1variable", "Variable name must start with a letter or underscore."),
+            ("123", "Variable name must start with a letter or underscore."),  # Empty variable name
+            ("a!", "Variable name contains invalid characters."),  # Special character
+            ("my variable", "Variable name contains invalid characters."),  # Space
+            ("@var", "Variable name must start with a letter or underscore."),  # Special character
+            ("var$", "Variable name contains invalid characters."),  # Special character
+        ]
+
+        for variable_name, expected_error_message in invalid_variable_names:
+            with self.subTest(variable_name=variable_name):
+                statement = f"{variable_name}=(5)"
+                with self.assertRaises(ValueError) as context:
+                    self.options.add_or_modify(statement)
+                
+                # Check if the actual error message contains the expected error message
+                self.assertIn(expected_error_message, str(context.exception))

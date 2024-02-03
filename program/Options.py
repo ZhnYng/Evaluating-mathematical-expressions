@@ -17,7 +17,7 @@ class Options:
         try:
             self.__parse_tree = new_parse_tree
         except:
-            return 'Set parse tree failed'
+            return ValueError('Set parse tree failed')
 
     def add_or_modify(self, statement:Statement):
         statement = Statement(statement)

@@ -1,4 +1,56 @@
 class Validation:
+    def __init__(self):
+        # Encapsulation of state using a private attribute with double underscores
+        self.__valid_name = None
+
+    def __check_empty(self, variable_name):
+        # Abstraction: A private method abstracts the logic for checking if the variable name is empty.
+        return bool(variable_name)
+
+    def __check_starts_with_letter_or_underscore(self, variable_name):
+        # Abstraction: A private method abstracts the logic for checking if the variable name starts with a letter or an underscore.
+        if not variable_name:
+            return False  # Handle empty strings
+        first_char = variable_name[0]
+        return first_char.isalpha() or first_char == '_'
+
+    def __check_invalid_characters(self, variable_name):
+        # Abstraction: A private method abstracts the logic for checking if the variable name contains only valid characters.
+        return all(char.isalnum() or char == '_' for char in variable_name)
+
+    def validate_variable_name(self, variable_name):
+        validation_functions = [
+            self.__check_empty,
+            self.__check_starts_with_letter_or_underscore,
+            self.__check_invalid_characters,
+        ]
+
+        error_messages = {
+            self.__check_empty: "Variable name cannot be empty.",
+            self.__check_starts_with_letter_or_underscore: "Variable name must start with a letter or underscore.",
+            self.__check_invalid_characters: "Variable name contains invalid characters.",
+        }
+
+        for validation_function in validation_functions:
+            if not validation_function(variable_name):
+                error_message = error_messages[validation_function]
+                raise ValueError(error_message)
+
+        self.__valid_name = True
+        return True
+    
+    def contains_spaces(self, statement):
+        # Abstraction: A private method abstracts the logic for checking if the statement contains spaces.
+        return ' ' in statement
+
+    def is_valid(self):
+        # Encapsulation: The state (__valid_name) is encapsulated, and this method provides controlled access to it.
+        return self.__valid_name is True
+
+    def is_invalid(self):
+        # Encapsulation: The state (__valid_name) is encapsulated, and this method provides controlled access to it.
+        return self.__valid_name is False
+        
     def is_operator_and_operand_matching(self, tokens: list[str]):
         supported_operators = ['+', '-', '*', '/', '**']
 
@@ -15,7 +67,7 @@ class Validation:
             raise ValueError(f'Number of valid operators does not match the number of variables in {" ".join(tokens)}.')
 
         return tokens
-    
+
     def check_parentheses(self, tokens):
         opening = "([{"
         closing = ")]}"

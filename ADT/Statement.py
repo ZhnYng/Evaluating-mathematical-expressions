@@ -1,10 +1,9 @@
 from AbstractClasses import Node
-from utils import ExpressionTokenizer, Validation
-import re
+from utils.ExpressionTokenizer import ExpressionTokenizer
+from utils.Validation import Validation
 
 class Statement(Node):
     def __init__(self, statement):
-        statement = statement.replace(" ", "")
         var, exp = self.split_statement(statement)
 
         tokenizer = ExpressionTokenizer()
@@ -12,7 +11,8 @@ class Statement(Node):
 
         # Validating operations of expression
         validation = Validation()
-        validation.is_operator_and_operand_matching(tokens)
+        validation.validate_variable_name(var) # Validate variable names
+        validation.is_operator_and_operand_matching(tokens) # Validate if operator and operand is matching e.g. (3+1) is valid and (1++) is invalid.
 
         # Expression must be fully parenthesized
         if not validation.check_parentheses(tokens):

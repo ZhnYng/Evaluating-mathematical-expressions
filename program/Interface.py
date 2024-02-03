@@ -1,4 +1,4 @@
-import os
+from utils import Validation
 
 class Interface:
     """
@@ -6,6 +6,9 @@ class Interface:
     Evaluating & Sorting Assignment Statements (using parse trees) application.
     It provides various options for evaluating solutions, altering variables, and flexible evalutations.
     """
+    def __init__(self):
+        self.validation = Validation()
+
     def banner(self):
         """
         Prints the introductory banner for the application.
@@ -31,7 +34,14 @@ class Interface:
         Executes the first option in the menu: add or modify an assignment statement.
         """
         statement = input(f"Enter the assignment statement you want to add/modify:\nFor example, a=(1+2)\n")
-        add_or_modify(statement)
+        if self.validation.contains_spaces(statement):
+            remove_spaces = input("\nWe found spaces in the statement you have entered.\nBy entering this statement we will remove all spaces.\nProceed?(Y/N): ").upper()
+            if remove_spaces == 'Y':
+                statement = statement.replace(" ", "")
+                add_or_modify(statement)
+        else:
+            add_or_modify(statement)
+                
         self.pause()
 
     # Option 2
