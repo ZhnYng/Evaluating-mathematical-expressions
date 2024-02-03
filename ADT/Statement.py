@@ -9,14 +9,9 @@ class Statement(Node):
         tokenizer = ExpressionTokenizer()
         tokens = tokenizer.tokenize_expression(exp)
 
-        # Validating operations of expression
         validation = Validation()
         validation.validate_variable_name(var) # Validate variable names
-        validation.is_operator_and_operand_matching(tokens) # Validate if operator and operand is matching e.g. (3+1) is valid and (1++) is invalid.
-
-        # Expression must be fully parenthesized
-        if not validation.check_parentheses(tokens):
-            raise ValueError('Expressions must be fully parenthesized')
+        validation.validate_expression(tokens) # Validate expression
         
         super().__init__()
         self.__statement = statement

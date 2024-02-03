@@ -71,6 +71,8 @@ class TestOptions(unittest.TestCase):
             "a=(1+2)3",
             "a=()"
             "a=(2*4)$",
+            "a=(1+3)+++"
+            "a=(1+3)123"
         ]
         for statement in invalid_statements:
             with self.subTest(statement=statement):
@@ -127,7 +129,7 @@ class TestOptions(unittest.TestCase):
 
     def test_division_by_zero(self):
         # Test division by zero
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ZeroDivisionError):
             self.options.add_or_modify("x=(1/0)")
 
     def test_valid_variable_naming_syntax(self):
