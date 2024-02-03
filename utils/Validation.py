@@ -7,12 +7,12 @@ class Validation:
         # Abstraction: A private method abstracts the logic for checking if the variable name is empty.
         return bool(variable_name)
 
-    def __check_starts_with_letter_or_underscore(self, variable_name):
+    def __check_starts_with_letter(self, variable_name):
         # Abstraction: A private method abstracts the logic for checking if the variable name starts with a letter or an underscore.
         if not variable_name:
             return False  # Handle empty strings
         first_char = variable_name[0]
-        return first_char.isalpha() or first_char == '_'
+        return first_char.isalpha()
 
     def __check_invalid_characters(self, variable_name):
         # Abstraction: A private method abstracts the logic for checking if the variable name contains only valid characters.
@@ -21,13 +21,13 @@ class Validation:
     def validate_variable_name(self, variable_name):
         validation_functions = [
             self.__check_empty,
-            self.__check_starts_with_letter_or_underscore,
+            self.__check_starts_with_letter,
             self.__check_invalid_characters,
         ]
 
         error_messages = {
             self.__check_empty: "Variable name cannot be empty.",
-            self.__check_starts_with_letter_or_underscore: "Variable name must start with a letter or underscore.",
+            self.__check_starts_with_letter: "Variable name must start with a letter.",
             self.__check_invalid_characters: "Variable name contains invalid characters.",
         }
 

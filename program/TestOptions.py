@@ -138,7 +138,7 @@ class TestOptions(unittest.TestCase):
             "variable_name",
             "anotherVariable",
             "myVar123",
-            "_private_var",
+            "private_var",
         ]
 
         for variable_name in valid_variable_names:
@@ -150,14 +150,14 @@ class TestOptions(unittest.TestCase):
     def test_invalid_variable_naming_syntax(self):
         # Test invalid Python variable naming syntax requirements
         invalid_variable_names = [
-            ("123Invalid", "Variable name must start with a letter or underscore."),
+            ("123Invalid", "Variable name must start with a letter."),
             ("with spaces", "Variable name contains invalid characters."),
             ("Special-Char", "Variable name contains invalid characters."),
-            ("1variable", "Variable name must start with a letter or underscore."),
-            ("123", "Variable name must start with a letter or underscore."),  # Empty variable name
+            ("1variable", "Variable name must start with a letter."),
+            ("123", "Variable name must start with a letter."),  # Empty variable name
             ("a!", "Variable name contains invalid characters."),  # Special character
             ("my variable", "Variable name contains invalid characters."),  # Space
-            ("@var", "Variable name must start with a letter or underscore."),  # Special character
+            ("@var", "Variable name must start with a letter."),  # Special character
             ("var$", "Variable name contains invalid characters."),  # Special character
         ]
 
