@@ -1,3 +1,4 @@
+from ADT.BinarySearchTree import BinarySearchTree
 """
 Quadratic Probing: This technique involves looking for the next slot at an 
 incrementally increasing distance from the original index. 
@@ -23,6 +24,7 @@ class Hashtable:
         self.keys = [None] * self.size
         self.buckets = [None] * self.size
         self.current_index = 0
+        self.bst = BinarySearchTree()
 
     def hash_function(self, key):
         if isinstance(key, str):
@@ -61,6 +63,7 @@ class Hashtable:
             self.count += 1
         self.buckets[index] = value
         self.keys[index] = key
+        self.bst.add(key)
 
     def __getitem__(self, key):
         index = self.hash_function(key)
@@ -73,6 +76,12 @@ class Hashtable:
             attempt += 1
 
         return self.buckets[index]
+    
+    def getitem_inorder(self):
+        items_inorder = []
+        for key in self.bst.inorder_traversal():
+            items_inorder.append((key, self[key]))
+        return items_inorder
 
     def __delitem__(self, key):
         index = self.hash_function(key)
@@ -87,6 +96,7 @@ class Hashtable:
         self.buckets[index] = None
         self.keys[index] = None
         self.count -= 1
+        self.bst.delete(key)
 
     def __contains__(self, key):
         index = self.hash_function(key)
@@ -121,6 +131,7 @@ class Hashtable:
         self.count = 0
         self.keys = [None] * self.size
         self.buckets = [None] * self.size
+        self.bst = BinarySearchTree()
 
     def load_factor(self):
         return self.count / self.size
@@ -132,6 +143,7 @@ class Hashtable:
         self.buckets = [None] * self.size
         self.keys = [None] * self.size
         self.count = 0
+        self.bst = BinarySearchTree()
 
         for key in old_keys:
             if key is not None:

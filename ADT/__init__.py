@@ -4,3 +4,4 @@ from .Stack import *
 from .Statement import *
 from .SortedList import *
 from .File import *
+from .BinarySearchTree import *
