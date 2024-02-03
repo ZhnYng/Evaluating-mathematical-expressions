@@ -66,7 +66,7 @@ class Validation:
         # Separate operators and variables/constants
         operators = [term for term in tokens if term in supported_operators]
         var_or_num = [term for term in tokens if term.isalnum() or term.replace(".", "").isnumeric()]
-        print(operators, var_or_num)
+
         # Check if there's at least one variable or constant
         if not var_or_num:
             raise ValueError('Expression must have at least one number or variable')

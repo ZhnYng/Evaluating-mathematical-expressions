@@ -151,14 +151,14 @@ class TestOptions(unittest.TestCase):
         # Test invalid Python variable naming syntax requirements
         invalid_variable_names = [
             ("123Invalid", "Variable name must start with a letter."),
-            ("with spaces", "Variable name contains invalid characters."),
-            ("Special-Char", "Variable name contains invalid characters."),
+            ("with spaces", 'Variable can only contain alphanumeric characters.'),
+            ("Special-Char", 'Variable can only contain alphanumeric characters.'),
             ("1variable", "Variable name must start with a letter."),
             ("123", "Variable name must start with a letter."),  # Empty variable name
-            ("a!", "Variable name contains invalid characters."),  # Special character
-            ("my variable", "Variable name contains invalid characters."),  # Space
+            ("a!", 'Variable can only contain alphanumeric characters.'),  # Special character
+            ("my variable", 'Variable can only contain alphanumeric characters.'),  # Space
             ("@var", "Variable name must start with a letter."),  # Special character
-            ("var$", "Variable name contains invalid characters."),  # Special character
+            ("var$", 'Variable can only contain alphanumeric characters.'),  # Special character
         ]
 
         for variable_name, expected_error_message in invalid_variable_names:

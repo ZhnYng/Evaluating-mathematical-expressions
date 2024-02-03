@@ -27,17 +27,26 @@ class ExpressionTokenizer:
                     if paren_depth > 0:
                         token_count_since_last_paren += 1
 
+                # Handling single negative values e.g. (-3) get converted to (0-3)
                 if char == '-' and last_token == '(':
-                    self.tokens.append('0')
-                    token_count_since_last_paren += 1
+                    if self.allow_exp_alter():
+                        self.tokens.append('0')
+                        token_count_since_last_paren += 1
+                    else:
+                        raise PermissionError("Expression alteration denied")
 
                 if char == '(':
                     paren_depth += 1
                     token_count_since_last_paren = 0
                 elif char == ')' and paren_depth > 0:
                     paren_depth -= 1
+                    # Handling single positive values e.g. (3) get converted to (3+0)
                     if token_count_since_last_paren == 1:  # Only one token since last '('
-                        self.tokens.extend(['+', '0'])
+                        if self.allow_exp_alter():
+                            self.tokens.extend(['+', '0'])
+                            token_count_since_last_paren += 1
+                        else:
+                            raise PermissionError("Expression alteration denied")
 
                 if char == '*' and last_token == '*':
                     self.tokens[-1] = '**' # Handle power operation
@@ -51,3 +60,11 @@ class ExpressionTokenizer:
             self.tokens.append(current_token)
 
         return self.tokens
+    
+    def allow_exp_alter(self):
+        allow_alter = input('\nExpressions must follow operand, operator, operand format.\
+                            \nBy proceeding you agree to altering the expression to this format.\
+                            \nProceed?(Y/N): ').upper()
+        if allow_alter == "Y":
+            return True
+        return False

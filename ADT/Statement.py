@@ -4,15 +4,15 @@ from utils.Validation import Validation
 
 class Statement(Node):
     def __init__(self, statement):
+        self.validation = Validation()
+            
         var, exp = self.split_statement(statement)
 
         tokenizer = ExpressionTokenizer()
         tokens = tokenizer.tokenize_expression(exp)
-        print(tokens)
 
-        validation = Validation()
-        validation.validate_variable_name(var) # Validate variable names
-        validation.validate_expression(tokens) # Validate expression
+        self.validation.validate_variable_name(var) # Validate variable names
+        self.validation.validate_expression(tokens) # Validate expression
         
         super().__init__()
         self.__statement = statement
@@ -50,7 +50,20 @@ class Statement(Node):
         """Sets the statement."""
         self.__statement = exp
 
+    def allow_remove_spaces(self):
+        allow_alter = input('\nWe found spaces in the statement you have entered.\
+                            \nBy proceeding with this statement we will remove all spaces.\
+                            \nProceed?(Y/N): ').upper()
+        if allow_alter == "Y":
+            return True
+        return False
+
     def split_statement(self, statement):
+        if self.validation.contains_spaces(statement):
+            if self.allow_remove_spaces():
+                statement = statement.replace(" ", "")
+            else:
+                raise PermissionError("Statement alteration denied")
         try:
             var, exp = statement.split('=')
         except ValueError:

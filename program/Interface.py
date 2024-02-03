@@ -34,14 +34,7 @@ class Interface:
         Executes the first option in the menu: add or modify an assignment statement.
         """
         statement = input(f"Enter the assignment statement you want to add/modify:\nFor example, a=(1+2)\n")
-        if self.validation.contains_spaces(statement):
-            remove_spaces = input("\nWe found spaces in the statement you have entered.\nBy entering this statement we will remove all spaces.\nProceed?(Y/N): ").upper()
-            if remove_spaces == 'Y':
-                statement = statement.replace(" ", "")
-                add_or_modify(statement)
-        else:
-            add_or_modify(statement)
-                
+        add_or_modify(statement)
         self.pause()
 
     # Option 2

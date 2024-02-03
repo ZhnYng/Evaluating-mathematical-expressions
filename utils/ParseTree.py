@@ -150,7 +150,6 @@ class ParseTree:
                 left = self.evaluate_expression(tree.getLeftTree())
                 right = self.evaluate_expression(tree.getRightTree())
                 if left == 'None' or right == 'None': return 'None'
-                elif left == '?' or right == '?': raise RuntimeError('Error evaluating expression due to missing operand or operand.')
                 elif op == '+': return left + right
                 elif op == '-': return left - right
                 elif op == '*': return left * right
@@ -162,6 +161,8 @@ class ParseTree:
             else:
                 # Handle statements and numbers
                 key = tree.getKey()
+                if key == '?': raise RuntimeError('Error evaluating expression due to missing operand or operand.') # '?' is the default key value for initiating a tree
+                
                 if isinstance(key, int) or isinstance(key, float):
                     return key
                 elif key in self.statements:
@@ -191,7 +192,6 @@ class ParseTree:
         
         try:
             self.evaluate(var, tree) # Evaluate to test for circular dependency
-        except ValueError as e:
-            if str(e) == f"Circular dependency detected for variable: {var}":
-                del self.statements[var]
-                raise ValueError(f"Circular dependency detected for variable: {var}")
+        except ValueError:
+            del self.statements[var]
+            raise ValueError(f"Circular dependency detected for variable: {var}")
