@@ -8,6 +8,7 @@ class Statement(Node):
 
         tokenizer = ExpressionTokenizer()
         tokens = tokenizer.tokenize_expression(exp)
+        print(tokens)
 
         validation = Validation()
         validation.validate_variable_name(var) # Validate variable names

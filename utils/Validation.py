@@ -15,8 +15,8 @@ class Validation:
         return first_char.isalpha()
 
     def __check_invalid_characters(self, variable_name):
-        # Abstraction: A private method abstracts the logic for checking if the variable name contains only valid characters.
-        return all(char.isalnum() or char == '_' for char in variable_name)
+        # Abstraction: A private method abstracts the logic for checking if the variable name contains only alphanumerical characters.
+        return all(char.isalnum() for char in variable_name)
 
     def validate_variable_name(self, variable_name):
         validation_functions = [
@@ -28,7 +28,7 @@ class Validation:
         error_messages = {
             self.__check_empty: "Variable name cannot be empty.",
             self.__check_starts_with_letter: "Variable name must start with a letter.",
-            self.__check_invalid_characters: "Variable name contains invalid characters.",
+            self.__check_invalid_characters: "Variable can only contain alphanumeric characters.",
         }
 
         for validation_function in validation_functions:
@@ -66,7 +66,7 @@ class Validation:
         # Separate operators and variables/constants
         operators = [term for term in tokens if term in supported_operators]
         var_or_num = [term for term in tokens if term.isalnum() or term.replace(".", "").isnumeric()]
-
+        print(operators, var_or_num)
         # Check if there's at least one variable or constant
         if not var_or_num:
             raise ValueError('Expression must have at least one number or variable')

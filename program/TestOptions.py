@@ -135,10 +135,10 @@ class TestOptions(unittest.TestCase):
     def test_valid_variable_naming_syntax(self):
         # Test valid Python variable naming syntax requirements
         valid_variable_names = [
-            "variable_name",
+            "variableName",
             "anotherVariable",
             "myVar123",
-            "private_var",
+            "privateVar",
         ]
 
         for variable_name in valid_variable_names:
