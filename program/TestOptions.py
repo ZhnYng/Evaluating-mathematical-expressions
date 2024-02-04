@@ -74,6 +74,8 @@ class TestOptions(unittest.TestCase):
             "a=(1+3)+++",
             "a=(1+3)123",
             "a=((1+4))",
+            "v=((((1+4)*12)))",
+            "v=((((((1+1)/23)*54))))",
         ]
         for statement in invalid_statements:
             with self.subTest(statement=statement):
