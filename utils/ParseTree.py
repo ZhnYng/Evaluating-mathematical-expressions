@@ -186,8 +186,7 @@ class ParseTree:
         """
         tree = self.buildParseTree(exp_tokens)
         if var in self.memoization_cache:
-            del self.memoization_cache[var] # Delete cache as express has changed
-
+            del self.memoization_cache[var] # Delete cache as expression has changed
         self.statements[var] = tree
         
         try:

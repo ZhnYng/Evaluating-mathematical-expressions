@@ -27,9 +27,7 @@ class Options:
     def display_statements(self):
         statement_and_answers = {}
         for key, expression in self.__parse_tree.statements.getitem_inorder():
-            # expression = self.__parse_tree.statements[key]
             statement = f"{key}={expression.return_tree()}"
-            
             answer = self.__parse_tree.evaluate(key, expression)
             statement_and_answers[statement] = answer
         return statement_and_answers
@@ -43,15 +41,9 @@ class Options:
             raise ValueError('Expression does not exist.')
     
     def read_from_file(self, file):
-        sorted_list = SortedList()
         file_handler = FileHandler()
-
         statements = file_handler.read(file, read_mode='line')
         for statement in statements:
-            statement = Statement(statement) # Conversion to statement is unnecessarily called here
-            sorted_list.insert(statement)
-        
-        for statement in sorted_list.items():
             self.add_or_modify(statement)
 
         return self.display_statements()

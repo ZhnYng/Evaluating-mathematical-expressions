@@ -62,7 +62,7 @@ class MergeSort:
         # Merge the two halves in a sorted manner
         while i < len(L) and j < len(R):
             if not isinstance(L[i][1], str) and not isinstance(R[i][1], str):
-                if L[i][1] > R[j][1] or (L[i][1] == R[j][1] and L[i][0] < R[j][0]):
+                if L[i][1] > R[j][1] or (L[i][1] == R[j][1] and L[i][0].lower() < R[j][0].lower()):
                     result.append(L[i])
                     i += 1
                 else:

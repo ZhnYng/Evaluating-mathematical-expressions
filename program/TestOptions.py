@@ -69,10 +69,11 @@ class TestOptions(unittest.TestCase):
             "x=/",
             "x=((a*b)+)",
             "a=(1+2)3",
-            "a=()"
+            "a=()",
             "a=(2*4)$",
-            "a=(1+3)+++"
-            "a=(1+3)123"
+            "a=(1+3)+++",
+            "a=(1+3)123",
+            "a=((1+4))",
         ]
         for statement in invalid_statements:
             with self.subTest(statement=statement):

@@ -91,7 +91,8 @@ class BinaryTree:
 
     def printInOrder(self, level=0):
         """
-        Prints the binary tree in in-order traversal.
+        Prints the binary tree in reversed in-order traversal.
+        It starts from the right then to the left.
 
         Parameters:
             level: The level of the current node in the tree. Used for indentation. Defaults to 0.
@@ -112,11 +113,11 @@ class BinaryTree:
     
     def inorder_traversal(self):
         result = []
-        if self.rightTree is not None:
-            result.append(self.rightTree.inorder_traversal())
-        result.append(self.key)
         if self.leftTree is not None:
-            result.append(self.rightTree.inorder_traversal())
+            result.extend(self.leftTree.inorder_traversal())
+        result.append(self.key)
+        if self.rightTree is not None:
+            result.extend(self.rightTree.inorder_traversal())
         return result
 
     def return_tree(self):

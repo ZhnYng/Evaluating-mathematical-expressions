@@ -5,24 +5,22 @@ class BinarySearchTree(BinaryTree):
     def __init__(self, key=None, leftTree=None, rightTree=None):
         super().__init__(key, leftTree, rightTree)
 
-    def add(self, key):
+    def add(self, key:str):
         if self.key is None:  # Tree is empty
             self.key = key
         else:
-            curNode = self
-            while True:
-                if key < curNode.key:
-                    if curNode.leftTree is None:
-                        curNode.leftTree = BinarySearchTree(key)
-                        break
-                    else:
-                        curNode = curNode.leftTree
-                elif key > curNode.key:
-                    if curNode.rightTree is None:
-                        curNode.rightTree = BinarySearchTree(key)
-                        break
-                    else:
-                        curNode = curNode.rightTree
+            temp_new_key, temp_curr_key = key.lower(), self.key.lower() # Ignore letter cases during comparison
+
+            if temp_new_key < temp_curr_key:
+                if self.leftTree is None:
+                    self.leftTree = BinarySearchTree(key)
+                else:
+                    self.leftTree.add(key)
+            elif temp_new_key > temp_curr_key:
+                if self.rightTree is None:
+                    self.rightTree = BinarySearchTree(key)
+                else:
+                    self.rightTree.add(key)
 
     def findMin(self):
         current = self
