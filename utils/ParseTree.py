@@ -108,7 +108,7 @@ class ParseTree:
             # to that operator and add a new node as right child
             # and descend into that node
             elif t in ['+', '-', '*', '/', '**']:
-                currentTree.setKey(t)
+                currentTree.set_key(t)
                 currentTree.insertRight('?')
                 stack.push(currentTree)
                 currentTree = currentTree.getRightTree()
@@ -116,21 +116,21 @@ class ParseTree:
             # RULE 3: If token is number, set key of the current node
             # to that number and return to parent
             elif t.isnumeric():
-                currentTree.setKey(int(t))
+                currentTree.set_key(int(t))
                 parent = stack.pop()
                 currentTree = parent
 
             # RULE 4: If token is a letter, set key of the current node
             # to that letter and return to parent
             elif t.isalpha():
-                currentTree.setKey(t)
+                currentTree.set_key(t)
                 parent = stack.pop()
                 currentTree = parent
 
             # RULE 5: If token is a float, set key of the current node
             # to that float and return to parent
             elif t.replace(".", "").isnumeric():
-                currentTree.setKey(float(t))
+                currentTree.set_key(float(t))
                 parent = stack.pop()
                 currentTree = parent
 
@@ -207,7 +207,7 @@ class ParseTree:
         if tree:
             # Check if both left and right subtrees exist
             if tree.getLeftTree() and tree.getRightTree():
-                op = tree.getKey()  # Get the operator
+                op = tree.get_key()  # Get the operator
                 left = self.evaluate_expression(tree.getLeftTree())  # Evaluate left subtree
                 right = self.evaluate_expression(tree.getRightTree())  # Evaluate right subtree
                 
@@ -226,7 +226,7 @@ class ParseTree:
                 elif op == '**': return left ** right
             else:
                 # Handle leaf nodes (operands or variables)
-                key = tree.getKey()
+                key = tree.get_key()
                 # Return error if the default key is encountered
                 if key == '?':
                     raise RuntimeError('Error evaluating expression due to missing operand or operator.')
@@ -271,3 +271,41 @@ class ParseTree:
             # Roll back the addition if a circular dependency is detected
             del self.__statements[var]
             raise ValueError(f"Circular dependency detected for variable: {var}")
+        
+    def full_tree(self, var):
+        """
+        Parses and connects the entire tree, including resolving variable dependencies.
+
+        This method constructs a comprehensive parse tree that includes all dependencies
+        by connecting parse trees of variables referenced within expressions.
+
+        Parameters:
+            var (str): The root variable name from which to begin parsing and connecting the tree.
+
+        Returns:
+            BinaryTree: The root node of the fully connected parse tree, including all dependencies.
+
+        Raises:
+            ValueError: If a variable is undefined or a circular dependency is detected.
+        """
+        # Function to recursively connect the trees
+        def connect_trees(tree:BinaryTree):
+            if tree:
+                key = tree.get_key()
+                if isinstance(key, str):
+                    if key in self.__statements:
+                        # Replace the current tree node with the tree from statements
+                        # if the key is a variable name, effectively connecting trees
+                        connected_tree = self.__statements[key]
+                        tree.set_key(f"{tree.get_key()} ({connected_tree.get_key()})")
+                        tree.insertLeft(connect_trees(connected_tree.getLeftTree()).get_key())
+                        tree.insertRight(connect_trees(connected_tree.getRightTree()).get_key())
+                    else:
+                        # If the node is not a variable, recursively check its subtrees
+                        connect_trees(tree.getLeftTree())
+                        connect_trees(tree.getRightTree())
+            return tree
+
+        # Connect the trees starting from the root variable's tree
+        connected_tree_root = connect_trees(self.__statements[var].copy())
+        return connected_tree_root

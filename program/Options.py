@@ -1,5 +1,5 @@
-from ADT import Hashtable, Statement, SortedList  # Import necessary data structures from ADT module
-from utils import ParseTree, FileHandler, MergeSort  # Import utilities for parsing, file handling, and sorting
+from ADT import Hashtable, Statement, SortedList
+from utils import ParseTree, FileHandler, MergeSort, ParseTreeVisualizer
 
 class Options:
     def __init__(self) -> None:
@@ -129,6 +129,11 @@ class Options:
         # Write to file
         file_handler = FileHandler()  # Create a FileHandler object for writing to file
         file_handler.write(output_file, sorted_output)  # Write the sorted statements to the output file
+
+    def display_parse_tree(self, var):
+        full_tree = self.__parse_tree.full_tree(var)
+        visualizer = ParseTreeVisualizer(full_tree)
+        visualizer.display()
 
     """
     OOP Principles Applied:

@@ -203,11 +203,7 @@ class Validation:
                 # If a closing bracket is encountered, check if the corresponding opening bracket is on the stack.
                 if not stack or stack[-1] != pairs[char]:
                     raise ValueError('Expressions must be fully parenthesized')
-                
-                operator_count -= 1  # Brackets for this operator has been checked
-                if operator_count < 0:
-                    raise ValueError('Unnecessary brackets found')
-                
+                operator_count = 0  # Reset the operator count
                 stack.pop()  # Remove the corresponding opening bracket from the stack
 
         # If the stack is empty at the end, all brackets have been properly matched.

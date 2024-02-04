@@ -118,3 +118,7 @@ class Interface:
         sorting_expressions(file)
         
         print('\n')
+    def option6(self, display_parse_tree):
+        var = input("Please enter the variable you want to visualize:\n")
+        display_parse_tree(var)
+        self.pause()

@@ -21,7 +21,7 @@ class BinaryTree:
         self.leftTree = leftTree
         self.rightTree = rightTree
 
-    def setKey(self, key):
+    def set_key(self, key):
         """
         Sets the value of the node.
 
@@ -30,7 +30,7 @@ class BinaryTree:
         """
         self.key = key
 
-    def getKey(self):
+    def get_key(self):
         """
         Returns the value of the node.
 
@@ -148,6 +148,17 @@ class BinaryTree:
         else:
             # If either left or right subtree is None, return the key itself
             return self.key
+        
+    def copy(self):
+        """
+        Creates a deep copy of the binary tree.
+
+        Returns:
+            BinaryTree: A new BinaryTree instance that is a deep copy of the original tree.
+        """
+        left_copy = self.leftTree.copy() if self.leftTree else None
+        right_copy = self.rightTree.copy() if self.rightTree else None
+        return BinaryTree(self.key, left_copy, right_copy)
 
     """
     OOP Principles applied
