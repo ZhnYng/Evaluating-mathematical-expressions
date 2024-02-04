@@ -194,7 +194,10 @@ class Hashtable:
         # Traverse the binary search tree in inorder traversal
         for key in self.__bst.inorder_traversal():
             # Retrieve the value associated with the key using __getitem__ method
-            value = self[key]
+            if key:
+                value = self[key]
+            else:
+                raise ValueError('No statements found')
             # Append the key-value pair to the list
             items_inorder.append((key, value))
 
