@@ -102,22 +102,35 @@ class BinaryTree:
         """
         traversal_str = ''
         # Traverse right subtree first (if exists)
-        if self.rightTree is not None:
+        if self.rightTree:
             traversal_str += self.rightTree.printInOrder(level + 1)
         # Add current node's key with indentation
         traversal_str += '.' * level + str(self.key) + '\n'
         # Traverse left subtree (if exists)
-        if self.leftTree is not None:
+        if self.leftTree:
             traversal_str += self.leftTree.printInOrder(level + 1)
         return traversal_str
     
     def inorder_traversal(self):
-        result = []
-        if self.leftTree is not None:
+        """
+        Performs an in-order traversal of the binary tree and returns the keys of the nodes in a list.
+
+        Returns:
+            list: A list containing the keys of the nodes in the binary tree in in-order traversal.
+        """
+        result = []  # Initialize an empty list to store the keys of the nodes
+        
+        # Traverse the left subtree recursively if it exists
+        if self.leftTree:
             result.extend(self.leftTree.inorder_traversal())
+        
+        # Append the key of the current node to the result list
         result.append(self.key)
-        if self.rightTree is not None:
+        
+        # Traverse the right subtree recursively if it exists
+        if self.rightTree:
             result.extend(self.rightTree.inorder_traversal())
+        
         return result
 
     def return_tree(self):

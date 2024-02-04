@@ -7,22 +7,17 @@ class Options:
         self.__parse_tree = ParseTree()
 
     # Getter function
-    @property
-    def parse_tree(self):
+    def get_parse_tree(self):
         return self.__parse_tree
 
     # Setter function
-    @parse_tree.setter
-    def parse_tree(self, new_parse_tree:ParseTree):
-        try:
-            self.__parse_tree = new_parse_tree
-        except:
-            return ValueError('Set parse tree failed')
+    def set_parse_tree(self, new_parse_tree:ParseTree):
+        self.__parse_tree = new_parse_tree
 
     def add_or_modify(self, statement:Statement):
         statement = Statement(statement)
         # Record new statement
-        self.__parse_tree.add_statement(statement.var, statement.tokens)
+        self.__parse_tree.add_statement(statement.get_var(), statement.get_tokens())
 
     def display_statements(self):
         statement_and_answers = {}
