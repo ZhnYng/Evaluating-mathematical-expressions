@@ -17,9 +17,63 @@ class ParseTree:
 
     def __init__(self):
         """Initialize the ParseTree with empty statements and memoization cache."""
-        self.statements = Hashtable()  # Stores statements and their expression trees
-        self.memoization_cache = Hashtable()  # Cache for memoization
-        self.active_evaluations = set()
+        self.__statements = Hashtable()  # Stores statements and their expression trees
+        self.__memoization_cache = Hashtable()  # Cache for memoization
+        self.__active_evaluations = set() # Storage for catching circular dependencies
+
+    def get_statements(self):
+        """
+        Retrieves the statements stored in the ParseTree.
+
+        Returns:
+            Hashtable: A hashtable containing the statements and their associated expression trees.
+        """
+        return self.__statements
+    
+    def set_statements(self, statements):
+        """
+        Sets the statements of the ParseTree.
+
+        Parameters:
+            statements (Hashtable): A hashtable containing the statements and their associated expression trees.
+        """
+        self.__statements = statements
+    
+    def get_memoization_cache(self):
+        """
+        Retrieves the memoization cache stored in the ParseTree.
+
+        Returns:
+            Hashtable: A hashtable containing the memoization cache.
+        """
+        return self.__memoization_cache
+    
+    def set_memoization_cache(self, memoization_cache):
+        """
+        Sets the memoization cache of the ParseTree.
+
+        Parameters:
+            memoization_cache (Hashtable): A hashtable containing the memoization cache.
+        """
+        self.__memoization_cache = memoization_cache
+    
+    def get_active_evaluations(self):
+        """
+        Retrieves the set of active evaluations stored in the ParseTree.
+
+        Returns:
+            set: A set containing the active evaluations.
+        """
+        return self.__active_evaluations
+    
+    def set_active_evaluations(self, active_evaluations):
+        """
+        Sets the set of active evaluations of the ParseTree.
+
+        Parameters:
+            active_evaluations (set): A set containing the active evaluations.
+        """
+        self.__active_evaluations = active_evaluations
 
     def buildParseTree(self, exp_tokens):
         """
@@ -105,30 +159,35 @@ class ParseTree:
         Raises:
             ValueError: If a circular dependency is detected.
         """
-        if var in self.active_evaluations:
-            self.active_evaluations.clear()
+        # Check for circular dependency
+        if var in self.__active_evaluations:
+            self.__active_evaluations.clear()  # Clear active evaluations to avoid infinite recursion
             raise ValueError(f"Circular dependency detected for variable: {var}")
         
         # Check cache first before evaluating
-        if var in self.memoization_cache:
-            return self.memoization_cache[var]
+        if var in self.__memoization_cache:
+            return self.__memoization_cache[var]
         
-        self.active_evaluations.add(var)
+        # Add variable to active evaluations to track circular dependencies
+        self.__active_evaluations.add(var)
+        
+        # Evaluate the expression tree
         result = self.evaluate_expression(tree)
 
+        # Round off floating-point calculations
         if isinstance(result, float):
-            result = round(result, 4)  # Round off floating-point calculations
+            result = round(result, 4)
         
-        # Clear active evaluations appropriately
+        # Clear active evaluations if the result is 'None', otherwise remove variable from active evaluations
         if result == 'None':
-            self.active_evaluations.clear()
+            self.__active_evaluations.clear()
         else:
-            self.active_evaluations.remove(var)
-            self.memoization_cache[var] = result  # Cache the result
+            self.__active_evaluations.remove(var)  # Remove variable from active evaluations
+            self.__memoization_cache[var] = result  # Cache the result
         
         return result
         
-    def evaluate_expression(self, tree:BinaryTree):
+    def evaluate_expression(self, tree: BinaryTree):
         """
         Recursively evaluates the given expression tree.
 
@@ -144,29 +203,40 @@ class ParseTree:
         Raises:
             ZeroDivisionError: If the expression includes division by zero.
         """
+        # Check if the tree is not empty
         if tree:
+            # Check if both left and right subtrees exist
             if tree.getLeftTree() and tree.getRightTree():
-                op = tree.getKey()
-                left = self.evaluate_expression(tree.getLeftTree())
-                right = self.evaluate_expression(tree.getRightTree())
-                if left == 'None' or right == 'None': return 'None'
+                op = tree.getKey()  # Get the operator
+                left = self.evaluate_expression(tree.getLeftTree())  # Evaluate left subtree
+                right = self.evaluate_expression(tree.getRightTree())  # Evaluate right subtree
+                
+                # Return 'None' if either operand is 'None'
+                if left == 'None' or right == 'None':
+                    return 'None'
+                # Evaluate the expression based on the operator
                 elif op == '+': return left + right
                 elif op == '-': return left - right
                 elif op == '*': return left * right
-                elif op == '/': 
+                elif op == '/':
+                    # Check for division by zero
                     if right == 0:
-                        raise ZeroDivisionError('You have provided an expression with a divisor of 0')
+                        raise ZeroDivisionError('Division by zero error')
                     return left / right
                 elif op == '**': return left ** right
             else:
-                # Handle statements and numbers
+                # Handle leaf nodes (operands or variables)
                 key = tree.getKey()
-                if key == '?': raise RuntimeError('Error evaluating expression due to missing operand or operand.') # '?' is the default key value for initiating a tree
-                
+                # Return error if the default key is encountered
+                if key == '?':
+                    raise RuntimeError('Error evaluating expression due to missing operand or operator.')
+                # Return the operand if it's a number
                 if isinstance(key, int) or isinstance(key, float):
                     return key
-                elif key in self.statements:
-                    return self.evaluate(key, self.statements[key])
+                # Evaluate variable reference
+                elif key in self.__statements:
+                    return self.evaluate(key, self.__statements[key])
+                # Return 'None' for undefined variables
                 else:
                     return 'None'
 
@@ -184,13 +254,20 @@ class ParseTree:
         Raises:
             ValueError: If a circular dependency is detected.
         """
+        # Build the parse tree from the expression tokens
         tree = self.buildParseTree(exp_tokens)
-        if var in self.memoization_cache:
-            del self.memoization_cache[var] # Delete cache as expression has changed
-        self.statements[var] = tree
         
+        # Remove cached result if the expression has changed
+        if var in self.__memoization_cache:
+            del self.__memoization_cache[var]
+        
+        # Associate the parse tree with the variable
+        self.__statements[var] = tree
+        
+        # Check for circular dependencies
         try:
-            self.evaluate(var, tree) # Evaluate to test for circular dependency
+            self.evaluate(var, tree)
         except ValueError:
-            del self.statements[var]
+            # Roll back the addition if a circular dependency is detected
+            del self.__statements[var]
             raise ValueError(f"Circular dependency detected for variable: {var}")

@@ -42,7 +42,7 @@ class TestOptions(unittest.TestCase):
             with self.subTest(statement=statement):
                 self.options.add_or_modify(statement)
                 self.assertIn(
-                    statement.split("=")[0], self.options.get_parse_tree().statements
+                    statement.split("=")[0], self.options.get_parse_tree().get_statements()
                 )
                 _, result = self.options.eval_one_var(statement.split("=")[0])
                 self.assertEqual(result, answer)
@@ -124,7 +124,7 @@ class TestOptions(unittest.TestCase):
         long_expr = long_exp(10, 1)
         self.options.add_or_modify(long_expr)
         result = self.options.get_parse_tree().evaluate(
-            "x", self.options.get_parse_tree().statements["x"]
+            "x", self.options.get_parse_tree().get_statements()["x"]
         )
         self.assertEqual(result, 1024)
 
@@ -146,7 +146,7 @@ class TestOptions(unittest.TestCase):
             with self.subTest(variable_name=variable_name):
                 statement = f"{variable_name}=(5)"
                 self.options.add_or_modify(statement)
-                self.assertIn(variable_name, self.options.get_parse_tree().statements)
+                self.assertIn(variable_name, self.options.get_parse_tree().get_statements())
 
     def test_invalid_variable_naming_syntax(self):
         # Test invalid Python variable naming syntax requirements
