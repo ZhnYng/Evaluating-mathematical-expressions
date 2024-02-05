@@ -80,8 +80,8 @@ class MergeSort:
         while i < len(L) and j < len(R):
             # Check if both elements are not strings
             if not isinstance(L[i][1], str) and not isinstance(R[j][1], str):
-                # Compare the numeric values first
-                if L[i][1] > R[j][1] or (L[i][1] == R[j][1] and L[i][0].lower() < R[j][0].lower()):
+                # Compare the numeric values first, then compare letters
+                if L[i][1] > R[j][1] or (L[i][1] == R[j][1] and L[i][0] < R[j][0]):
                     result.append(L[i])  # Append the element from L to the result
                     i += 1  # Move to the next element in L
                 else:

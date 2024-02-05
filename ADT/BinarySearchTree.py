@@ -56,7 +56,7 @@ class BinarySearchTree(BinaryTree):
         Parameters:
             key: The value of the new key to be added.
         """
-        temp_key, temp_curr_key = key.lower(), self.key.lower() # Ignore letter cases during sorting/comparison
+        temp_key, temp_curr_key = key, self.key
         if temp_key < temp_curr_key: # If new key is less than the current key, insert into the left tree
             if self.leftTree is None: # If tree has not been created, create one and set key as initial key
                 self.leftTree = BinarySearchTree(key)

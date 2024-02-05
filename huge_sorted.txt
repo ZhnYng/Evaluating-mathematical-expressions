@@ -25,6 +25,9 @@ Apple=(3*5)
 Guava=(Kiwi*Coconut)
 Kiwi=(Apple/Coconut)
 
+*** Statements with value=> 3
+a=(1+2)
+
 *** Statements with value=> 1
 Coconut=(1+0)
 
