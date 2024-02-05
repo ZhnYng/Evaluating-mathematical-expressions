@@ -140,7 +140,7 @@ class TestOptions(unittest.TestCase):
         valid_variable_names = [
             "variableName",
             "anotherVariable",
-            "myVar123",
+            "myVar",
             "privateVar",
         ]
 
@@ -153,15 +153,15 @@ class TestOptions(unittest.TestCase):
     def test_invalid_variable_naming_syntax(self):
         # Test invalid Python variable naming syntax requirements
         invalid_variable_names = [
-            ("123Invalid", "Variable name must start with a letter."),
-            ("with spaces", 'Variable can only contain alphanumeric characters.'),
-            ("Special-Char", 'Variable can only contain alphanumeric characters.'),
-            ("1variable", "Variable name must start with a letter."),
-            ("123", "Variable name must start with a letter."),  # Empty variable name
-            ("a!", 'Variable can only contain alphanumeric characters.'),  # Special character
-            ("my variable", 'Variable can only contain alphanumeric characters.'),  # Space
-            ("@var", "Variable name must start with a letter."),  # Special character
-            ("var$", 'Variable can only contain alphanumeric characters.'),  # Special character
+            ("123Invalid", "Variable name must only contain letters.",),
+            ("with spaces", "Variable name must only contain letters.",),
+            ("Special-Char", "Variable name must only contain letters.",),
+            ("1variable", "Variable name must only contain letters.",),
+            ("123", "Variable name must only contain letters.",),  # Empty variable name
+            ("a!", "Variable name must only contain letters.",),  # Special character
+            ("my variable", "Variable name must only contain letters.",),  # Space
+            ("@var", "Variable name must only contain letters.",),  # Special character
+            ("var$", "Variable name must only contain letters.",),  # Special character
         ]
 
         for variable_name, expected_error_message in invalid_variable_names:

@@ -25,34 +25,20 @@ class Validation:
         # Abstraction: A private method abstracts the logic for checking if the variable name is empty.
         return bool(variable_name)
 
-    def __check_starts_with_letter(self, variable_name):
+    def __check_only_contains_letters(self, variable_name):
         """
-        Check if the variable name starts with a letter or an underscore.
+        Check if the variable name only contains letter.
 
         Parameters:
             variable_name (str): The variable name to be checked.
 
         Returns:
-            bool: True if the variable name starts with a letter or an underscore, False otherwise.
+            bool: True if the variable name contains only letters, False otherwise.
         """
-        # Abstraction: A private method abstracts the logic for checking if the variable name starts with a letter or an underscore.
+        # Abstraction: A private method abstracts the logic for checking if the variable name contains only letters.
         if not variable_name:
             return False  # Handle empty strings
-        first_char = variable_name[0]
-        return first_char.isalpha()
-
-    def __check_invalid_characters(self, variable_name):
-        """
-        Check if the variable name contains only alphanumeric characters.
-
-        Parameters:
-            variable_name (str): The variable name to be checked.
-
-        Returns:
-            bool: True if the variable name contains only alphanumeric characters, False otherwise.
-        """
-        # Abstraction: A private method abstracts the logic for checking if the variable name contains only alphanumerical characters.
-        return all(char.isalnum() for char in variable_name)
+        return all(char.isalpha() for char in variable_name)
 
     def validate_variable_name(self, variable_name):
         """
@@ -70,15 +56,13 @@ class Validation:
         # List of validation functions to be applied
         validation_functions = [
             self.__check_empty,
-            self.__check_starts_with_letter,
-            self.__check_invalid_characters,
+            self.__check_only_contains_letters
         ]
 
         # Error messages corresponding to each validation function
         error_messages = {
             self.__check_empty: "Variable name cannot be empty.",
-            self.__check_starts_with_letter: "Variable name must start with a letter.",
-            self.__check_invalid_characters: "Variable can only contain alphanumeric characters.",
+            self.__check_only_contains_letters: "Variable name must only contain letters.",
         }
 
         # Iterate over each validation function
