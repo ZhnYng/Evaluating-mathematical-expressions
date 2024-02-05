@@ -1,4 +1,4 @@
-from ADT import Hashtable, Statement, SortedList  # Import necessary data structures from ADT module
+from ADT import Hashtable, Statement, SortedList, ExpressionTokenizer  # Import necessary data structures from ADT module
 from utils import ParseTree, FileHandler, MergeSort  # Import utilities for parsing, file handling, and sorting
 
 class Options:
@@ -129,6 +129,31 @@ class Options:
         # Write to file
         file_handler = FileHandler()  # Create a FileHandler object for writing to file
         file_handler.write(output_file, sorted_output)  # Write the sorted statements to the output file
+
+    def make_subject_of_eqn(self, statement, subject):
+        exp1, exp2 = statement.split('=')
+        tokenizer = ExpressionTokenizer()
+        tokens1 = tokenizer.tokenize_expression(exp1)
+        tokens2 = tokenizer.tokenize_expression(exp2)
+
+        
+
+        # Fail safe
+        def make_subject(equation, subject):
+            import sympy as sp
+            # Parsing the equation
+            eq = sp.Eq(*sp.sympify(equation.split('=')))
+
+            # Solving for the chosen subject
+            solutions = sp.solve(eq, subject)
+
+            if len(solutions) == 0:
+                return (f"Cannot solve for {subject} in the given equation.")
+            else:
+                return (f"{subject} = {solutions[0]}")
+
+        return make_subject(statement, subject)
+
 
     """
     OOP Principles Applied:
