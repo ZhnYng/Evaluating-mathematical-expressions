@@ -32,6 +32,12 @@ class Interface:
         """
         input("\nPress enter key, to continue...\n")
 
+    def error_msg(self, error_msg):
+        """
+        Format for printing out error messages within an option.
+        """
+        print(f'\nAn error occurred: {error_msg}\n(Press Ctrl+C to exit)\n')
+
     # Option 1
     def option1(self, add_or_modify):
         """
@@ -40,10 +46,15 @@ class Interface:
         Parameters:
         - add_or_modify: Function to add or modify an assignment statement.
         """
-        statement = input(f"Enter the assignment statement you want to add/modify:\nFor example, a=(1+2)\n")
-        add_or_modify(statement)
-        self.pause()
-
+        while True:
+            try:
+                statement = input(f"Enter the assignment statement you want to add/modify:\nFor example, a=(1+2)\n")
+                add_or_modify(statement)
+                self.pause()
+                break
+            except Exception as e:
+                self.error_msg(e)
+            
     # Option 2
     def option2(self, display_statements):
         """
@@ -52,8 +63,9 @@ class Interface:
         Parameters:
         - display_statements: Function to display current assignment statements.
         """
-        print(f"\nCURRENT ASSIGNMENTS:\n{'*'*20}")
         statement_and_answers = display_statements()
+        if statement_and_answers:
+            print(f"\nCURRENT ASSIGNMENTS:\n{'*'*20}")
         for statement, answer in statement_and_answers.items():
             print(f"{statement}=> {answer}")
         self.pause()
@@ -66,20 +78,24 @@ class Interface:
         Parameters:
         - eval_one_var: Function to evaluate an individual variable.
         """
-        # Get user input for the variable to be evaluated
-        variable = input("Please enter the variable you want to evaluate:\n")
-        # Evaluate the specified variable using the eval_one_var function
-        expression_tree_str, result = eval_one_var(variable)
+        while True:
+            try:
+                # Get user input for the variable to be evaluated
+                variable = input("Please enter the variable you want to evaluate:\n")
+                # Evaluate the specified variable using the eval_one_var function
+                expression_tree_str, result = eval_one_var(variable)
 
-        # Print result
-        print('\nExpression Tree:')
-        print(expression_tree_str, end='')
-        print(f"Value for variable \"{variable}\" is {result}\n")
+                # Print result
+                print('\nExpression Tree:')
+                print(expression_tree_str, end='')
+                print(f"Value for variable \"{variable}\" is {result}\n")
 
-        # Print additional message
-        self.pause()
-        
-        
+                # Print additional message
+                self.pause()
+                break
+            except Exception as e:
+                self.error_msg(e)
+
     # Option 4
     def option4(self, read_from_file):
         """
@@ -88,21 +104,26 @@ class Interface:
         Parameters:
         - read_from_file: Function to read and evaluate assignment statements from a file.
         """
-        # Get user input for input file
-        file = input("Please enter input file: ")
-        
-        # Call the read_from_file method to read and evaluate statements
-        assignments_dict = read_from_file(file)
+        while True:
+            try:
+                # Get user input for input file
+                file = input("Please enter input file: ")
+                
+                # Call the read_from_file method to read and evaluate statements
+                assignments_dict = read_from_file(file)
 
-        print("\nCURRENT ASSIGNMENTS:")
-        print("****************************")
+                print("\nCURRENT ASSIGNMENTS:")
+                print("****************************")
 
-        # Sort the assignments alphabetically
-        for assignment, value in sorted(assignments_dict.items()):
-            print(f'{assignment} => {value}')
-            
-        self.pause()
-        
+                # Sort the assignments alphabetically
+                for assignment, value in sorted(assignments_dict.items()):
+                    print(f'{assignment} => {value}')
+                    
+                self.pause()
+                break
+            except Exception as e:
+                self.error_msg(e)
+                
     # Option 5 
     def option5(self, sorting_expressions):
         """
@@ -111,10 +132,15 @@ class Interface:
         Parameters:
         - sorting_expressions: Function to sort expressions and store the sorted assignment statements in an output file.
         """
-        # Get user input for output file
-        file = input("Please enter output file: ")
-        
-        # Call the sorting expression function 
-        sorting_expressions(file)
-        
-        print('\n')
+        while True:
+            try:
+                # Get user input for output file
+                file = input("Please enter output file: ")
+                
+                # Call the sorting expression function 
+                sorting_expressions(file)
+                
+                print('\n')
+                break
+            except Exception as e:
+                self.error_msg(e)
