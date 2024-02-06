@@ -1,3 +1,20 @@
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# Initialize the Validation object with an attribute to store the validation status.
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : Validation.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
 class Validation:
     def __init__(self):
         """

@@ -1,9 +1,35 @@
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# Represents a hashtable data structure, which stores key-value pairs for efficient retrieval.
+# References: https://www.programiz.com/dsa/hash-table
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : Hashtable.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
 from ADT.BinarySearchTree import BinarySearchTree
 
 class Hashtable:
     """
     Represents a hashtable data structure, which stores key-value pairs for efficient retrieval.
     References: https://www.programiz.com/dsa/hash-table
+
+    Attributes:
+        __size (int): The current size of the hashtable.
+        __count (int): The number of key-value pairs stored in the hashtable.
+        __keys (list): A list to store keys of the key-value pairs.
+        __buckets (list): A list to store values of the key-value pairs.
+        __current_index (int): Index for iterator.
+        __bst (BinarySearchTree): Binary search tree for inorder traversal of keys.
     """
 
     def __init__(self, initial_size=100):
@@ -22,40 +48,112 @@ class Hashtable:
 
     # Getter methods
     def get_size(self):
+        """
+        Returns the current size of the hashtable.
+
+        Returns:
+            int: The current size of the hashtable.
+        """
         return self.__size
 
     def get_count(self):
+        """
+        Returns the number of key-value pairs stored in the hashtable.
+
+        Returns:
+            int: The number of key-value pairs.
+        """
         return self.__count
 
     def get_keys(self):
+        """
+        Returns the keys of the key-value pairs stored in the hashtable.
+
+        Returns:
+            list: A list containing the keys.
+        """
         return self.__keys
 
     def get_buckets(self):
+        """
+        Returns the values of the key-value pairs stored in the hashtable.
+
+        Returns:
+            list: A list containing the values.
+        """
         return self.__buckets
 
     def get_current_index(self):
+        """
+        Returns the current index used for iterator.
+
+        Returns:
+            int: The current index for iterator.
+        """
         return self.__current_index
 
     def get_bst(self):
+        """
+        Returns the binary search tree used for inorder traversal.
+
+        Returns:
+            BinarySearchTree: The binary search tree instance.
+        """
         return self.__bst
 
     # Setter methods
     def set_size(self, size):
+        """
+        Sets the size of the hashtable.
+
+        Parameters:
+            size (int): The new size of the hashtable.
+        """
         self.__size = size
 
     def set_count(self, count):
+        """
+        Sets the number of key-value pairs stored in the hashtable.
+
+        Parameters:
+            count (int): The new count of key-value pairs.
+        """
         self.__count = count
 
     def set_keys(self, keys):
+        """
+        Sets the keys of the key-value pairs stored in the hashtable.
+
+        Parameters:
+            keys (list): A list containing the keys.
+        """
         self.__keys = keys
 
     def set_buckets(self, buckets):
+        """
+        Sets the values of the key-value pairs stored in the hashtable.
+
+        Parameters:
+            buckets (list): A list containing the values.
+        """
         self.__buckets = buckets
 
     def set_current_index(self, current_index):
+        """
+        Sets the current index used for iterator.
+
+        Parameters:
+            current_index (int): The new current index for iterator.
+        """
         self.__current_index = current_index
 
     def set_bst(self, bst):
+        """
+        Sets the binary search tree used for inorder traversal.
+
+        Parameters:
+            bst (BinarySearchTree): The new binary search tree instance.
+        """
         self.__bst = bst
 
     def hash_function(self, key):
@@ -120,7 +218,7 @@ class Hashtable:
 
         # Compute the rehash value by adding the square of the attempt number to the hash value of the key
         # Then take the remainder when dividing by the size of the hashtable
-        return (self.hash_function(key_sum) + attempt ** 2) % self.__size
+        return (self.hash_function(key_sum) + attempt**2) % self.__size
 
     def __setitem__(self, key, value):
         """
@@ -147,7 +245,7 @@ class Hashtable:
         # If the bucket at the calculated index is empty, increment the count
         if self.__buckets[index] is None:
             self.__count += 1
-        
+
         # Set the key-value pair in the hashtable
         self.__buckets[index] = value
         self.__keys[index] = key
@@ -180,7 +278,7 @@ class Hashtable:
 
         # Return the value associated with the key
         return self.__buckets[index]
-    
+
     def getitem_inorder(self):
         """
         Retrieves the key-value pairs from the hashtable in inorder traversal order.
@@ -197,7 +295,7 @@ class Hashtable:
             if key:
                 value = self[key]
             else:
-                raise ValueError('No statements found')
+                raise ValueError("No statements found")
             # Append the key-value pair to the list
             items_inorder.append((key, value))
 
@@ -277,7 +375,7 @@ class Hashtable:
 
         Returns:
             object: The next key.
-        
+
         Raises:
             StopIteration: If there are no more __keys to iterate over.
         """
@@ -290,7 +388,7 @@ class Hashtable:
                 return key
             # Move to the next index
             self.__current_index += 1
-        
+
         # If no more keys are found, raise StopIteration
         raise StopIteration
 

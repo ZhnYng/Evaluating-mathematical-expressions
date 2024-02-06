@@ -1,3 +1,31 @@
+#-----------------------------------------------------
+# ST1507 DSAA 
+# CA2
+#
+# Represents a binary search tree, which is a specialized type of binary tree.
+# This binary search tree also has the functionalities of an AVL tree to keep it balanced.
+# References: https://www.programiz.com/dsa/avl-tree
+#
+# Inherits from BinaryTree class.
+#
+# Attributes:
+#     key: The value stored in the node.
+#     left_tree: The left subtree of the node.
+#     right_tree: The right subtree of the node.
+#     height: The height of the node in the tree.
+#
+#-----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : BinarySearchTree.py
+#
+#-----------------------------------------------------
+# To run: python main.py
+#-----------------------------------------------------
+
 from ADT.BinaryTree import BinaryTree
 
 class BinarySearchTree(BinaryTree):
@@ -10,30 +38,48 @@ class BinarySearchTree(BinaryTree):
 
     Attributes:
         key: The value stored in the node.
-        leftTree: The left subtree of the node.
-        rightTree: The right subtree of the node.
+        left_tree: The left subtree of the node.
+        right_tree: The right subtree of the node.
         height: The height of the node in the tree.
     """
 
-    def __init__(self, key=None, leftTree=None, rightTree=None):
+    def __init__(self, key=None, left_tree=None, right_tree=None):
         """
         Initializes a binary search tree node with the given key and optional left and right subtrees.
 
         Parameters:
             key: The value to be stored in the node. Defaults to None.
-            leftTree (BinarySearchTree, optional): The left subtree. Defaults to None.
-            rightTree (BinarySearchTree, optional): The right subtree. Defaults to None.
+            left_tree (BinarySearchTree, optional): The left subtree. Defaults to None.
+            right_tree (BinarySearchTree, optional): The right subtree. Defaults to None.
         """
-        super().__init__(key, leftTree, rightTree)
+        super().__init__(key, left_tree, right_tree)
         self.__height = 1
 
     # Getter
     def get_height(self):
         return self.__height
     
+    def get_key(self):
+        return self.key
+
+    def get_left_tree(self):
+        return self.left_tree
+
+    def get_right_tree(self):
+        return self.right_tree
+    
     # Setter
     def set_height(self, height):
         self.__height = height
+
+    def set_key(self, key):
+        self.key = key
+
+    def set_left_tree(self, left_tree):
+        self.left_tree = left_tree
+
+    def set_right_tree(self, right_tree):
+        self.right_tree = right_tree
 
     def add(self, key):
         """
@@ -46,7 +92,7 @@ class BinarySearchTree(BinaryTree):
             self.key = key
             return
         self.__add(key) # Recursively adds a new key to the binary search tree.
-        self.__height = 1 + max(self.__get_height(self.leftTree), self.__get_height(self.rightTree)) # Calculate the height between left and right tree
+        self.__height = 1 + max(self.__get_height(self.left_tree), self.__get_height(self.right_tree)) # Calculate the height between left and right tree
         self.__balance_tree() # Check if tree requires balancing
     
     def __add(self, key):
@@ -58,15 +104,15 @@ class BinarySearchTree(BinaryTree):
         """
         temp_key, temp_curr_key = key, self.key
         if temp_key < temp_curr_key: # If new key is less than the current key, insert into the left tree
-            if self.leftTree is None: # If tree has not been created, create one and set key as initial key
-                self.leftTree = BinarySearchTree(key)
+            if self.left_tree is None: # If tree has not been created, create one and set key as initial key
+                self.left_tree = BinarySearchTree(key)
             else:
-                self.leftTree.__add(key) # If tree has been created, traverse down left-wards until left tree is not found
+                self.left_tree.__add(key) # If tree has been created, traverse down left-wards until left tree is not found
         elif temp_key > temp_curr_key: # If new key is more than the current key, insert into the right tree
-            if self.rightTree is None: # If tree has not been created, create one and set key as initial key
-                self.rightTree = BinarySearchTree(key)
+            if self.right_tree is None: # If tree has not been created, create one and set key as initial key
+                self.right_tree = BinarySearchTree(key)
             else:
-                self.rightTree.__add(key) # If tree has been created, traverse down right-wards until right tree is not found
+                self.right_tree.__add(key) # If tree has been created, traverse down right-wards until right tree is not found
 
     def delete(self, key):
         """
@@ -83,23 +129,23 @@ class BinarySearchTree(BinaryTree):
 
         # Recursion to find the key to be deleted
         if key < self.key: # If key is less than current key traverse the left tree
-            if self.leftTree is not None: # If the left tree exists, recursively call the delete function
-                self.leftTree = self.leftTree.delete(key)
+            if self.left_tree is not None: # If the left tree exists, recursively call the delete function
+                self.left_tree = self.left_tree.delete(key)
         elif key > self.key: # If key is more than current key traverse the right tree
-            if self.rightTree is not None: # If the right tree exists, recursively call the delete function
-                self.rightTree = self.rightTree.delete(key)
+            if self.right_tree is not None: # If the right tree exists, recursively call the delete function
+                self.right_tree = self.right_tree.delete(key)
         else:
-            if self.leftTree is None: # If the left tree does not exists, return the right tree
-                return self.rightTree
-            elif self.rightTree is None: # If the right tree does not exists, return the left tree
-                return self.leftTree
+            if self.left_tree is None: # If the left tree does not exists, return the right tree
+                return self.right_tree
+            elif self.right_tree is None: # If the right tree does not exists, return the left tree
+                return self.left_tree
 
-            temp = self.rightTree.find_min() # Find the minimum key in the right tree.
+            temp = self.right_tree.find_min() # Find the minimum key in the right tree.
             self.key = temp # Set current key to the minimum key in the right tree.
-            self.rightTree = self.rightTree.delete(temp) # Recursively call the delete function on the right tree
+            self.right_tree = self.right_tree.delete(temp) # Recursively call the delete function on the right tree
 
         if self is not None: # If current tree exists
-            self.__height = 1 + max(self.__get_height(self.leftTree), self.__get_height(self.rightTree)) # Update the height of the tree after deletion
+            self.__height = 1 + max(self.__get_height(self.left_tree), self.__get_height(self.right_tree)) # Update the height of the tree after deletion
             return self.__balance_tree() # Check if balancing is required
 
     def __get_height(self, node):
@@ -128,7 +174,7 @@ class BinarySearchTree(BinaryTree):
         """
         if node is None:
             return 0
-        return self.__get_height(node.leftTree) - self.__get_height(node.rightTree) # Just gets the height difference between the left and right trees of the given node/tree
+        return self.__get_height(node.left_tree) - self.__get_height(node.right_tree) # Just gets the height difference between the left and right trees of the given node/tree
 
     def __rotate_right(self, y):
         """
@@ -140,14 +186,14 @@ class BinarySearchTree(BinaryTree):
         Returns:
             BinarySearchTree: The root of the subtree after rotation.
         """
-        x = y.leftTree # Assign x as the left subtree of y
-        T2 = x.rightTree # Assign T2 as the right subtree of x
+        x = y.left_tree # Assign x as the left subtree of y
+        T2 = x.right_tree # Assign T2 as the right subtree of x
 
-        x.rightTree = y # Assign right tree of x to y
-        y.leftTree = T2 # Assign left tree of y to T2
+        x.right_tree = y # Assign right tree of x to y
+        y.left_tree = T2 # Assign left tree of y to T2
 
-        y.__height = 1 + max(self.__get_height(y.leftTree), self.__get_height(y.rightTree)) # Update heights after rotation
-        x.__height = 1 + max(self.__get_height(x.leftTree), self.__get_height(x.rightTree)) # Update heights after rotation
+        y.__height = 1 + max(self.__get_height(y.left_tree), self.__get_height(y.right_tree)) # Update heights after rotation
+        x.__height = 1 + max(self.__get_height(x.left_tree), self.__get_height(x.right_tree)) # Update heights after rotation
 
         return x # Return x as the parent of y where y is in the right subtree of x
 
@@ -161,14 +207,14 @@ class BinarySearchTree(BinaryTree):
         Returns:
             BinarySearchTree: The root of the subtree after rotation.
         """
-        y = x.rightTree # Assign y as the right subtree of x
-        T2 = y.leftTree # Assign T2 as the left subtree of y
+        y = x.right_tree # Assign y as the right subtree of x
+        T2 = y.left_tree # Assign T2 as the left subtree of y
 
-        y.leftTree = x # Assign left tree of y to x
-        x.rightTree = T2 # Assign right tree of x to T2
+        y.left_tree = x # Assign left tree of y to x
+        x.right_tree = T2 # Assign right tree of x to T2
 
-        x.__height = 1 + max(self.__get_height(x.leftTree), self.__get_height(x.rightTree)) # Update heights after rotation
-        y.__height = 1 + max(self.__get_height(y.leftTree), self.__get_height(y.rightTree)) # Update heights after rotation
+        x.__height = 1 + max(self.__get_height(x.left_tree), self.__get_height(x.right_tree)) # Update heights after rotation
+        y.__height = 1 + max(self.__get_height(y.left_tree), self.__get_height(y.right_tree)) # Update heights after rotation
 
         return y # Return y as the parent of x where x is in the left subtree of y
 
@@ -182,12 +228,12 @@ class BinarySearchTree(BinaryTree):
         balance = self.__balance_factor(self) # Gets current balance factor
 
         if balance > 1: # If balance factor is above threshold of 1
-            if self.__balance_factor(self.leftTree) < 0:  # If balance factor of left tree is less than 0 perform a left-right rotation
-                self.leftTree = self.__rotate_left(self.leftTree) # Rotate the left tree to the left
+            if self.__balance_factor(self.left_tree) < 0:  # If balance factor of left tree is less than 0 perform a left-right rotation
+                self.left_tree = self.__rotate_left(self.left_tree) # Rotate the left tree to the left
             return self.__rotate_right(self) # Rotate the left tree to the right
         if balance < -1: # If balance factor is below threshold of -1
-            if self.__balance_factor(self.rightTree) > 0: # If balance factor of right tree is more than 0 perform a right-left rotation
-                self.rightTree = self.__rotate_right(self.rightTree) # Rotate the right tree to the right
+            if self.__balance_factor(self.right_tree) > 0: # If balance factor of right tree is more than 0 perform a right-left rotation
+                self.right_tree = self.__rotate_right(self.right_tree) # Rotate the right tree to the right
             return self.__rotate_left(self) # Rotate the right tree to the left
         return self
 
@@ -199,15 +245,15 @@ class BinarySearchTree(BinaryTree):
             str: The minimum key found in the tree.
         """
         current = self 
-        while current.leftTree is not None: # While left tree exists, keep traversing left-wards
-            current = current.leftTree # This is because the left tree contains the smallest value
+        while current.left_tree is not None: # While left tree exists, keep traversing left-wards
+            current = current.left_tree # This is because the left tree contains the smallest value
         return current.key
 
     """
     OOP Principles applied
 
     Encapsulation:
-    The BinarySearchTree class encapsulates attributes (key, leftTree, rightTree, height) and 
+    The BinarySearchTree class encapsulates attributes (key, left_tree, right_tree, height) and 
     methods (add, delete, find_min, __get_height, __balance_factor, __rotate_right, __rotate_left, __balance_tree) within a single unit. 
     This prevents direct access to internal data and behavior from outside the class, promoting data integrity and reducing complexity.
 

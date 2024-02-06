@@ -1,5 +1,28 @@
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# A class for constructing and evaluating expression parse trees.
+# The ParseTree class supports building a binary tree from a mathematical expression,
+# evaluating that expression, and handling variable assignments and references within expressions.
+# It uses a hashtable for memoization to optimize repeated evaluations and to handle circular dependencies.
+# Attributes:
+#     statements (Hashtable): Stores variable assignments and their corresponding expression trees.
+#     memoization_cache (Hashtable): Cache used to store previously computed results for optimization.
+#     active_evaluations (set): Tracks variables currently being evaluated to detect circular dependencies.
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : ParseTree.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
 from ADT import Stack, BinaryTree, Hashtable
-import re
 
 class ParseTree:
     """
@@ -75,7 +98,7 @@ class ParseTree:
         """
         self.__active_evaluations = active_evaluations
 
-    def buildParseTree(self, exp_tokens):
+    def build_parse_tree(self, exp_tokens):
         """
         Constructs a parse tree for the given expression tokens.
 
@@ -94,49 +117,49 @@ class ParseTree:
         stack = Stack()
         tree = BinaryTree('?')
         stack.push(tree)
-        currentTree = tree
+        current_tree = tree
             
         for t in exp_tokens:
             # RULE 1: If token is '(' add a new node as left child
             # and descend into that node
             if t == '(':
-                currentTree.insertLeft('?')
-                stack.push(currentTree)
-                currentTree = currentTree.getLeftTree()
+                current_tree.insert_left('?')
+                stack.push(current_tree)
+                current_tree = current_tree.get_left_tree()
 
             # RULE 2: If token is operator set key of current node
             # to that operator and add a new node as right child
             # and descend into that node
             elif t in ['+', '-', '*', '/', '**']:
-                currentTree.setKey(t)
-                currentTree.insertRight('?')
-                stack.push(currentTree)
-                currentTree = currentTree.getRightTree()
+                current_tree.set_key(t)
+                current_tree.insert_right('?')
+                stack.push(current_tree)
+                current_tree = current_tree.get_right_tree()
 
             # RULE 3: If token is number, set key of the current node
             # to that number and return to parent
             elif t.isnumeric():
-                currentTree.setKey(int(t))
+                current_tree.set_key(int(t))
                 parent = stack.pop()
-                currentTree = parent
+                current_tree = parent
 
             # RULE 4: If token is a letter, set key of the current node
             # to that letter and return to parent
             elif t.isalpha():
-                currentTree.setKey(t)
+                current_tree.set_key(t)
                 parent = stack.pop()
-                currentTree = parent
+                current_tree = parent
 
             # RULE 5: If token is a float, set key of the current node
             # to that float and return to parent
             elif t.replace(".", "").isnumeric():
-                currentTree.setKey(float(t))
+                current_tree.set_key(float(t))
                 parent = stack.pop()
-                currentTree = parent
+                current_tree = parent
 
             # RULE 6: If token is ')' go to parent of current node
             elif t == ')':
-                currentTree = stack.pop()
+                current_tree = stack.pop()
             else:
                 raise ValueError
         return tree
@@ -206,10 +229,10 @@ class ParseTree:
         # Check if the tree is not empty
         if tree:
             # Check if both left and right subtrees exist
-            if tree.getLeftTree() and tree.getRightTree():
-                op = tree.getKey()  # Get the operator
-                left = self.evaluate_expression(tree.getLeftTree())  # Evaluate left subtree
-                right = self.evaluate_expression(tree.getRightTree())  # Evaluate right subtree
+            if tree.get_left_tree() and tree.get_right_tree():
+                op = tree.get_key()  # Get the operator
+                left = self.evaluate_expression(tree.get_left_tree())  # Evaluate left subtree
+                right = self.evaluate_expression(tree.get_right_tree())  # Evaluate right subtree
                 
                 # Return 'None' if either operand is 'None'
                 if left == 'None' or right == 'None':
@@ -226,7 +249,7 @@ class ParseTree:
                 elif op == '**': return left ** right
             else:
                 # Handle leaf nodes (operands or variables)
-                key = tree.getKey()
+                key = tree.get_key()
                 # Return error if the default key is encountered
                 if key == '?':
                     raise RuntimeError('Error evaluating expression due to missing operand or operator.')
@@ -255,7 +278,7 @@ class ParseTree:
             ValueError: If a circular dependency is detected.
         """
         # Build the parse tree from the expression tokens
-        tree = self.buildParseTree(exp_tokens)
+        tree = self.build_parse_tree(exp_tokens)
         
         # Remove cached result if the expression has changed
         if var in self.__memoization_cache:

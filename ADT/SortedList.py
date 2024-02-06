@@ -1,15 +1,40 @@
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# Class representing a sorted linked list.
+
+# Attributes:
+#     __head_node (Node): Head of sorted list.
+#     __length (int): Length of sorted list.
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : SortedList.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
+
 class SortedList:
     """
     Class representing a sorted linked list.
+
+    Attributes:
+        __head_node (Node): Head of sorted list.
+        __length (int): Length of sorted list.
     """
 
     def __init__(self):
         """
-        Initializes a new SortedList with 'headNode' set to None (empty list)
-        and 'length' set to 0 to track the number of nodes in the list.
+        Initializes a new SortedList
         """
-        self.headNode = None
-        self.length = 0
+        self.__head_node = None
+        self.__length = 0
 
     def __appendToHead(self, newNode):
         """
@@ -18,9 +43,9 @@ class SortedList:
         Parameters:
             newNode: The new node to be appended.
         """
-        newNode.nextNode = self.headNode  # Link new node to the current head
-        self.headNode = newNode  # Update the head to be the new node
-        self.length += 1  # Increment the length of the list
+        newNode.nextNode = self.__head_node  # Link new node to the current head
+        self.__head_node = newNode  # Update the head to be the new node
+        self.__length += 1  # Increment the __length of the list
 
     def insert(self, newNode):
         """
@@ -30,19 +55,19 @@ class SortedList:
             newNode: The new node to be inserted.
         """
         # Handling the case where the list is empty
-        if self.headNode is None:
-            self.headNode = newNode
-            self.length += 1
+        if self.__head_node is None:
+            self.__head_node = newNode
+            self.__length += 1
             return
 
         # Handling the case where the new node should be the new head
-        if newNode < self.headNode:
+        if newNode < self.__head_node:
             self.__appendToHead(newNode)
             return
 
         # Iterating through the list to find the correct position for the new node
-        leftNode = self.headNode
-        rightNode = self.headNode.nextNode
+        leftNode = self.__head_node
+        rightNode = self.__head_node.nextNode
 
         # Loop until the correct position for the new node is found
         while rightNode is not None:
@@ -51,7 +76,7 @@ class SortedList:
                 # Adjust pointers to insert the new node
                 newNode.nextNode = rightNode
                 leftNode.nextNode = newNode
-                self.length += 1
+                self.__length += 1
                 return
             # Move to the next nodes for comparison
             leftNode = rightNode
@@ -59,7 +84,7 @@ class SortedList:
 
         # If the correct position is at the end of the list, append the new node
         leftNode.nextNode = newNode
-        self.length += 1
+        self.__length += 1
 
 
     def items(self):
@@ -89,7 +114,7 @@ class SortedList:
         Yields:
             object: Each node in the list.
         """
-        current = self.headNode
+        current = self.__head_node
         while current is not None:
             yield current  # Yielding each node one by one
             current = current.nextNode
@@ -98,7 +123,7 @@ class SortedList:
     OOP Principles applied
 
     Encapsulation:
-    The SortedList class encapsulates attributes (headNode, length) and methods (__appendToHead, insert, items, __str__, iterate) within a single unit. 
+    The SortedList class encapsulates attributes (__head_node, __length) and methods (__appendToHead, insert, items, __str__, iterate) within a single unit. 
     This prevents direct access to internal data and behavior from outside the class, promoting data integrity and reducing complexity.
 
     Abstraction:

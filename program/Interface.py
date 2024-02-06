@@ -1,3 +1,22 @@
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# This class represents the user interface/GUI for the 
+# Evaluating & Sorting Assignment Statements (using parse trees) application.
+# It provides various options for evaluating solutions, altering variables, and flexible evaluations.
+#
+# -----------------------------------------------------
+#
+# Author    : Ashley Bai
+# StudentID : 2237871
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : Interface.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
 from utils import Validation
 
 class Interface:
@@ -92,7 +111,6 @@ class Interface:
                 print(expression_tree_str, end='')
                 print(f"Value for variable \"{variable}\" is {result}\n")
 
-                # Print additional message
                 self.pause()
                 break
             except Exception as e:
@@ -146,6 +164,45 @@ class Interface:
                 break
             except Exception as e:
                 self.error_msg(e)
-                
 
-    
+    # Option 6
+    def option6(self, eval_equation):
+        """
+        Executes the sixth option in the menu: evaluate if two expressions are equal.
+
+        Parameters:
+        - eval_equation: Function to evaluate if two expressions are equal.
+        """
+        while True:
+            try:
+                eqn = input('Enter the equation you want to equate:\nFor example, (x+2)=(y+3)\n')
+                if eval_equation(eqn) == 'None':
+                    print('\nThe equation is unknown')
+                elif eval_equation(eqn):
+                    print('\nThe equation is equal')
+                else:
+                    print('\nThe equation is not equal')
+
+                self.pause()
+                break
+            except Exception as e:
+                self.error_msg(e)
+
+    # Option 7
+    def option7(self, solve_equation):
+        """
+        Executes the seventh option in the menu: solve an equation for a specified variable.
+
+        Parameters:
+        - solve_equation: Function to solve an equation for a specified variable.
+        """
+        while True:
+            try:
+                eqn = input('Enter the equation you want to solve:\nFor example, (x+2)=(y+3)\n')
+                subject = input('\nEnter the subject of the equation to solve for: ')
+                print('\n' + solve_equation(eqn, subject))
+
+                self.pause()
+                break
+            except Exception as e:
+                self.error_msg(e)
