@@ -4,9 +4,9 @@
 #
 # This file represents a binary tree node.
 # Attributes:
-#     __key: The value stored in the node.
-#     __left_tree: The left subtree of the node.
-#     __right_tree: The right subtree of the node.
+#     key: The value stored in the node.
+#     left_tree: The left subtree of the node.
+#     right_tree: The right subtree of the node.
 #
 #-----------------------------------------------------
 #
@@ -25,32 +25,32 @@ class BinaryTree:
     Represents a binary tree node.
 
     Attributes:
-        __key: The value stored in the node.
-        __left_tree: The left subtree of the node.
-        __right_tree: The right subtree of the node.
+        key: The value stored in the node.
+        left_tree: The left subtree of the node.
+        right_tree: The right subtree of the node.
     """
 
-    def __init__(self, __key, __left_tree=None, __right_tree=None):
+    def __init__(self, key, left_tree=None, right_tree=None):
         """
-        Initializes a binary tree node with the given __key and optional left and right subtrees.
+        Initializes a binary tree node with the given key and optional left and right subtrees.
 
         Parameters:
-            __key: The value to be stored in the node.
-            __left_tree (BinaryTree, optional): The left subtree. Defaults to None.
-            __right_tree (BinaryTree, optional): The right subtree. Defaults to None.
+            key: The value to be stored in the node.
+            left_tree (BinaryTree, optional): The left subtree. Defaults to None.
+            right_tree (BinaryTree, optional): The right subtree. Defaults to None.
         """
-        self.__key = __key
-        self.__left_tree = __left_tree
-        self.__right_tree = __right_tree
+        self.key = key
+        self.left_tree = left_tree
+        self.right_tree = right_tree
 
-    def set_key(self, __key):
+    def set_key(self, key):
         """
         Sets the value of the node.
 
         Parameters:
-            __key: The value to be set.
+            key: The value to be set.
         """
-        self.__key = __key
+        self.key = key
 
     def get_key(self):
         """
@@ -59,7 +59,7 @@ class BinaryTree:
         Returns:
             The value stored in the node.
         """
-        return self.__key
+        return self.key
     
     def get_left_tree(self):
         """
@@ -68,7 +68,7 @@ class BinaryTree:
         Returns:
             The left subtree.
         """
-        return self.__left_tree
+        return self.left_tree
     
     def get_right_tree(self):
         """
@@ -77,39 +77,39 @@ class BinaryTree:
         Returns:
             The right subtree.
         """
-        return self.__right_tree
+        return self.right_tree
     
-    def insert_left(self, __key):
+    def insert_left(self, key):
         """
-        Inserts a new node with the given __key as the left child of the current node.
+        Inserts a new node with the given key as the left child of the current node.
 
         Parameters:
-            __key: The value of the new node to be inserted.
+            key: The value of the new node to be inserted.
         """
-        if self.__left_tree == None:
+        if self.left_tree == None:
             # If there is no left subtree, create a new BinaryTree node and assign it as the left subtree
-            self.__left_tree = BinaryTree(__key)
+            self.left_tree = BinaryTree(key)
         else:
             # If there is already a left subtree, create a new BinaryTree node, swap it with the existing left subtree
             # and attach the existing left subtree to the new node's left subtree
-            t = BinaryTree(__key)
-            self.__left_tree, t.__left_tree = t, self.__left_tree
+            t = BinaryTree(key)
+            self.left_tree, t.left_tree = t, self.left_tree
 
-    def insert_right(self, __key):
+    def insert_right(self, key):
         """
-        Inserts a new node with the given __key as the right child of the current node.
+        Inserts a new node with the given key as the right child of the current node.
 
         Parameters:
-            __key: The value of the new node to be inserted.
+            key: The value of the new node to be inserted.
         """
-        if self.__right_tree == None:
+        if self.right_tree == None:
             # If there is no right subtree, create a new BinaryTree node and assign it as the right subtree
-            self.__right_tree = BinaryTree(__key)
+            self.right_tree = BinaryTree(key)
         else:
             # If there is already a right subtree, create a new BinaryTree node, swap it with the existing right subtree
             # and attach the existing right subtree to the new node's right subtree
-            t = BinaryTree(__key)
-            self.__right_tree, t.__right_tree = t, self.__right_tree
+            t = BinaryTree(key)
+            self.right_tree, t.right_tree = t, self.right_tree
 
     def print_in_order(self, level=0):
         """
@@ -124,13 +124,13 @@ class BinaryTree:
         """
         traversal_str = ''
         # Traverse right subtree first (if exists)
-        if self.__right_tree:
-            traversal_str += self.__right_tree.print_in_order(level + 1)
-        # Add current node's __key with indentation
-        traversal_str += '.' * level + str(self.__key) + '\n'
+        if self.right_tree:
+            traversal_str += self.right_tree.print_in_order(level + 1)
+        # Add current node's key with indentation
+        traversal_str += '.' * level + str(self.key) + '\n'
         # Traverse left subtree (if exists)
-        if self.__left_tree:
-            traversal_str += self.__left_tree.print_in_order(level + 1)
+        if self.left_tree:
+            traversal_str += self.left_tree.print_in_order(level + 1)
         return traversal_str
     
     def inorder_traversal(self):
@@ -143,15 +143,15 @@ class BinaryTree:
         result = []  # Initialize an empty list to store the keys of the nodes
         
         # Traverse the left subtree recursively if it exists
-        if self.__left_tree:
-            result.extend(self.__left_tree.inorder_traversal())
+        if self.left_tree:
+            result.extend(self.left_tree.inorder_traversal())
         
-        # Append the __key of the current node to the result list
-        result.append(self.__key)
+        # Append the key of the current node to the result list
+        result.append(self.key)
         
         # Traverse the right subtree recursively if it exists
-        if self.__right_tree:
-            result.extend(self.__right_tree.inorder_traversal())
+        if self.right_tree:
+            result.extend(self.right_tree.inorder_traversal())
         
         return result
         
@@ -166,24 +166,24 @@ class BinaryTree:
         else: result = []  # Initialize an empty list to store the keys of the nodes
         
         # Traverse the left subtree recursively if it exists
-        if self.__left_tree:
+        if self.left_tree:
             if string:
-                result += '(' + self.__left_tree.bracket_inorder_traversal(string)
+                result += '(' + self.left_tree.bracket_inorder_traversal(string)
             else:
-                result.extend(['(', *self.__left_tree.bracket_inorder_traversal(string)])
+                result.extend(['(', *self.left_tree.bracket_inorder_traversal(string)])
         
-        # Append the __key of the current node to the result list
+        # Append the key of the current node to the result list
         if string:
-            result += str(self.__key)
+            result += str(self.key)
         else:
-            result.append(self.__key)
+            result.append(self.key)
         
         # Traverse the right subtree recursively if it exists
-        if self.__right_tree:
+        if self.right_tree:
             if string:
-                result += self.__right_tree.bracket_inorder_traversal(string) + ')'
+                result += self.right_tree.bracket_inorder_traversal(string) + ')'
             else:
-                result.extend([*self.__right_tree.bracket_inorder_traversal(string), ')'])
+                result.extend([*self.right_tree.bracket_inorder_traversal(string), ')'])
         
         return result
 
@@ -194,20 +194,20 @@ class BinaryTree:
         Returns:
             A string representing the binary tree using parentheses.
         """
-        if self.__left_tree and self.__right_tree:
+        if self.left_tree and self.right_tree:
             # If both left and right subtrees exist, recursively construct the string representation
-            left = self.__left_tree.shallow_tree()
-            right = self.__right_tree.shallow_tree()
-            return f"({left}{self.__key}{right})"
+            left = self.left_tree.shallow_tree()
+            right = self.right_tree.shallow_tree()
+            return f"({left}{self.key}{right})"
         else:
-            # If either left or right subtree is None, return the __key itself
-            return self.__key
+            # If either left or right subtree is None, return the key itself
+            return self.key
 
     """
     OOP Principles applied
 
     Encapsulation:
-    The BinaryTree class encapsulates attributes (__key, __left_tree, __right_tree) and 
+    The BinaryTree class encapsulates attributes (key, left_tree, right_tree) and 
     methods (set_key, get_key, get_left_tree, get_right_tree, insert_left, insert_right, print_in_order, shallow_tree) within a single unit. 
     This prevents direct access to internal data and behavior from outside the class, promoting data integrity and reducing complexity.
 

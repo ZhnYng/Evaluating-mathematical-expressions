@@ -59,9 +59,27 @@ class BinarySearchTree(BinaryTree):
     def get_height(self):
         return self.__height
     
+    def get_key(self):
+        return self.key
+
+    def get_left_tree(self):
+        return self.left_tree
+
+    def get_right_tree(self):
+        return self.right_tree
+    
     # Setter
     def set_height(self, height):
         self.__height = height
+
+    def set_key(self, key):
+        self.key = key
+
+    def set_left_tree(self, left_tree):
+        self.left_tree = left_tree
+
+    def set_right_tree(self, right_tree):
+        self.right_tree = right_tree
 
     def add(self, key):
         """
