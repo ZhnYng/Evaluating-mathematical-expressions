@@ -42,7 +42,7 @@ class DoubleStatement(Statement):
         self.validation = Validation()
 
         # Split the equation into two expressions
-        exp1, exp2 = self.split_statement(equation)
+        exp1, exp2 = self.split_statement(equation) # Inherited
 
         # Tokenize the expressions
         tokenizer = ExpressionTokenizer()

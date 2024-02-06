@@ -16,7 +16,7 @@ def handle_menu():
 
             # Display the menu and prompt for user input
             choice = input(
-                "Please select your choice: ('1','2','3','4','5','6','7','8','9','10'):\n"
+                "\nPlease select your choice: ('1','2','3','4','5','6','7','8','9','10'):\n"
                 '    1. Add/Modify assignment statement\n'
                 '    2. Display current assignment statements\n'
                 '    3. Evaluate a single variable\n'

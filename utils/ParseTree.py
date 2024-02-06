@@ -5,10 +5,9 @@
 # A class for constructing and evaluating expression parse trees.
 # The ParseTree class supports building a binary tree from a mathematical expression,
 # evaluating that expression, and handling variable assignments and references within expressions.
-# It uses a hashtable for memoization to optimize repeated evaluations and to handle circular dependencies.
+# It uses a hashtable to optimize repeated evaluations and to handle circular dependencies.
 # Attributes:
 #     statements (Hashtable): Stores variable assignments and their corresponding expression trees.
-#     memoization_cache (Hashtable): Cache used to store previously computed results for optimization.
 #     active_evaluations (set): Tracks variables currently being evaluated to detect circular dependencies.
 #
 # -----------------------------------------------------
@@ -30,18 +29,16 @@ class ParseTree:
 
     The ParseTree class supports building a binary tree from a mathematical expression,
     evaluating that expression, and handling variable assignments and references within expressions.
-    It uses a hashtable for memoization to optimize repeated evaluations and to handle circular dependencies.
+    It uses a hashtable to optimize repeated evaluations and to handle circular dependencies.
 
     Attributes:
         statements (Hashtable): Stores variable assignments and their corresponding expression trees.
-        memoization_cache (Hashtable): Cache used to store previously computed results for optimization.
         active_evaluations (set): Tracks variables currently being evaluated to detect circular dependencies.
     """
 
     def __init__(self):
-        """Initialize the ParseTree with empty statements and memoization cache."""
+        """Initialize the ParseTree with empty statements."""
         self.__statements = Hashtable()  # Stores statements and their expression trees
-        self.__memoization_cache = Hashtable()  # Cache for memoization
         self.__active_evaluations = set() # Storage for catching circular dependencies
 
     def get_statements(self):
@@ -61,24 +58,6 @@ class ParseTree:
             statements (Hashtable): A hashtable containing the statements and their associated expression trees.
         """
         self.__statements = statements
-    
-    def get_memoization_cache(self):
-        """
-        Retrieves the memoization cache stored in the ParseTree.
-
-        Returns:
-            Hashtable: A hashtable containing the memoization cache.
-        """
-        return self.__memoization_cache
-    
-    def set_memoization_cache(self, memoization_cache):
-        """
-        Sets the memoization cache of the ParseTree.
-
-        Parameters:
-            memoization_cache (Hashtable): A hashtable containing the memoization cache.
-        """
-        self.__memoization_cache = memoization_cache
     
     def get_active_evaluations(self):
         """
@@ -169,8 +148,7 @@ class ParseTree:
         Evaluates the expression represented by the parse tree for a given variable.
 
         This method computes the value of the expression tree, handling variables,
-        operators, and function calls. It checks for circular dependencies and uses memoization
-        for optimization.
+        operators, and function calls. It checks for circular dependencies.
 
         Parameters:
             var (str): The variable name associated with the expression being evaluated.
@@ -187,10 +165,6 @@ class ParseTree:
             self.__active_evaluations.clear()  # Clear active evaluations to avoid infinite recursion
             raise ValueError(f"Circular dependency detected for variable: {var}")
         
-        # Check cache first before evaluating
-        if var in self.__memoization_cache:
-            return self.__memoization_cache[var]
-        
         # Add variable to active evaluations to track circular dependencies
         self.__active_evaluations.add(var)
         
@@ -206,7 +180,6 @@ class ParseTree:
             self.__active_evaluations.clear()
         else:
             self.__active_evaluations.remove(var)  # Remove variable from active evaluations
-            self.__memoization_cache[var] = result  # Cache the result
         
         return result
         
@@ -279,10 +252,6 @@ class ParseTree:
         """
         # Build the parse tree from the expression tokens
         tree = self.build_parse_tree(exp_tokens)
-        
-        # Remove cached result if the expression has changed
-        if var in self.__memoization_cache:
-            del self.__memoization_cache[var]
         
         # Associate the parse tree with the variable
         self.__statements[var] = tree

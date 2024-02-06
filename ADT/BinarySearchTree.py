@@ -43,7 +43,7 @@ class BinarySearchTree(BinaryTree):
         height: The height of the node in the tree.
     """
 
-    def __init__(self, key=None, left_tree=None, right_tree=None):
+    def __init__(self, key=None):
         """
         Initializes a binary search tree node with the given key and optional left and right subtrees.
 
@@ -52,7 +52,7 @@ class BinarySearchTree(BinaryTree):
             left_tree (BinarySearchTree, optional): The left subtree. Defaults to None.
             right_tree (BinarySearchTree, optional): The right subtree. Defaults to None.
         """
-        super().__init__(key, left_tree, right_tree)
+        super().__init__(key)
         self.__height = 1
 
     # Getter
@@ -60,7 +60,7 @@ class BinarySearchTree(BinaryTree):
         return self.__height
     
     def get_key(self):
-        return self.key
+        return self._BinaryTree__key
 
     def get_left_tree(self):
         return self.left_tree
@@ -73,7 +73,7 @@ class BinarySearchTree(BinaryTree):
         self.__height = height
 
     def set_key(self, key):
-        self.key = key
+        self._BinaryTree__key = key
 
     def set_left_tree(self, left_tree):
         self.left_tree = left_tree
@@ -88,8 +88,8 @@ class BinarySearchTree(BinaryTree):
         Parameters:
             key: The value of the new key to be added.
         """
-        if self.key is None:
-            self.key = key
+        if self._BinaryTree__key is None:
+            self._BinaryTree__key = key
             return
         self.__add(key) # Recursively adds a new key to the binary search tree.
         self.__height = 1 + max(self.__get_height(self.left_tree), self.__get_height(self.right_tree)) # Calculate the height between left and right tree
@@ -102,7 +102,7 @@ class BinarySearchTree(BinaryTree):
         Parameters:
             key: The value of the new key to be added.
         """
-        temp_key, temp_curr_key = key, self.key
+        temp_key, temp_curr_key = key, self._BinaryTree__key
         if temp_key < temp_curr_key: # If new key is less than the current key, insert into the left tree
             if self.left_tree is None: # If tree has not been created, create one and set key as initial key
                 self.left_tree = BinarySearchTree(key)
@@ -128,10 +128,10 @@ class BinarySearchTree(BinaryTree):
             return None
 
         # Recursion to find the key to be deleted
-        if key < self.key: # If key is less than current key traverse the left tree
+        if key < self._BinaryTree__key: # If key is less than current key traverse the left tree
             if self.left_tree is not None: # If the left tree exists, recursively call the delete function
                 self.left_tree = self.left_tree.delete(key)
-        elif key > self.key: # If key is more than current key traverse the right tree
+        elif key > self._BinaryTree__key: # If key is more than current key traverse the right tree
             if self.right_tree is not None: # If the right tree exists, recursively call the delete function
                 self.right_tree = self.right_tree.delete(key)
         else:
@@ -141,7 +141,7 @@ class BinarySearchTree(BinaryTree):
                 return self.left_tree
 
             temp = self.right_tree.find_min() # Find the minimum key in the right tree.
-            self.key = temp # Set current key to the minimum key in the right tree.
+            self._BinaryTree__key = temp # Set current key to the minimum key in the right tree.
             self.right_tree = self.right_tree.delete(temp) # Recursively call the delete function on the right tree
 
         if self is not None: # If current tree exists
@@ -247,7 +247,7 @@ class BinarySearchTree(BinaryTree):
         current = self 
         while current.left_tree is not None: # While left tree exists, keep traversing left-wards
             current = current.left_tree # This is because the left tree contains the smallest value
-        return current.key
+        return current._BinaryTree__key
 
     """
     OOP Principles applied

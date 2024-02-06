@@ -17,7 +17,6 @@
 # -----------------------------------------------------
 # To run: python main.py
 # -----------------------------------------------------
-from utils import Validation
 
 class Interface:
     """
@@ -25,12 +24,6 @@ class Interface:
     Evaluating & Sorting Assignment Statements (using parse trees) application.
     It provides various options for evaluating solutions, altering variables, and flexible evaluations.
     """
-
-    def __init__(self):
-        """
-        Initializes the Interface class.
-        """
-        self.validation = Validation()
 
     def banner(self):
         """
@@ -43,13 +36,13 @@ class Interface:
         print('* - Done by: Lim Zhen Yang (2214506) & Ashley Bai (2237871)', ' '*3, '*')
         print('* - Class DAAA/FT/2B04', ' '*40, '*')
         print('*', ' '*61, '*')
-        print('*'*65, end='\n\n\n')
+        print('*'*65, end='\n\n')
 
     def pause(self):
         """
         Pauses the program execution and waits for user input to continue.
         """
-        input("\nPress enter key, to continue...\n")
+        input("\nPress enter key, to continue....")
 
     def error_msg(self, error_msg):
         """
@@ -73,8 +66,6 @@ class Interface:
                 break
             except Exception as e:
                 self.error_msg(e)
-        
-        
             
     # Option 2
     def option2(self, display_statements):
@@ -89,6 +80,7 @@ class Interface:
             print(f"\nCURRENT ASSIGNMENTS:\n{'*'*20}")
         for statement, answer in statement_and_answers.items():
             print(f"{statement}=> {answer}")
+        print('')
         self.pause()
         
     # Option 3
@@ -132,14 +124,8 @@ class Interface:
                 # Call the read_from_file method to read and evaluate statements
                 assignments_dict = read_from_file(file)
 
-                print("\nCURRENT ASSIGNMENTS:")
-                print("****************************")
-
-                # Sort the assignments alphabetically
-                for assignment, value in sorted(assignments_dict.items()):
-                    print(f'{assignment} => {value}')
-                    
-                self.pause()
+                # Convert to lambda function for option 2 to call
+                self.option2(lambda:assignments_dict)
                 break
             except Exception as e:
                 self.error_msg(e)
@@ -155,12 +141,11 @@ class Interface:
         while True:
             try:
                 # Get user input for output file
-                file = input("Please enter output file: ")
+                file = input("\nPlease enter output file:")
                 
                 # Call the sorting expression function 
                 sorting_expressions(file)
-                
-                print('\n')
+
                 break
             except Exception as e:
                 self.error_msg(e)

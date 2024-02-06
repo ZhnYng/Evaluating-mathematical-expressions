@@ -30,7 +30,7 @@ class BinaryTree:
         right_tree: The right subtree of the node.
     """
 
-    def __init__(self, key, left_tree=None, right_tree=None):
+    def __init__(self, key):
         """
         Initializes a binary tree node with the given key and optional left and right subtrees.
 
@@ -39,9 +39,9 @@ class BinaryTree:
             left_tree (BinaryTree, optional): The left subtree. Defaults to None.
             right_tree (BinaryTree, optional): The right subtree. Defaults to None.
         """
-        self.key = key
-        self.left_tree = left_tree
-        self.right_tree = right_tree
+        self.__key = key
+        self.left_tree = None
+        self.right_tree = None
 
     def set_key(self, key):
         """
@@ -50,7 +50,7 @@ class BinaryTree:
         Parameters:
             key: The value to be set.
         """
-        self.key = key
+        self.__key = key
 
     def get_key(self):
         """
@@ -59,7 +59,7 @@ class BinaryTree:
         Returns:
             The value stored in the node.
         """
-        return self.key
+        return self.__key
     
     def get_left_tree(self):
         """
@@ -127,7 +127,7 @@ class BinaryTree:
         if self.right_tree:
             traversal_str += self.right_tree.print_in_order(level + 1)
         # Add current node's key with indentation
-        traversal_str += '.' * level + str(self.key) + '\n'
+        traversal_str += '.' * level + str(self.__key) + '\n'
         # Traverse left subtree (if exists)
         if self.left_tree:
             traversal_str += self.left_tree.print_in_order(level + 1)
@@ -147,7 +147,7 @@ class BinaryTree:
             result.extend(self.left_tree.inorder_traversal())
         
         # Append the key of the current node to the result list
-        result.append(self.key)
+        result.append(self.__key)
         
         # Traverse the right subtree recursively if it exists
         if self.right_tree:
@@ -174,9 +174,9 @@ class BinaryTree:
         
         # Append the key of the current node to the result list
         if string:
-            result += str(self.key)
+            result += str(self.__key)
         else:
-            result.append(self.key)
+            result.append(self.__key)
         
         # Traverse the right subtree recursively if it exists
         if self.right_tree:
@@ -198,10 +198,10 @@ class BinaryTree:
             # If both left and right subtrees exist, recursively construct the string representation
             left = self.left_tree.shallow_tree()
             right = self.right_tree.shallow_tree()
-            return f"({left}{self.key}{right})"
+            return f"({left}{self.__key}{right})"
         else:
             # If either left or right subtree is None, return the key itself
-            return self.key
+            return self.__key
 
     """
     OOP Principles applied
