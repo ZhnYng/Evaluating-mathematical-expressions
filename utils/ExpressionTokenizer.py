@@ -84,6 +84,14 @@ class ExpressionTokenizer:
                     if paren_depth > 0:
                         token_count_since_last_paren += 1
 
+                # Handling single negative values e.g. (-3) get converted to (0-3)
+                if char == '-' and last_token == '(':
+                    if self.allow_exp_alter():  # Prompt user for expression alteration
+                        self.__tokens.append('0')  # Add '0' to represent subtraction
+                        token_count_since_last_paren += 1
+                    else:
+                        raise PermissionError("Expression alteration denied")
+
                 if char == '(':  # Opening parenthesis
                     paren_depth += 1
                     token_count_since_last_paren = 0

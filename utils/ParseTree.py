@@ -169,21 +169,20 @@ class ParseTree:
         self.__active_evaluations.add(var)
         
         # Evaluate the expression tree
-        result = self.evaluate_expression(tree)
+        result = self.__evaluate_expression(tree)
 
         # Round off floating-point calculations
         if isinstance(result, float):
-            result = round(result, 4)
+            result = round(result, 2)
         
         # Clear active evaluations if the result is 'None', otherwise remove variable from active evaluations
         if result == 'None':
             self.__active_evaluations.clear()
         else:
             self.__active_evaluations.remove(var)  # Remove variable from active evaluations
-        
         return result
         
-    def evaluate_expression(self, tree: BinaryTree):
+    def __evaluate_expression(self, tree: BinaryTree):
         """
         Recursively evaluates the given expression tree.
 
@@ -204,8 +203,8 @@ class ParseTree:
             # Check if both left and right subtrees exist
             if tree.get_left_tree() and tree.get_right_tree():
                 op = tree.get_key()  # Get the operator
-                left = self.evaluate_expression(tree.get_left_tree())  # Evaluate left subtree
-                right = self.evaluate_expression(tree.get_right_tree())  # Evaluate right subtree
+                left = self.__evaluate_expression(tree.get_left_tree())  # Evaluate left subtree
+                right = self.__evaluate_expression(tree.get_right_tree())  # Evaluate right subtree
                 
                 # Return 'None' if either operand is 'None'
                 if left == 'None' or right == 'None':

@@ -174,7 +174,7 @@ class EquationParseTree(ParseTree):
 
         # Round off floating-point calculations
         if isinstance(result, float):
-            result = round(result, 4)
+            result = round(result, 2)
 
         return result
         
