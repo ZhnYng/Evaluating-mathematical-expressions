@@ -23,6 +23,7 @@ from utils import (
     FileHandler,
     MergeSort,
 )  # Import utilities for parsing, file handling, and sorting
+import re
 
 # Import the necessary libraries
 import networkx as nx
@@ -317,9 +318,13 @@ class Options:
         Returns:
             str: The rearranged equation.
         """
-        # Get the parse tree of the equation using the get_equation_tree method
-        equation_tree = self.get_equation_tree(equation)
-        # Rearrange the equation parse tree to make the target variable the subject
-        rearranged_tree = self.__eqn_parse_tree.rearrange_tree(target, equation_tree)
-        # Convert the rearranged equation parse tree back to bracket notation
-        return rearranged_tree.bracket_inorder_traversal(string=True)
+        regex_pattern = r"^\([a-zA-Z0-9]+(?:[*/+-][a-zA-Z0-9]+)*\)=\([a-zA-Z0-9]+(?:[*/+-][a-zA-Z0-9]+)*\)$"
+        if re.match(regex_pattern, equation):
+            # Get the parse tree of the equation using the get_equation_tree method
+            equation_tree = self.get_equation_tree(equation)
+            # Rearrange the equation parse tree to make the target variable the subject
+            rearranged_tree = self.__eqn_parse_tree.rearrange_tree(target, equation_tree)
+            # Convert the rearranged equation parse tree back to bracket notation
+            return rearranged_tree.bracket_inorder_traversal(string=True)
+        else:
+            raise ValueError('Equation format not supported.')
