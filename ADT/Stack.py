@@ -1,3 +1,21 @@
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# Class representing a stack data structure
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : Stack.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
+
 class Stack:
     def __init__(self):
         """

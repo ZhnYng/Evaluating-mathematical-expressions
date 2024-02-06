@@ -1,3 +1,23 @@
+#-----------------------------------------------------
+# ST1507 DSAA 
+# CA2
+#
+# Represents a file node.
+# Attributes:
+#     name (str): The name of the file.
+#
+#-----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : File.py
+#
+#-----------------------------------------------------
+# To run: python main.py
+#-----------------------------------------------------
+
 from AbstractClasses import Node
 
 class File(Node):

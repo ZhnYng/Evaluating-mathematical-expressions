@@ -1,3 +1,21 @@
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# Initializes an ExpressionTokenizer object with an empty list 
+# of tokens and a set of valid special characters.
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : ExpressionTokenizer.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
 class ExpressionTokenizer:
     def __init__(self):
         """
@@ -118,19 +136,19 @@ class ExpressionTokenizer:
     OOP Principles Applied:
 
     Encapsulation:
-    - The ExpressionTokenizer class encapsulates the functionality related to tokenizing arithmetic expressions within a single unit.
-    - Internal data, such as the list of tokens and the set of valid special characters, are encapsulated within the class, promoting data integrity and reducing complexity.
-    - External classes interact with ExpressionTokenizer through defined methods, maintaining encapsulation boundaries.
+    The ExpressionTokenizer class encapsulates the functionality related to tokenizing arithmetic expressions within a single unit.
+    Internal data, such as the list of tokens and the set of valid special characters, are encapsulated within the class, promoting data integrity and reducing complexity.
+    External classes interact with ExpressionTokenizer through defined methods, maintaining encapsulation boundaries.
 
     Abstraction:
-    - ExpressionTokenizer abstracts away the complexities of tokenizing arithmetic expressions by providing a high-level tokenize_expression method.
-    - Users interact with ExpressionTokenizer without needing to know the internal implementation details of tokenization, promoting a simpler and more intuitive interface.
+    ExpressionTokenizer abstracts away the complexities of tokenizing arithmetic expressions by providing a high-level tokenize_expression method.
+    Users interact with ExpressionTokenizer without needing to know the internal implementation details of tokenization, promoting a simpler and more intuitive interface.
 
     Polymorphism:
-    - The ExpressionTokenizer class can tokenize different arithmetic expressions seamlessly.
-    - The tokenize_expression method can handle various scenarios, such as handling negative and positive values, and power operations, without changes to its interface.
+    The ExpressionTokenizer class can tokenize different arithmetic expressions seamlessly.
+    The tokenize_expression method can handle various scenarios, such as handling negative and positive values, and power operations, without changes to its interface.
 
     Modularity:
-    - The tokenize_expression method serves a specific purpose of tokenizing arithmetic expressions, promoting modularity and code reusability.
-    - This modular design makes the ExpressionTokenizer class easier to understand, maintain, and extend.
+    The tokenize_expression method serves a specific purpose of tokenizing arithmetic expressions, promoting modularity and code reusability.
+    This modular design makes the ExpressionTokenizer class easier to understand, maintain, and extend.
     """

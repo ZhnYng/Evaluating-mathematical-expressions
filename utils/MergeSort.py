@@ -1,3 +1,23 @@
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# A class to perform a custom merge sort on a dictionary where 
+# the values can be numeric or 'None'.
+# The sorting is based on numeric values in descending order, 
+# and for 'None' values, it sorts the keys alphabetically.
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : MergeSort.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
 class MergeSort:
     """
     A class to perform a custom merge sort on a dictionary where the values can be numeric or 'None'.

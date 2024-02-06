@@ -1,13 +1,31 @@
-from ADT import DoubleStatement, Stack, BinaryTree, Hashtable
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# Class representing a set of options for manipulating assignment statements and equations.
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : EquationParseTree.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
+from ADT import Stack, BinaryTree, Hashtable
 from utils import ParseTree
 
 class EquationParseTree(ParseTree):
     """
-    A class for constructing and evaluating equation parse trees.
+    A class for constructing and evaluating equation parse trees. E.g. (x+2)=(y+3)
 
     The EquationParseTree class supports building a binary tree from a mathematical equation,
     evaluating that expression, and handling variable assignments and references within expressions.
-    It uses a hashtable for memoization to optimize repeated evaluations and to handle circular dependencies.
+    It uses a hashtable for memoization to optimize repeated evaluations and to handle 
+    circular dependencies inherited from ParseTree.
 
     Attributes:
         equations (Hashtable): Stores variable assignments and their corresponding expression trees.
@@ -46,9 +64,10 @@ class EquationParseTree(ParseTree):
     def set_active_evaluations(self, active_evaluations):
         self.__active_evaluations = active_evaluations
 
-    def buildParseTree(self, eqn_tokens):
+    def build_parse_tree(self, eqn_tokens):
         """
-        Constructs a parse tree for the given expression tokens.
+        Constructs a Equation parse tree for the given expression tokens.
+        An equation parse tree is a tree representation of a DoubleStatement e.g. (x+2)=(y+3)
 
         This method constructs a binary tree based on the tokens of a mathematical expression. It follows
         specific rules to place tokens in the tree, handling operators, numbers, variables, and parentheses.
@@ -65,67 +84,67 @@ class EquationParseTree(ParseTree):
         stack = Stack()
         tree = BinaryTree('?')
         stack.push(tree)
-        currentTree = tree
+        current_tree = tree
             
         for index, t in enumerate(eqn_tokens):
             # RULE 1: If token is '(' and the previous token is '='
             # insert a node to the left and descend into that node
             if t == '(' and eqn_tokens[index-1] == '=':
-                currentTree.insertLeft('?')
-                stack.push(currentTree)
-                currentTree = currentTree.getLeftTree()
+                current_tree.insert_left('?')
+                stack.push(current_tree)
+                current_tree = current_tree.get_left_tree()
 
             # RULE 2: If token is '(' add a new node as left child
             # and descend into that node
             elif t == '(':
-                currentTree.insertLeft('?')
-                stack.push(currentTree)
-                currentTree = currentTree.getLeftTree()
-                currentTree.insertLeft('?')
-                stack.push(currentTree)
-                currentTree = currentTree.getLeftTree()
+                current_tree.insert_left('?')
+                stack.push(current_tree)
+                current_tree = current_tree.get_left_tree()
+                current_tree.insert_left('?')
+                stack.push(current_tree)
+                current_tree = current_tree.get_left_tree()
 
             # RULE 3: If token is operator set key of current node
             # to that operator and add a new node as right child
             # and descend into that node
             elif t in ['+', '-', '*', '/', '**']:
-                currentTree.setKey(t)
-                currentTree.insertRight('?')
-                stack.push(currentTree)
-                currentTree = currentTree.getRightTree()
+                current_tree.set_key(t)
+                current_tree.insert_right('?')
+                stack.push(current_tree)
+                current_tree = current_tree.get_right_tree()
 
             # RULE 4: If token is number, set key of the current node
             # to that number and return to parent
             elif t.isnumeric():
-                currentTree.setKey(int(t))
+                current_tree.set_key(int(t))
                 parent = stack.pop()
-                currentTree = parent
+                current_tree = parent
 
             # RULE 4: If token is a letter, set key of the current node
             # to that letter and return to parent
             elif t.isalpha():
-                currentTree.setKey(t)
+                current_tree.set_key(t)
                 parent = stack.pop()
-                currentTree = parent
+                current_tree = parent
 
             # RULE 5: If token is a float, set key of the current node
             # to that float and return to parent
             elif t.replace(".", "").isnumeric():
-                currentTree.setKey(float(t))
+                current_tree.set_key(float(t))
                 parent = stack.pop()
-                currentTree = parent
+                current_tree = parent
 
             # RULE 6: If token is ')' go to parent of current node
             elif t == ')':
-                currentTree = stack.pop()
+                current_tree = stack.pop()
 
             # RULE 7: If token is '=', set key to '=', insert a node on the right
             # and descend into that node
             elif t == '=':
-                currentTree.setKey(t)
-                currentTree.insertRight('?')
-                stack.push(currentTree)
-                currentTree = currentTree.getRightTree()
+                current_tree.set_key(t)
+                current_tree.insert_right('?')
+                stack.push(current_tree)
+                current_tree = current_tree.get_right_tree()
             else:
                 raise ValueError
         return tree
@@ -136,11 +155,12 @@ class EquationParseTree(ParseTree):
 
         This method computes the value of the expression tree, handling variables,
         operators, and function calls. It checks for circular dependencies and uses memoization
-        for optimization.
+        for optimization. The main difference between this and the ParseTree evaluate function
+        is the ability to check the equality of two expressions, where '=' is treated as an operator.
 
         Parameters:
-            var (str): The variable name associated with the expression being evaluated.
             tree (BinaryTree): The root of the expression parse tree.
+            past_statements (dict): Dictionary containing variable assignments and their evaluated values from ParseTree.
 
         Returns:
             float or int: The evaluated result of the expression.
@@ -168,20 +188,22 @@ class EquationParseTree(ParseTree):
 
         Parameters:
             tree (BinaryTree): The root of the expression tree to evaluate.
+            past_statements (dict): Dictionary containing variable assignments and their evaluated values.
 
         Returns:
-            True if equation is equal, else False or 'None' if a variable is undefined.
+            bool or None: True if the equation is equal, False if not equal, or None if a variable is undefined.
 
         Raises:
             ZeroDivisionError: If the expression includes division by zero.
+            RuntimeError: If the expression tree encounters a missing operand or operator.
         """
         # Check if the tree is not empty
         if tree:
             # Check if both left and right subtrees exist
-            if tree.getLeftTree() and tree.getRightTree():
-                op = tree.getKey()  # Get the operator
-                left = self.__evaluate_equation(tree.getLeftTree(), past_statements)  # Evaluate left subtree
-                right = self.__evaluate_equation(tree.getRightTree(), past_statements)  # Evaluate right subtree
+            if tree.get_left_tree() and tree.get_right_tree():
+                op = tree.get_key()  # Get the operator
+                left = self.__evaluate_equation(tree.get_left_tree(), past_statements)  # Evaluate left subtree
+                right = self.__evaluate_equation(tree.get_right_tree(), past_statements)  # Evaluate right subtree
                 
                 # Return 'None' if either operand is 'None'
                 if left == 'None' or right == 'None':
@@ -196,10 +218,10 @@ class EquationParseTree(ParseTree):
                         raise ZeroDivisionError('Division by zero error')
                     return left / right
                 elif op == '**': return left ** right
-                elif op == '=': return left == right # Evaluate equality of two expressions
+                elif op == '=': return left == right  # Evaluate equality of two expressions
             else:
                 # Handle leaf nodes (operands or variables)
-                key = tree.getKey()
+                key = tree.get_key()
                 # Return error if the default key is encountered
                 if key == '?':
                     raise RuntimeError('Error evaluating expression due to missing operand or operator.')
@@ -227,7 +249,7 @@ class EquationParseTree(ParseTree):
             eqn_tokens (list of str): Tokens of the mathematical expression to be assigned to the variable.
 
         Returns:
-            id: The unique id of the equation.
+            str: The unique identifier of the equation.
 
         Raises:
             None (No circular dependency possible)
@@ -235,7 +257,7 @@ class EquationParseTree(ParseTree):
         # Give the equation a unique id
         id = f"Equation {len(self.__equations)+1}"
         # Build the parse tree from the expression tokens
-        tree = self.buildParseTree(eqn_tokens)
+        tree = self.build_parse_tree(eqn_tokens)
         
         # Remove cached result if the expression has changed
         if id in self.__memoization_cache:
@@ -246,80 +268,117 @@ class EquationParseTree(ParseTree):
         return id
         
     def rearrange_tree(self, target_variable, equation_tree:BinaryTree):
+        """
+        Rearranges an equation to make a specified variable the subject.
+
+        Parameters:
+            target_variable (str): The variable to make the subject.
+            equation_tree (BinaryTree): The equation represented as a binary tree.
+
+        Returns:
+            BinaryTree: The rearranged equation represented as a binary tree.
+        """
         rearranged_tree = BinaryTree('=') # Initialize binary tree
 
-        def invert_operator(node:BinaryTree):
-            match node.getKey():
+        def invert_operator(node: BinaryTree):
+            """
+            Inverts the operator of a given node.
+
+            Parameters:
+                node (BinaryTree): The node containing the operator to be inverted.
+            """
+            match node.get_key():
                 case '+':
-                    node.setKey('-')
+                    node.set_key('-')
                 case '-':
-                    node.setKey('+')
+                    node.set_key('+')
                 case '*':
-                    node.setKey('/')
+                    node.set_key('/')
                 case '/':
-                    node.setKey('*')
+                    node.set_key('*')
                 case _:
                     raise ValueError(f'Only {self.__supported_operators} are supported')
 
         # Case for (x+2)=(y+3)
-        if target_variable == equation_tree.leftTree.leftTree.getKey():
-            invert_operator(equation_tree.leftTree)
-            rearranged_tree.insertLeft(target_variable)
-            equation_tree.leftTree.leftTree.setKey(None)
-            tree_no_subject = equation_tree.leftTree
-            rearranged_tree.rightTree = tree_no_subject
-            rearranged_tree.rightTree.leftTree = equation_tree.rightTree
+        if target_variable == equation_tree.left_tree.left_tree.get_key():
+            # Invert the operator of the left subtree to isolate the target variable
+            invert_operator(equation_tree.left_tree)
+            # Insert the target variable as the left child of the rearranged tree
+            rearranged_tree.insert_left(target_variable)
+            # Remove the target variable from the left subtree of the original tree
+            equation_tree.left_tree.left_tree.set_key(None)
+            # Save the left subtree of the original tree as the right subtree of the rearranged tree
+            tree_no_subject = equation_tree.left_tree
+            rearranged_tree.right_tree = tree_no_subject
+            # Set the right subtree of the rearranged tree to be the right subtree of the original tree
+            rearranged_tree.right_tree.left_tree = equation_tree.right_tree
 
         # Case for (2+x)=(y+3)
-        elif target_variable == equation_tree.leftTree.rightTree.getKey():
-            invert_operator(equation_tree.leftTree)
-            rearranged_tree.insertLeft(target_variable)
-            equation_tree.leftTree.rightTree.setKey(None)
-            tree_no_subject = equation_tree.leftTree
-            rearranged_tree.rightTree = tree_no_subject
-            rearranged_tree.rightTree.rightTree = equation_tree.rightTree
-        
+        elif target_variable == equation_tree.left_tree.right_tree.get_key():
+            # Invert the operator of the left subtree to isolate the target variable
+            invert_operator(equation_tree.left_tree)
+            # Insert the target variable as the left child of the rearranged tree
+            rearranged_tree.insert_left(target_variable)
+            # Remove the target variable from the right subtree of the original tree
+            equation_tree.left_tree.right_tree.set_key(None)
+            # Save the left subtree of the original tree as the right subtree of the rearranged tree
+            tree_no_subject = equation_tree.left_tree
+            rearranged_tree.right_tree = tree_no_subject
+            # Set the right subtree of the rearranged tree to be the right subtree of the original tree
+            rearranged_tree.right_tree.right_tree = equation_tree.right_tree
+
         # Case for (y+3)=(x+2)
-        elif target_variable == equation_tree.rightTree.leftTree.getKey():
-            invert_operator(equation_tree.rightTree)
-            rearranged_tree.insertLeft(target_variable)
-            equation_tree.rightTree.leftTree.setKey(None)
-            tree_no_subject = equation_tree.rightTree
-            rearranged_tree.rightTree = tree_no_subject
-            rearranged_tree.rightTree.leftTree = equation_tree.leftTree
+        elif target_variable == equation_tree.right_tree.left_tree.get_key():
+            # Invert the operator of the right subtree to isolate the target variable
+            invert_operator(equation_tree.right_tree)
+            # Insert the target variable as the left child of the rearranged tree
+            rearranged_tree.insert_left(target_variable)
+            # Remove the target variable from the left subtree of the original tree
+            equation_tree.right_tree.left_tree.set_key(None)
+            # Save the right subtree of the original tree as the right subtree of the rearranged tree
+            tree_no_subject = equation_tree.right_tree
+            rearranged_tree.right_tree = tree_no_subject
+            # Set the left subtree of the rearranged tree to be the left subtree of the original tree
+            rearranged_tree.right_tree.left_tree = equation_tree.left_tree
 
         # Case for (y+3)=(2+x)
-        elif target_variable == equation_tree.rightTree.rightTree.getKey():
-            invert_operator(equation_tree.rightTree)
-            rearranged_tree.insertLeft(target_variable)
-            equation_tree.rightTree.rightTree.setKey(None)
-            tree_no_subject = equation_tree.rightTree
-            rearranged_tree.rightTree = tree_no_subject
-            rearranged_tree.rightTree.rightTree = equation_tree.leftTree
-        
+        elif target_variable == equation_tree.right_tree.right_tree.get_key():
+            # Invert the operator of the right subtree to isolate the target variable
+            invert_operator(equation_tree.right_tree)
+            # Insert the target variable as the left child of the rearranged tree
+            rearranged_tree.insert_left(target_variable)
+            # Remove the target variable from the right subtree of the original tree
+            equation_tree.right_tree.right_tree.set_key(None)
+            # Save the right subtree of the original tree as the right subtree of the rearranged tree
+            tree_no_subject = equation_tree.right_tree
+            rearranged_tree.right_tree = tree_no_subject
+            # Set the right subtree of the rearranged tree to be the left subtree of the original tree
+            rearranged_tree.right_tree.right_tree = equation_tree.left_tree
+
         return rearranged_tree
 
     """
     OOP Principles applied:
 
     Encapsulation:
-    The Validation class encapsulates the state of variable validation using private attributes (__valid_name) and 
-    private methods (__check_empty, __check_starts_with_letter, __check_invalid_characters). This ensures that the internal 
-    state is protected from direct access and manipulation from outside the class.
+    The EquationParseTree class encapsulates its internal state using private attributes (__equations, __memoization_cache, __active_evaluations) 
+    and provides getter and setter methods to control access to these attributes. This protects the integrity of the class data 
+    and prevents direct modification from outside the class.
 
     Abstraction:
-    The Validation class provides high-level methods (validate_variable_name, contains_spaces, is_valid, is_invalid) that 
-    abstract away the complex logic of variable validation. Users interact with these methods without needing to understand 
-    the internal implementation details of validation criteria.
+    The EquationParseTree class abstracts the complexity of constructing, evaluating, and rearranging equation parse trees. 
+    It provides high-level methods (e.g., build_parse_tree, evaluate_equation, add_statement, rearrange_tree) that hide 
+    the implementation details of these operations, allowing users to interact with the class interface without needing 
+    to understand its internal workings.
 
     Polymorphism:
-    The Validation class exhibits polymorphic behavior through the use of different private validation methods 
-    (__is_dividing_by_zero, __is_operator_and_operand_matching, __check_parentheses) to handle various aspects of 
-    expression validation. This allows for flexibility in validating different types of expressions with specialized logic.
+    The EquationParseTree class demonstrates polymorphism through method overloading and method overriding. 
+    For example, the __evaluate_equation method is overridden from the ParseTree class to handle equation-specific evaluation, 
+    while the build_parse_tree method overloads the same method in the ParseTree class to accommodate equation parsing rules. 
+    This allows for different behavior depending on the context in which the methods are called.
 
     Modularity:
-    Each private method in the Validation class serves a specific validation purpose, promoting modularity and code reusability. 
-    For example, the __check_empty method validates if a variable name is empty, while the __check_parentheses method 
-    validates if parentheses in an expression are properly matched. This modular design makes the class easier to understand, 
-    maintain, and extend.
+    The EquationParseTree class is modular, with each method responsible for a specific aspect of equation parsing and evaluation. 
+    This modular design promotes code reusability, maintainability, and extensibility by allowing individual components 
+    to be modified or replaced without affecting the overall functionality of the class.
     """

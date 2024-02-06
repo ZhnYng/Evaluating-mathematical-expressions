@@ -1,3 +1,22 @@
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# This class represents the user interface/GUI for the 
+# Evaluating & Sorting Assignment Statements (using parse trees) application.
+# It provides various options for evaluating solutions, altering variables, and flexible evaluations.
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : Interface.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
 from utils import Validation
 
 class Interface:
@@ -146,6 +165,12 @@ class Interface:
 
     # Option 6
     def option6(self, eval_equation):
+        """
+        Executes the sixth option in the menu: evaluate if two expressions are equal.
+
+        Parameters:
+        - eval_equation: Function to evaluate if two expressions are equal.
+        """
         while True:
             try:
                 eqn = input('Enter the equation you want to equate:\nFor example, (x+2)=(y+3)\n')
@@ -163,6 +188,12 @@ class Interface:
 
     # Option 7
     def option7(self, solve_equation):
+        """
+        Executes the seventh option in the menu: solve an equation for a specified variable.
+
+        Parameters:
+        - solve_equation: Function to solve an equation for a specified variable.
+        """
         while True:
             try:
                 eqn = input('Enter the equation you want to solve:\nFor example, (x+2)=(y+3)\n')
