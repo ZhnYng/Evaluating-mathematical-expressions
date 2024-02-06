@@ -158,5 +158,4 @@ class Statement(Node):
     allow_remove_spaces() handles user interaction for removing spaces, and __str__() provides a 
     string representation of the statement. This modular design makes the class easier to understand, 
     maintain, and extend.
-
     """

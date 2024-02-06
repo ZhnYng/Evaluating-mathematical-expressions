@@ -132,6 +132,38 @@ class BinaryTree:
             result.extend(self.rightTree.inorder_traversal())
         
         return result
+        
+    def bracket_inorder_traversal(self, string=False):
+        """
+        Performs an in-order traversal of the binary tree and returns the keys of the nodes in a list.
+
+        Returns:
+            list: A list containing the keys of the nodes in the binary tree in in-order traversal.
+        """
+        if string: result = ''
+        else: result = []  # Initialize an empty list to store the keys of the nodes
+        
+        # Traverse the left subtree recursively if it exists
+        if self.leftTree:
+            if string:
+                result += '(' + self.leftTree.bracket_inorder_traversal(string)
+            else:
+                result.extend(['(', *self.leftTree.bracket_inorder_traversal(string)])
+        
+        # Append the key of the current node to the result list
+        if string:
+            result += str(self.key)
+        else:
+            result.append(self.key)
+        
+        # Traverse the right subtree recursively if it exists
+        if self.rightTree:
+            if string:
+                result += self.rightTree.bracket_inorder_traversal(string) + ')'
+            else:
+                result.extend([*self.rightTree.bracket_inorder_traversal(string), ')'])
+        
+        return result
 
     def return_tree(self):
         """

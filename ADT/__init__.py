@@ -5,4 +5,4 @@ from .Statement import *
 from .SortedList import *
 from .File import *
 from .BinarySearchTree import *
-from .Equation import *
+from .DoubleStatement import *

@@ -90,7 +90,6 @@ class Interface:
                 print(expression_tree_str, end='')
                 print(f"Value for variable \"{variable}\" is {result}\n")
 
-                # Print additional message
                 self.pause()
                 break
             except Exception as e:
@@ -149,11 +148,15 @@ class Interface:
     def option6(self, eval_equation):
         while True:
             try:
-                eqn = input('Enter the equation you want to equate: ')
-                if eval_equation(eqn):
-                    print('The equation is equal\n')
+                eqn = input('Enter the equation you want to equate:\nFor example, (x+2)=(y+3)\n')
+                if eval_equation(eqn) == 'None':
+                    print('\nThe equation is unknown')
+                elif eval_equation(eqn):
+                    print('\nThe equation is equal')
                 else:
-                    print('The equation is not equal\n')
+                    print('\nThe equation is not equal')
+
+                self.pause()
                 break
             except Exception as e:
                 self.error_msg(e)
@@ -162,9 +165,11 @@ class Interface:
     def option7(self, solve_equation):
         while True:
             try:
-                eqn = input('Enter the equation you want to solve: ')
-                subject = input('Enter the subject of the equation to solve for: ')
-                print(solve_equation(eqn, subject), end='\n\n')
+                eqn = input('Enter the equation you want to solve:\nFor example, (x+2)=(y+3)\n')
+                subject = input('\nEnter the subject of the equation to solve for: ')
+                print('\n' + solve_equation(eqn, subject))
+
+                self.pause()
                 break
             except Exception as e:
                 self.error_msg(e)

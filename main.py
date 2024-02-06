@@ -44,7 +44,7 @@ def handle_menu():
                 case '6':
                     interface.option6(options.eval_equation)
                 case '7':
-                    interface.option7(options.solve_equation)
+                    interface.option7(options.make_subject_of_eqn)
                 case '8':
                     print('\nBye, thanks for using ST1507 DSAA: Assignment Statement Evaluator & Sorter')
                     return  # Exit function when user chooses '8'

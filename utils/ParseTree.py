@@ -1,5 +1,4 @@
 from ADT import Stack, BinaryTree, Hashtable
-import re
 
 class ParseTree:
     """

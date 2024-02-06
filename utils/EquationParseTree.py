@@ -1,6 +1,5 @@
-from ADT import Stack, BinaryTree, Hashtable, Equation
+from ADT import DoubleStatement, Stack, BinaryTree, Hashtable
 from utils import ParseTree
-import re
 
 class EquationParseTree(ParseTree):
     """
@@ -11,17 +10,17 @@ class EquationParseTree(ParseTree):
     It uses a hashtable for memoization to optimize repeated evaluations and to handle circular dependencies.
 
     Attributes:
-        statements (Hashtable): Stores variable assignments and their corresponding expression trees.
+        equations (Hashtable): Stores variable assignments and their corresponding expression trees.
         memoization_cache (Hashtable): Cache used to store previously computed results for optimization.
         active_evaluations (set): Tracks variables currently being evaluated to detect circular dependencies.
     """
 
     def __init__(self):
         super().__init__()
-        self.supported_operators = ['+', '-', '*', '/', '=']
-        self.__equations = Hashtable()  # Stores statements and their expression trees
-        self.__memoization_cache = Hashtable()  # Cache for memoization
-        self.__active_evaluations = set() # Storage for catching circular dependencies
+        self.__equations = Hashtable()
+        self.__memoization_cache = Hashtable()
+        self.__active_evaluations = set()
+        self.__supported_operators = ['+', '-', '*', '/']
 
     # Getter method for __equations
     def get_equations(self):
@@ -131,7 +130,7 @@ class EquationParseTree(ParseTree):
                 raise ValueError
         return tree
     
-    def evaluate_equation(self, tree: BinaryTree):
+    def evaluate_equation(self, tree: BinaryTree, past_statements):
         """
         Evaluates the expression represented by the parse tree for a given variable.
 
@@ -151,15 +150,15 @@ class EquationParseTree(ParseTree):
         """
         
         # Evaluate the expression tree
-        result = self.__evaluate_equation(tree)
+        result = self.__evaluate_equation(tree, past_statements)
 
         # Round off floating-point calculations
         if isinstance(result, float):
             result = round(result, 4)
-        
+
         return result
         
-    def __evaluate_equation(self, tree: BinaryTree):
+    def __evaluate_equation(self, tree: BinaryTree, past_statements):
         """
         Recursively evaluates the given equation tree.
 
@@ -181,8 +180,8 @@ class EquationParseTree(ParseTree):
             # Check if both left and right subtrees exist
             if tree.getLeftTree() and tree.getRightTree():
                 op = tree.getKey()  # Get the operator
-                left = self.__evaluate_equation(tree.getLeftTree())  # Evaluate left subtree
-                right = self.__evaluate_equation(tree.getRightTree())  # Evaluate right subtree
+                left = self.__evaluate_equation(tree.getLeftTree(), past_statements)  # Evaluate left subtree
+                right = self.__evaluate_equation(tree.getRightTree(), past_statements)  # Evaluate right subtree
                 
                 # Return 'None' if either operand is 'None'
                 if left == 'None' or right == 'None':
@@ -208,8 +207,10 @@ class EquationParseTree(ParseTree):
                 if isinstance(key, int) or isinstance(key, float):
                     return key
                 # Evaluate variable reference
-                elif key in self.__equations:
-                    return self.evaluate(key, self.__equations[key]) # Evaluate is inherited from ParseTree class
+                elif key in past_statements:
+                    # Try to evaluate variables from ParseTree class
+                    # evaluate and statements inherited from ParseTree
+                    return self.evaluate(key, past_statements[key])
                 # Return 'None' for undefined variables
                 else:
                     return 'None'
@@ -232,7 +233,7 @@ class EquationParseTree(ParseTree):
             None (No circular dependency possible)
         """
         # Give the equation a unique id
-        id = f"Equation {len(self.get_statements())+1}"
+        id = f"Equation {len(self.__equations)+1}"
         # Build the parse tree from the expression tokens
         tree = self.buildParseTree(eqn_tokens)
         
@@ -243,113 +244,61 @@ class EquationParseTree(ParseTree):
         # Associate the parse tree with the variable
         self.__equations[id] = tree
         return id
-    
-    def rearrange_tree(self, target_variable:str, eqn_tree:BinaryTree):
-        try:
-            # At this stage the target variable is isolated
-            # So we look for operators in the left tree to invert
-            rearranged_tree = self.__rearrange_tree(target_variable, eqn_tree)
-            if rearranged_tree.leftTree.getKey() in self.supported_operators:
-                # Swap the operator with its opposite (**) not supported
-                match rearranged_tree.leftTree.getKey():
-                    case '+':
-                        rearranged_tree.leftTree.setKey('-')
-                    case '-':
-                        rearranged_tree.leftTree.setKey('+')
-                    case '*':
-                        rearranged_tree.leftTree.setKey('/')
-                    case '/':
-                        rearranged_tree.leftTree.setKey('*')
-            return rearranged_tree
-        except Exception:
-            pass
-    
-    def __rearrange_tree(self, target_variable, eqn_tree:BinaryTree):
-        current_tree = eqn_tree
-
-        if target_variable not in current_tree.inorder_traversal(): # Check if target variable is still in the tree
-            return current_tree
         
-        if current_tree.leftTree and current_tree.rightTree:
-            # If left node contains an operator, perform left-right rotation
-            if current_tree.leftTree.getKey() in self.supported_operators:
-                current_tree.leftTree = self.__leftRotate(current_tree.leftTree)
-                return self.__rearrange_tree(target_variable, self.__rightRotate(current_tree.leftTree))
+    def rearrange_tree(self, target_variable, equation_tree:BinaryTree):
+        rearranged_tree = BinaryTree('=') # Initialize binary tree
 
-            # If left node contains an constant or variable, perform right rotation
-            elif str(current_tree.leftTree.getKey()).isalnum():
-                return self.__rearrange_tree(target_variable, self.__rightRotate(current_tree.leftTree))
+        def invert_operator(node:BinaryTree):
+            match node.getKey():
+                case '+':
+                    node.setKey('-')
+                case '-':
+                    node.setKey('+')
+                case '*':
+                    node.setKey('/')
+                case '/':
+                    node.setKey('*')
+                case _:
+                    raise ValueError(f'Only {self.__supported_operators} are supported')
 
-            # If right node contains an operator, perform left rotation
-            elif current_tree.rightTree.getKey() in self.supported_operators:
-                return self.__rearrange_tree(target_variable, self.__leftRotate(current_tree.leftTree))
-            
-            # Split the tree if left node contains target variable
-            if current_tree.leftTree.getKey() == target_variable:
-                current_tree.leftTree = None # Remove target variable from tree
+        # Case for (x+2)=(y+3)
+        if target_variable == equation_tree.leftTree.leftTree.getKey():
+            invert_operator(equation_tree.leftTree)
+            rearranged_tree.insertLeft(target_variable)
+            equation_tree.leftTree.leftTree.setKey(None)
+            tree_no_subject = equation_tree.leftTree
+            rearranged_tree.rightTree = tree_no_subject
+            rearranged_tree.rightTree.leftTree = equation_tree.rightTree
 
-    # Function to perform left rotation
-    def __leftRotate(self, z):
-        y = z.rightTree
-        T2 = y.leftTree
-        y.leftTree = z
-        z.rightTree = T2
-        return y
-
-    # Function to perform right rotation
-    def __rightRotate(self, z):
-        y = z.leftTree
-        T3 = y.rightTree
-        y.rightTree = z
-        z.leftTree = T3
-        return y
-    
-    def reconstruct_statement(self, tree:BinaryTree):
-        """
-        Reconstructs the mathematical statement from a parse tree.
-
-        This function traverses the parse tree in an inorder manner to
-        reconstruct the original mathematical expression, ensuring to place
-        parentheses appropriately to preserve the order of operations.
-
-        Parameters:
-            node (BinaryTree): The root node of the parse tree.
-
-        Returns:
-            str: The reconstructed mathematical statement.
-        """
-
-        # Base case: If the current node is None, return an empty string
-        if tree is None:
-            return ""
-
-        # Recursive case: Inorder traversal to reconstruct the statement
-        if tree.key in ['+', '-', '*', '/', '**']:
-            # For operators, we add parentheses around the expression to preserve order
-            left_part = self.reconstruct_statement(tree.leftTree)
-            right_part = self.reconstruct_statement(tree.rightTree)
-            # Adding parentheses only if there are expressions (not just a single number/variable)
-            if left_part and right_part:
-                return f'({left_part} {tree.key} {right_part})'
-            else:
-                return f'{left_part} {tree.key} {right_part}'
-        else:
-            # For numbers, variables, or single characters, just return the key
-            return str(tree.key)
-
-    def solve_eqn(self, equation, subject):
-        eqn = Equation(equation) # Convert the input statement into a Equation object
-        id = self.add_statement(eqn.get_tokens()) # Add the equation to the parse tree
+        # Case for (2+x)=(y+3)
+        elif target_variable == equation_tree.leftTree.rightTree.getKey():
+            invert_operator(equation_tree.leftTree)
+            rearranged_tree.insertLeft(target_variable)
+            equation_tree.leftTree.rightTree.setKey(None)
+            tree_no_subject = equation_tree.leftTree
+            rearranged_tree.rightTree = tree_no_subject
+            rearranged_tree.rightTree.rightTree = equation_tree.rightTree
         
-        equation_tree = self.__equations[id]
-        rearranged_tree = self.rearrange_tree(subject, equation_tree)
+        # Case for (y+3)=(x+2)
+        elif target_variable == equation_tree.rightTree.leftTree.getKey():
+            invert_operator(equation_tree.rightTree)
+            rearranged_tree.insertLeft(target_variable)
+            equation_tree.rightTree.leftTree.setKey(None)
+            tree_no_subject = equation_tree.rightTree
+            rearranged_tree.rightTree = tree_no_subject
+            rearranged_tree.rightTree.leftTree = equation_tree.leftTree
+
+        # Case for (y+3)=(2+x)
+        elif target_variable == equation_tree.rightTree.rightTree.getKey():
+            invert_operator(equation_tree.rightTree)
+            rearranged_tree.insertLeft(target_variable)
+            equation_tree.rightTree.rightTree.setKey(None)
+            tree_no_subject = equation_tree.rightTree
+            rearranged_tree.rightTree = tree_no_subject
+            rearranged_tree.rightTree.rightTree = equation_tree.leftTree
         
-        answer = self.evaluate(subject, rearranged_tree)
-        if answer == 'None' or answer == None:
-            return self.reconstruct_statament(equation, subject)
-        else:
-            return f'({subject})=({answer})'
-        
+        return rearranged_tree
+
     """
     OOP Principles applied:
 
@@ -374,44 +323,3 @@ class EquationParseTree(ParseTree):
     validates if parentheses in an expression are properly matched. This modular design makes the class easier to understand, 
     maintain, and extend.
     """
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # Fail safe
-    def reconstruct_statament(self, equation, subject):
-        try:
-            import sympy as sp
-            # Parsing the equation
-            eq = sp.Eq(*sp.sympify(equation.split('=')))
-
-            # Solving for the chosen subject
-            solutions = sp.solve(eq, subject)
-
-            if len(solutions) == 0:
-                raise ValueError(f"Cannot solve for {subject} in the given equation.")
-            else:
-                solution = str(solutions[0]).replace(' ', '')
-                return (f"({subject})=({solution})")
-        except Exception:
-            raise ValueError('Equation not supported.')
