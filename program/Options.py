@@ -101,12 +101,10 @@ class Options:
             statement = f"{key}={expression.shallow_tree()}"
             # Evaluate the assignment and store the result
             answer = self.__parse_tree.evaluate(key, expression)
-            statement_and_answers[statement] = (
-                answer  # Add the statement-answer pair to the dictionary
+            statement_and_answers[statement] = (answer)  # Add the statement-answer pair to the dictionary
 
         # Log the history entry
         self.historyLog.append(("Displayed Current Statements - Output:", statement_and_answers))
-                    )
 
         return statement_and_answers  # Return the dictionary containing statement-answer pairs
 
@@ -266,14 +264,12 @@ class Options:
             G.add_node(expression.key)  # Access the key attribute directly
 
             # Recursively build the graph for the left and right subtrees
-            if expression.leftTree:
-                G.add_edge(expression.key, expression.leftTree.key)  # Access the key attribute directly
-                self.__build_graph(G, expression.leftTree)
-            if expression.rightTree:
-                G.add_edge(expression.key, expression.rightTree.key)  # Access the key attribute directly
-                self.__build_graph(G, expression.rightTree)
-   
-
+            if expression.left_tree:
+                G.add_edge(expression.key, expression.left_tree.key)  # Access the key attribute directly
+                self.__build_graph(G, expression.left_tree)
+            if expression.right_tree:
+                G.add_edge(expression.key, expression.right_tree.key)  # Access the key attribute directly
+                self.__build_graph(G, expression.right_tree)
 
     def get_equation_tree(self, equation):
         """
