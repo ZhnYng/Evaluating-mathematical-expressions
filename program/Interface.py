@@ -144,3 +144,27 @@ class Interface:
                 break
             except Exception as e:
                 self.error_msg(e)
+
+    # Option 6
+    def option6(self, eval_equation):
+        while True:
+            try:
+                eqn = input('Enter the equation you want to equate: ')
+                if eval_equation(eqn):
+                    print('The equation is equal\n')
+                else:
+                    print('The equation is not equal\n')
+                break
+            except Exception as e:
+                self.error_msg(e)
+
+    # Option 7
+    def option7(self, solve_equation):
+        while True:
+            try:
+                eqn = input('Enter the equation you want to solve: ')
+                subject = input('Enter the subject of the equation to solve for: ')
+                print(solve_equation(eqn, subject), end='\n\n')
+                break
+            except Exception as e:
+                self.error_msg(e)

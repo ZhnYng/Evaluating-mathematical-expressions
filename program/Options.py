@@ -1,5 +1,5 @@
-from ADT import Hashtable, Statement, SortedList, ExpressionTokenizer  # Import necessary data structures from ADT module
-from utils import ParseTree, FileHandler, MergeSort  # Import utilities for parsing, file handling, and sorting
+from ADT import Statement, Equation  # Import necessary data structures from ADT module
+from utils import ParseTree, EquationParseTree, FileHandler, MergeSort  # Import utilities for parsing, file handling, and sorting
 
 class Options:
     def __init__(self) -> None:
@@ -7,6 +7,7 @@ class Options:
         Initializes an Options object with an empty parse tree.
         """
         self.__parse_tree = ParseTree()  # Initialize a ParseTree object to store assignment statements
+        self.__eqn_parse_tree = EquationParseTree()
 
     # Getter function
     def get_parse_tree(self):
@@ -130,29 +131,14 @@ class Options:
         file_handler = FileHandler()  # Create a FileHandler object for writing to file
         file_handler.write(output_file, sorted_output)  # Write the sorted statements to the output file
 
-    def make_subject_of_eqn(self, statement, subject):
-        exp1, exp2 = statement.split('=')
-        tokenizer = ExpressionTokenizer()
-        tokens1 = tokenizer.tokenize_expression(exp1)
-        tokens2 = tokenizer.tokenize_expression(exp2)
-
-        
-
-        # Fail safe
-        def make_subject(equation, subject):
-            import sympy as sp
-            # Parsing the equation
-            eq = sp.Eq(*sp.sympify(equation.split('=')))
-
-            # Solving for the chosen subject
-            solutions = sp.solve(eq, subject)
-
-            if len(solutions) == 0:
-                return (f"Cannot solve for {subject} in the given equation.")
-            else:
-                return (f"{subject} = {solutions[0]}")
-
-        return make_subject(statement, subject)
+    def solve_equation(self, equation, target):
+        return self.__eqn_parse_tree.solve_eqn(equation, target)
+    
+    def eval_equation(self, equation):
+        eqn = Equation(equation) # Convert the input statement into a Equation object
+        id = self.__eqn_parse_tree.add_statement(eqn.get_tokens()) # Add the equation to the parse tree
+        equation_tree = self.__eqn_parse_tree.get_equations()[id]
+        return self.__eqn_parse_tree.evaluate_equation(equation_tree)
 
 
     """
