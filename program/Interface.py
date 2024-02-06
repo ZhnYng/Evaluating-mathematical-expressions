@@ -54,6 +54,8 @@ class Interface:
                 break
             except Exception as e:
                 self.error_msg(e)
+        
+        
             
     # Option 2
     def option2(self, display_statements):
@@ -144,3 +146,6 @@ class Interface:
                 break
             except Exception as e:
                 self.error_msg(e)
+                
+
+    

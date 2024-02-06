@@ -1,12 +1,18 @@
 from ADT import Hashtable, Statement, SortedList  # Import necessary data structures from ADT module
 from utils import ParseTree, FileHandler, MergeSort  # Import utilities for parsing, file handling, and sorting
 
+# Import the necessary libraries
+import networkx as nx
+import matplotlib.pyplot as plt
+
 class Options:
     def __init__(self) -> None:
         """
         Initializes an Options object with an empty parse tree.
         """
         self.__parse_tree = ParseTree()  # Initialize a ParseTree object to store assignment statements
+        self.historyLog = [] # Initialize an empty list to store all the user's history logs
+
 
     # Getter function
     def get_parse_tree(self):
@@ -35,6 +41,8 @@ class Options:
         statement = Statement(statement)  # Convert the input statement into a Statement object
         # Record new statement
         self.__parse_tree.add_statement(statement.get_var(), statement.get_tokens())  # Add the statement to the parse tree
+        # Log the history entry
+        self.historyLog.append(("Add/Modify Assignment Statements - Input:", statement))
 
     def display_statements(self):
         """
@@ -53,6 +61,9 @@ class Options:
             answer = self.__parse_tree.evaluate(key, expression)
             statement_and_answers[statement] = answer  # Add the statement-answer pair to the dictionary
 
+        # Log the history entry
+        self.historyLog.append(("Displayed Current Statements - Output:", statement_and_answers))
+        
         return statement_and_answers  # Return the dictionary containing statement-answer pairs
 
     def eval_one_var(self, var:str):
@@ -75,10 +86,13 @@ class Options:
             expression_tree_str = expression.printInOrder(0)
             # Evaluate the variable using the parse tree
             result = self.__parse_tree.evaluate(var, expression)
+            # Log the history entry
+            self.historyLog.append(("Evaluated a single variable -\n", expression_tree_str))
             return expression_tree_str, result  # Return the parse tree string and the result
         else:
             # Raise an error if the expression for the variable does not exist
             raise ValueError('Expression does not exist.')
+    
     
     def read_from_file(self, file):
         """
@@ -94,6 +108,9 @@ class Options:
         statements = file_handler.read(file, read_mode='line')  # Read assignment statements from the file
         for statement in statements:
             self.add_or_modify(statement)  # Add each statement to the parse tree
+            
+        # Log the history entry
+        self.historyLog.append(("Read and Sort Assignment Statements from File - Input file:", file))
 
         return self.display_statements()  # Return the dictionary containing statement-answer pairs
 
@@ -129,6 +146,69 @@ class Options:
         # Write to file
         file_handler = FileHandler()  # Create a FileHandler object for writing to file
         file_handler.write(output_file, sorted_output)  # Write the sorted statements to the output file
+        # Log the history entry
+        self.historyLog.append(("Sorted Expressions - Output File:", output_file))
+        
+    def displayHistory(self):
+        print("\n--- Your history: ---\n")
+        
+        if not self.historyLog:
+            print("No history log available.")
+        else:
+            # Iterate through each entry in the analysis history
+            i = 1
+            for index, entry in enumerate(self.historyLog, start=1):
+                # Print details of each entry 
+                print(f"Operation {index} -> {entry[0]} {entry[1]}\n")
+
+    def visualize_parse_tree(self):
+        """
+        Visualizes the parse tree for a selected assignment statement.
+        """
+        try:
+            # Get user input for the variable to visualize
+            variable = input("Enter the variable to visualize parse tree: ")
+
+            # Get the expression corresponding to the variable
+            expression = self.__parse_tree.get_statements()[variable]  # Change here
+
+            if not expression:
+                raise ValueError(f'No parse tree available for variable "{variable}".')
+
+            # Create a directed graph using networkx
+            G = nx.DiGraph()
+            self.__build_graph(G, expression)
+
+            # Draw the graph using matplotlib
+            pos = nx.spring_layout(G)
+            nx.draw(G, pos, with_labels=True, font_weight='bold', node_size=2000, node_color='lightblue')
+            plt.title(f"Parse Tree for Variable: {variable}")
+            plt.show()
+
+            # Log the history entry
+            self.historyLog.append(("Visualized Parse Tree - Variable:", variable))
+
+        except Exception as e:
+            # Handle exceptions and print error messages
+            print(f'\nAn error occurred: {e}')
+
+    def __build_graph(self, G, expression):
+        """
+        Recursively builds a directed graph for the parse tree.
+        """
+        if expression:
+            # Add the current node to the graph
+            G.add_node(expression.key)  # Access the key attribute directly
+
+            # Recursively build the graph for the left and right subtrees
+            if expression.leftTree:
+                G.add_edge(expression.key, expression.leftTree.key)  # Access the key attribute directly
+                self.__build_graph(G, expression.leftTree)
+            if expression.rightTree:
+                G.add_edge(expression.key, expression.rightTree.key)  # Access the key attribute directly
+                self.__build_graph(G, expression.rightTree)
+   
+
 
     """
     OOP Principles Applied:

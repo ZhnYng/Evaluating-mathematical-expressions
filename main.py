@@ -22,7 +22,11 @@ def handle_menu():
                 '    3. Evaluate a single variable\n'
                 '    4. Read assignment statements from file\n'
                 '    5. Sort assignment statements\n'
-                '    6. Exit\n'
+                '    6. Display history log\n'
+                '    7. Visualize parse trees\n'
+                '    8. ZY Extra 1\n'
+                '    9. ZY Extra 2\n'
+                '    10. Exit\n'
                 'Enter choice: '
             )
 
@@ -40,6 +44,11 @@ def handle_menu():
                 case '5':
                     interface.option5(options.sorting_expressions)
                 case '6':
+                    options.displayHistory()
+                case '7':
+                    options.visualize_parse_tree()
+                    
+                case '10':
                     print('\nBye, thanks for using ST1507 DSAA: Assignment Statement Evaluator & Sorter')
                     return  # Exit function when user chooses '6'
         except Exception as e:
