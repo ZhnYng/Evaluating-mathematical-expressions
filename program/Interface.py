@@ -8,8 +8,8 @@
 #
 # -----------------------------------------------------
 #
-# Author    : Ashley
-# StudentID : 2214506
+# Author    : Ashley Bai
+# StudentID : 2237871
 # Class     : DAAA/FT/2B/04
 # Date      : 7-Feb-2023
 # Filename  : Interface.py
