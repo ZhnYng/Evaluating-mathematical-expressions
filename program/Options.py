@@ -6,8 +6,8 @@
 #
 # -----------------------------------------------------
 #
-# Author    : Lim Zhen Yang
-# StudentID : 2214506
+# Author    : Lim Zhen Yang and Ashley Bai
+# StudentID : 2214506 and 2237871
 # Class     : DAAA/FT/2B/04
 # Date      : 7-Feb-2023
 # Filename  : Options.py
@@ -214,6 +214,9 @@ class Options:
         self.historyLog.append(("Sorted Expressions - Output File:", output_file))
         
     def displayHistory(self):
+        """
+        Written by Ashley Bai (rest written by Zhen Yang)
+        """
         print("\n--- Your history: ---\n")
         
         if not self.historyLog:
@@ -227,6 +230,8 @@ class Options:
 
     def visualize_parse_tree(self):
         """
+        Written by Ashley Bai (rest written by Zhen Yang)
+
         Visualizes the parse tree for a selected assignment statement.
         """
         try:
