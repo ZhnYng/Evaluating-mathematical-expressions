@@ -7,7 +7,7 @@ class Node:
     @abc.abstractmethod
     def __init__(self):
         """
-        Initializes a new Node with a 'nextNode' attribute set to None.
+        Initializes a new Node with a 'next_node' attribute set to None.
         This attribute will point to the next node in the linked list.
         """
-        self.nextNode = None
+        self.next_node = None

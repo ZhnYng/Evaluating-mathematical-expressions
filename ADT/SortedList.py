@@ -36,54 +36,54 @@ class SortedList:
         self.__head_node = None
         self.__length = 0
 
-    def __appendToHead(self, newNode):
+    def __append_to_head(self, new_node):
         """
         Private helper method to append a new node at the head of the list.
 
         Parameters:
-            newNode: The new node to be appended.
+            new_node: The new node to be appended.
         """
-        newNode.nextNode = self.__head_node  # Link new node to the current head
-        self.__head_node = newNode  # Update the head to be the new node
+        new_node.next_node = self.__head_node  # Link new node to the current head
+        self.__head_node = new_node  # Update the head to be the new node
         self.__length += 1  # Increment the __length of the list
 
-    def insert(self, newNode):
+    def insert(self, new_node):
         """
         Inserts a new node into the sorted list in the correct position.
         
         Parameters:
-            newNode: The new node to be inserted.
+            new_node: The new node to be inserted.
         """
         # Handling the case where the list is empty
         if self.__head_node is None:
-            self.__head_node = newNode
+            self.__head_node = new_node
             self.__length += 1
             return
 
         # Handling the case where the new node should be the new head
-        if newNode < self.__head_node:
-            self.__appendToHead(newNode)
+        if new_node < self.__head_node:
+            self.__append_to_head(new_node)
             return
 
         # Iterating through the list to find the correct position for the new node
         leftNode = self.__head_node
-        rightNode = self.__head_node.nextNode
+        rightNode = self.__head_node.next_node
 
         # Loop until the correct position for the new node is found
         while rightNode is not None:
             # Check if the new node should be inserted between leftNode and rightNode
-            if newNode < rightNode:
+            if new_node < rightNode:
                 # Adjust pointers to insert the new node
-                newNode.nextNode = rightNode
-                leftNode.nextNode = newNode
+                new_node.next_node = rightNode
+                leftNode.next_node = new_node
                 self.__length += 1
                 return
             # Move to the next nodes for comparison
             leftNode = rightNode
-            rightNode = rightNode.nextNode
+            rightNode = rightNode.next_node
 
         # If the correct position is at the end of the list, append the new node
-        leftNode.nextNode = newNode
+        leftNode.next_node = new_node
         self.__length += 1
 
 
@@ -117,13 +117,13 @@ class SortedList:
         current = self.__head_node
         while current is not None:
             yield current  # Yielding each node one by one
-            current = current.nextNode
+            current = current.next_node
 
     """
     OOP Principles applied
 
     Encapsulation:
-    The SortedList class encapsulates attributes (__head_node, __length) and methods (__appendToHead, insert, items, __str__, iterate) within a single unit. 
+    The SortedList class encapsulates attributes (__head_node, __length) and methods (__append_to_head, insert, items, __str__, iterate) within a single unit. 
     This prevents direct access to internal data and behavior from outside the class, promoting data integrity and reducing complexity.
 
     Abstraction:
