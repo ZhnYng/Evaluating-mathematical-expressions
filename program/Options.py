@@ -16,7 +16,7 @@
 # To run: python main.py
 # -----------------------------------------------------
 
-from ADT import DoubleStatement, Statement  # Import necessary data structures from ADT module
+from ADT import DoubleStatement, Statement, BinaryTree  # Import necessary data structures from ADT module
 from utils import (
     ParseTree,
     EquationParseTree,
@@ -256,21 +256,21 @@ class Options:
             # Handle exceptions and print error messages
             print(f'\nAn error occurred: {e}')
 
-    def __build_graph(self, G, expression):
+    def __build_graph(self, G:nx.DiGraph, expression:BinaryTree):
         """
         Recursively builds a directed graph for the parse tree.
         """
         if expression:
             # Add the current node to the graph
-            G.add_node(expression.key)  # Access the key attribute directly
+            G.add_node(expression.get_key())  # Access the key attribute directly
 
             # Recursively build the graph for the left and right subtrees
-            if expression.left_tree:
-                G.add_edge(expression.key, expression.left_tree.key)  # Access the key attribute directly
-                self.__build_graph(G, expression.left_tree)
-            if expression.right_tree:
-                G.add_edge(expression.key, expression.right_tree.key)  # Access the key attribute directly
-                self.__build_graph(G, expression.right_tree)
+            if expression.get_left_tree():
+                G.add_edge(expression.get_key(), expression.get_left_tree().get_key())  # Access the key attribute directly
+                self.__build_graph(G, expression.get_left_tree())
+            if expression.get_right_tree():
+                G.add_edge(expression.get_key(), expression.get_right_tree().get_key())  # Access the key attribute directly
+                self.__build_graph(G, expression.get_right_tree())
 
     def get_equation_tree(self, equation):
         """

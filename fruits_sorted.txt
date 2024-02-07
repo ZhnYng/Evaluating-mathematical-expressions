@@ -1,21 +1,9 @@
-*** Statements with value=> 990
-c=(a+d)
-
-*** Statements with value=> 968
-d=(a*b)
-
 *** Statements with value=> 240
 Durian=(Apple*Pear)
 
 *** Statements with value=> 135.5
 Banana=(2*(65.5+2.25))
 Mango=((Apple+(Durian+(Pear*(Blueberry*(Coconut/Strawberry)))))/2)
-
-*** Statements with value=> 44
-b=(a*2)
-
-*** Statements with value=> 22
-a=(2+(4*5))
 
 *** Statements with value=> 16
 Blueberry=(Pear+0)
