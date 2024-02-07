@@ -102,24 +102,3 @@ class Stack:
         - str: A string representation of the stack.
         """
         return '\n'.join([(f'{i+1}. <{x}>') for i, x in enumerate(self.__items)])  # Join items with indexes for string representation.
-
-    """
-    OOP Principles applied
-
-    Encapsulation:
-    The Stack class encapsulates its internal state (items) and methods (is_empty, push, pop, get, size, __str__) within a single unit. 
-    This prevents direct access to internal data and behavior from outside the class, promoting data integrity and reducing complexity.
-
-    Abstraction:
-    Programmers interact with the stack class using high-level methods like push, pop, get, etc., without needing to know the internal implementation details of these methods. They are abstracted away from the complexities of managing the stack's internal list structure, allowing for a simpler and more intuitive interface.
-
-    Polymorphism:
-    The push, pop, get, and size methods provide a common interface for interacting with the stack object. 
-    This flexibility allows users to work with the stack using different methods depending on their specific needs, without needing to worry about the underlying implementation details.
-
-    Modularity:
-    Each method in the Stack class serves a specific purpose, promoting modularity and code reusability. 
-    For example, the push method is responsible for adding items to the stack, 
-    while the pop method is responsible for removing items from the stack. 
-    This modular design makes the class easier to understand, maintain, and extend.
-    """

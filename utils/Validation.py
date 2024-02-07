@@ -241,28 +241,3 @@ class Validation:
             validation_function(expression)
 
         return True
-
-    """
-    OOP Principles applied:
-
-    Encapsulation:
-    The Validation class encapsulates the state of variable validation using private attributes (__valid_name) and 
-    private methods (__check_empty, __check_starts_with_letter, __check_invalid_characters). This ensures that the internal 
-    state is protected from direct access and manipulation from outside the class.
-
-    Abstraction:
-    The Validation class provides high-level methods (validate_variable_name, contains_spaces, is_valid, is_invalid) that 
-    abstract away the complex logic of variable validation. Users interact with these methods without needing to understand 
-    the internal implementation details of validation criteria.
-
-    Polymorphism:
-    The Validation class exhibits polymorphic behavior through the use of different private validation methods 
-    (__is_dividing_by_zero, __is_operator_and_operand_matching, __check_parentheses) to handle various aspects of 
-    expression validation. This allows for flexibility in validating different types of expressions with specialized logic.
-
-    Modularity:
-    Each private method in the Validation class serves a specific validation purpose, promoting modularity and code reusability. 
-    For example, the __check_empty method validates if a variable name is empty, while the __check_parentheses method 
-    validates if parentheses in an expression are properly matched. This modular design makes the class easier to understand, 
-    maintain, and extend.
-    """

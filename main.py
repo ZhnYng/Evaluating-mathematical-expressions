@@ -1,8 +1,20 @@
-# from program import TestOptions
-# import unittest
-# if __name__ == '__main__':
-#     unittest.main()
-
+# -----------------------------------------------------
+# ST1507 DSAA
+# CA2
+#
+# Application entry point
+#
+# -----------------------------------------------------
+#
+# Author    : Lim Zhen Yang
+# StudentID : 2214506
+# Class     : DAAA/FT/2B/04
+# Date      : 7-Feb-2023
+# Filename  : main.py
+#
+# -----------------------------------------------------
+# To run: python main.py
+# -----------------------------------------------------
 from program import Interface, Options
 interface = Interface()
 options = Options()

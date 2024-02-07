@@ -376,29 +376,3 @@ class EquationParseTree(ParseTree):
             temp = node.left_tree
             node.left_tree = node.right_tree  
             node.right_tree = temp
-
-    """
-    OOP Principles applied:
-
-    Encapsulation:
-    The EquationParseTree class encapsulates its internal state using private attributes (__equations, __memoization_cache, __active_evaluations) 
-    and provides getter and setter methods to control access to these attributes. This protects the integrity of the class data 
-    and prevents direct modification from outside the class.
-
-    Abstraction:
-    The EquationParseTree class abstracts the complexity of constructing, evaluating, and rearranging equation parse trees. 
-    It provides high-level methods (e.g., build_parse_tree, evaluate_equation, add_statement, rearrange_tree) that hide 
-    the implementation details of these operations, allowing users to interact with the class interface without needing 
-    to understand its internal workings.
-
-    Polymorphism:
-    The EquationParseTree class demonstrates polymorphism through method overloading and method overriding. 
-    For example, the __evaluate_equation method is overridden from the ParseTree class to handle equation-specific evaluation, 
-    while the build_parse_tree method overloads the same method in the ParseTree class to accommodate equation parsing rules. 
-    This allows for different behavior depending on the context in which the methods are called.
-
-    Modularity:
-    The EquationParseTree class is modular, with each method responsible for a specific aspect of equation parsing and evaluation. 
-    This modular design promotes code reusability, maintainability, and extensibility by allowing individual components 
-    to be modified or replaced without affecting the overall functionality of the class.
-    """

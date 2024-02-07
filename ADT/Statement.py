@@ -183,31 +183,3 @@ class Statement(Node):
             str: A string representation of the Statement.
         """
         return f"{self.__statement}"
-
-    """
-    OOP Principles applied
-
-    Encapsulation:
-    The Statement class encapsulates attributes (__statement, __var, __exp, tokens) and methods 
-    (split_statement, allow_remove_spaces, __lt__, __gt__, __str__) within a single unit. 
-    This prevents direct access to internal data and behavior from outside the class, 
-    promoting data integrity and reducing complexity.
-
-    Abstraction:
-    Programmers interact with the Statement class using high-level methods like get_statement(), 
-    get_var(), get_exp(), set_statement(), set_var(), set_exp(), and __str__(), without needing to 
-    know the internal implementation details of these methods. They are abstracted away from the 
-    complexities of statement processing, allowing for a simpler and more intuitive interface.
-
-    Polymorphism:
-    The Statement class implements comparison methods (__lt__, __gt__) to support less than and 
-    greater than comparisons between Statement objects. This flexibility allows users to compare 
-    statements based on their variables, promoting code flexibility and reuse.
-
-    Modularity:
-    Each method in the Statement class serves a specific purpose, promoting modularity and code 
-    reusability. For example, split_statement() is responsible for parsing the input statement, 
-    allow_remove_spaces() handles user interaction for removing spaces, and __str__() provides a 
-    string representation of the statement. This modular design makes the class easier to understand, 
-    maintain, and extend.
-    """

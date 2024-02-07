@@ -118,27 +118,3 @@ class SortedList:
         while current is not None:
             yield current  # Yielding each node one by one
             current = current.next_node
-
-    """
-    OOP Principles applied
-
-    Encapsulation:
-    The SortedList class encapsulates attributes (__head_node, __length) and methods (__append_to_head, insert, items, __str__, iterate) within a single unit. 
-    This prevents direct access to internal data and behavior from outside the class, promoting data integrity and reducing complexity.
-
-    Abstraction:
-    Programmers interact with the sorted linked list class using high-level methods like insert, items, etc., 
-    without needing to know the internal implementation details of these methods. They are abstracted away from the 
-    complexities of managing linked list nodes and pointers, allowing for a simpler and more intuitive interface.
-
-    Polymorphism:
-    The insert method can handle different types of input to insert new nodes into the list. 
-    This flexibility allows users to work with various types of data seamlessly, without needing to worry about the 
-    underlying implementation details.
-
-    Modularity:
-    Each method in the SortedList class serves a specific purpose, promoting modularity and code reusability. 
-    For example, the insert method is responsible for inserting new nodes into the list, 
-    while the items method retrieves a list of string representations of nodes. 
-    This modular design makes the class easier to understand, maintain, and extend.
-    """

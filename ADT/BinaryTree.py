@@ -202,28 +202,3 @@ class BinaryTree:
         else:
             # If either left or right subtree is None, return the key itself
             return self.__key
-
-    """
-    OOP Principles applied
-
-    Encapsulation:
-    The BinaryTree class encapsulates attributes (__key, __left_tree, __right_tree) and 
-    methods (set_key, get_key, get_left_tree, get_right_tree, insert_left, insert_right, print_in_order, shallow_tree) within a single unit. 
-    This prevents direct access to internal data and behavior from outside the class, promoting data integrity and reducing complexity.
-
-    Abstraction:
-    Programmers interact with the binary tree class using high-level methods like insert_left, insert_right, print_in_order, etc., 
-    without needing to know the internal implementation details of these methods. They are abstracted away from the 
-    complexities of managing tree nodes and pointers, allowing for a simpler and more intuitive interface.
-
-    Polymorphism:
-    The insert_left and insert_right methods can handle different types of input (e.g., integers, strings) to create new nodes. 
-    This flexibility allows users to work with various types of data seamlessly, without needing to worry about the 
-    underlying implementation details.
-
-    Modularity:
-    Each method in the BinaryTree class serves a specific purpose, promoting modularity and code reusability. 
-    For example, the print_in_order method is responsible for printing the binary tree in an in-order traversal, 
-    while the shallow_tree method constructs a string representation of the tree using parentheses. 
-    This modular design makes the class easier to understand, maintain, and extend.
-    """

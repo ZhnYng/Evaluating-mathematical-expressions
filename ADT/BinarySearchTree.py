@@ -248,28 +248,3 @@ class BinarySearchTree(BinaryTree):
         while current._BinaryTree__left_tree is not None: # While left tree exists, keep traversing left-wards
             current = current._BinaryTree__left_tree # This is because the left tree contains the smallest value
         return current._BinaryTree__key
-
-    """
-    OOP Principles applied
-
-    Encapsulation:
-    The BinarySearchTree class encapsulates attributes (key, left_tree, right_tree, height) and 
-    methods (add, delete, find_min, __get_height, __balance_factor, __rotate_right, __rotate_left, __balance_tree) within a single unit. 
-    This prevents direct access to internal data and behavior from outside the class, promoting data integrity and reducing complexity.
-
-    Abstraction:
-    Programmers interact with the binary search tree class using high-level methods like add, delete, find_min, etc., 
-    without needing to know the internal implementation details of these methods. They are abstracted away from the 
-    complexities of managing tree nodes and pointers, allowing for a simpler and more intuitive interface.
-
-    Polymorphism:
-    The add method can handle different types of input to add new keys to the tree. 
-    This flexibility allows users to work with various types of data seamlessly, without needing to worry about the 
-    underlying implementation details.
-
-    Modularity:
-    Each method in the BinarySearchTree class serves a specific purpose, promoting modularity and code reusability. 
-    For example, the add method is responsible for adding new keys to the tree, 
-    while the find_min method finds the minimum key in the tree. 
-    This modular design makes the class easier to understand, maintain, and extend.
-    """

@@ -89,25 +89,3 @@ class DoubleStatement(Statement):
     def __str__(self):
         """Get a string representation of the DoubleStatement."""
         return f"{self.__equation}"
-    
-    """
-    OOP Principles applied:
-
-    Encapsulation:
-    The DoubleStatement class encapsulates the attributes __equation and __double_tokens, as well as the 
-    validation instance within a single unit. This prevents direct access to internal data and behavior 
-    from outside the class, promoting data integrity and reducing complexity.
-
-    Abstraction:
-    The use of the ExpressionTokenizer and Validation classes abstracts away the complexities of tokenizing 
-    expressions and validating them. Users interact with the DoubleStatement class using high-level methods 
-    without needing to know the internal implementation details.
-
-    Modularity:
-    Each method in the DoubleStatement class serves a specific purpose, promoting modularity and code reusability. 
-    The class follows the principle of single responsibility, where each method is responsible for a single task.
-
-    Inheritance:
-    The DoubleStatement class inherits from the Statement class, demonstrating inheritance, which allows 
-    the DoubleStatement class to inherit behavior and attributes from its parent class.
-    """

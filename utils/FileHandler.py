@@ -161,25 +161,3 @@ class FileHandler:
         Returns a string representation of the FileHandler object.
         """
         return "FileHandler()"
-
-    """
-    OOP Principles Applied:
-
-    Encapsulation:
-    - The FileHandler class encapsulates file read and write operations, providing a unified interface for interacting with files and folders.
-    - Internal data and behavior, such as file paths and file contents, are encapsulated within the class, promoting data integrity and reducing complexity.
-    - External classes interact with FileHandler through defined methods, maintaining encapsulation boundaries.
-
-    Abstraction:
-    - FileHandler abstracts away the complexities of file manipulation by providing high-level methods like read, write, read_folder, get_file_path, and queue_files.
-    - Users interact with FileHandler without needing to know the internal implementation details of these methods, promoting a simpler and more intuitive interface.
-
-    Polymorphism:
-    - The FileHandler class can handle different types of file operations, such as reading files, writing files, listing files in a folder, and joining file paths, seamlessly.
-    - Methods like read, write, read_folder, get_file_path, and queue_files are flexible and can accommodate various file-related tasks without changes to their interface.
-
-    Modularity:
-    - Each method in the FileHandler class serves a specific purpose, promoting modularity and code reusability.
-    - For example, the read method is responsible for reading the contents of a file, while the read_folder method is responsible for listing files in a folder.
-    - This modular design makes the FileHandler class easier to understand, maintain, and extend.
-    """

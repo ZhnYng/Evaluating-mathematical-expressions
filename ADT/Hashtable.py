@@ -434,25 +434,3 @@ class Hashtable:
         for key in old_keys:
             if key is not None:
                 self[key] = old_buckets[old_keys.index(key)]
-
-    """
-    OOP Principles applied
-
-    Encapsulation:
-    Private attributes: Attributes such as __size, __count, __keys, __buckets, __current_index, and __bst are declared as private by prefixing them with double underscores (__). This ensures that they cannot be directly accessed or modified from outside the class.
-    Getter methods: Methods like get_size(), get_count(), get_keys(), get_buckets(), get_current_index(), and get_bst() are provided to access the private attributes.
-    Setter methods: Methods like set_size(), set_count(), set_keys(), set_buckets(), set_current_index(), and set_bst() are provided to modify the private attributes. This allows controlled access to these attributes.
-
-    Polymorphism:
-    Special methods like __getitem__(), __setitem__(), __delitem__(), __contains__(), __len__(), __iter__(), and __next__() provide a common interface for interacting with the Hashtable object.
-    For example, __getitem__() allows retrieving values associated with keys using the indexing notation (my_hashtable[key]), __iter__() enables iteration over the hashtable keys using a loop or comprehension, and so on. These methods exhibit polymorphic behavior, allowing flexibility in how the Hashtable object is used.
-
-    Abstraction:
-    Internal implementation details of the hashtable, such as hash function computation, rehashing, resizing, and handling collisions, are abstracted away from the user.
-    Users interact with the Hashtable class through its public interface, which includes methods like __getitem__(), __setitem__(), __delitem__(), __contains__(), __len__(), __iter__(), and clear(). This abstraction hides the complexity of the underlying operations, providing a simplified interface for users to work with.
-
-    Modularity:
-    Each method in the Hashtable class serves a specific purpose, promoting modularity and code reusability. 
-    This modular design makes the class easier to understand, maintain, and extend.
-
-    """

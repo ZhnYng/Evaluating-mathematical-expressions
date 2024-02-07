@@ -154,31 +154,3 @@ class MergeSort:
     
     def __repr__(self) -> str:
         return "MergeSort class"
-
-    """
-    OOP Principles Applied:
-
-    Encapsulation:
-    The MergeSort class encapsulates the sorting logic for a custom merge sort algorithm. 
-    It hides the internal details of the sorting process, such as dividing the array, merging sorted halves, 
-    and handling different data types, within its methods. This encapsulation prevents direct access 
-    to these details from outside the class, promoting data integrity and reducing complexity.
-
-    Abstraction:
-    Programmers interact with the MergeSort class using high-level methods like merge_sort and get_sorted_dict, 
-    without needing to know the intricate details of the merge sort algorithm implementation. 
-    The class abstracts away the complexities of sorting a dictionary with numeric and 'None' values, 
-    providing a simplified interface for sorting such data structures.
-
-    Polymorphism:
-    The MergeSort class demonstrates polymorphism by handling different types of input data (numeric and 'None' values) 
-    and performing sorting based on numeric values in descending order, while also sorting 'None' values alphabetically. 
-    This flexibility allows users to apply the merge sort algorithm to diverse datasets without modifying the class interface.
-
-    Modularity:
-    Each method in the MergeSort class serves a specific role in the sorting process, 
-    such as recursively dividing the array, merging sorted halves, and converting the sorted array back into a dictionary. 
-    This modular design promotes code reusability and ease of maintenance. 
-    Furthermore, the class encapsulates the sorting functionality, 
-    making it independent of the surrounding code and facilitating easy integration into different applications.
-    """
