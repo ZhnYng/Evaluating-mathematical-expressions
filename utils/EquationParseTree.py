@@ -281,64 +281,64 @@ class EquationParseTree(ParseTree):
         rearranged_tree = BinaryTree('=') # Initialize binary tree
 
         # Case for (x+2)=(y+3)
-        if target_variable == equation_tree.left_tree.left_tree.get_key():
+        if target_variable == equation_tree._BinaryTree__left_tree._BinaryTree__left_tree.get_key():
             # Invert the operator of the left subtree to isolate the target variable
-            self.__invert_operator(equation_tree.left_tree)
+            self.__invert_operator(equation_tree._BinaryTree__left_tree)
             # Insert the target variable as the left child of the rearranged tree
             rearranged_tree.insert_left(target_variable)
             # Remove the target variable from the left subtree of the original tree
-            equation_tree.left_tree.left_tree.set_key(None)
+            equation_tree._BinaryTree__left_tree._BinaryTree__left_tree.set_key(None)
             # Save the left subtree of the original tree as the right subtree of the rearranged tree
-            tree_no_subject = equation_tree.left_tree
-            rearranged_tree.right_tree = tree_no_subject
+            tree_no_subject = equation_tree._BinaryTree__left_tree
+            rearranged_tree._BinaryTree__right_tree = tree_no_subject
             # Set the right subtree of the rearranged tree to be the right subtree of the original tree
-            rearranged_tree.right_tree.left_tree = equation_tree.right_tree
+            rearranged_tree._BinaryTree__right_tree._BinaryTree__left_tree = equation_tree._BinaryTree__right_tree
 
         # Case for (2+x)=(y+3)
-        elif target_variable == equation_tree.left_tree.right_tree.get_key():
+        elif target_variable == equation_tree._BinaryTree__left_tree._BinaryTree__right_tree.get_key():
             # Invert the operator of the left subtree to isolate the target variable
-            self.__invert_operator(equation_tree.left_tree)
+            self.__invert_operator(equation_tree._BinaryTree__left_tree)
             # Insert the target variable as the left child of the rearranged tree
             rearranged_tree.insert_left(target_variable)
             # Remove the target variable from the right subtree of the original tree
-            equation_tree.left_tree.right_tree.set_key(None)
+            equation_tree._BinaryTree__left_tree._BinaryTree__right_tree.set_key(None)
             # Save the left subtree of the original tree as the right subtree of the rearranged tree
-            tree_no_subject = equation_tree.left_tree
-            rearranged_tree.right_tree = tree_no_subject
+            tree_no_subject = equation_tree._BinaryTree__left_tree
+            rearranged_tree._BinaryTree__right_tree = tree_no_subject
             # Set the right subtree of the rearranged tree to be the right subtree of the original tree
-            rearranged_tree.right_tree.right_tree = equation_tree.right_tree
+            rearranged_tree._BinaryTree__right_tree._BinaryTree__right_tree = equation_tree._BinaryTree__right_tree
             # Invert right binary tree to keep the original right tree on the left
-            self.__shallow_invert_binary_tree(rearranged_tree.right_tree)
+            self.__shallow_invert_binary_tree(rearranged_tree._BinaryTree__right_tree)
 
         # Case for (y+3)=(x+2)
-        elif target_variable == equation_tree.right_tree.left_tree.get_key():
+        elif target_variable == equation_tree._BinaryTree__right_tree._BinaryTree__left_tree.get_key():
             # Invert the operator of the right subtree to isolate the target variable
-            self.__invert_operator(equation_tree.right_tree)
+            self.__invert_operator(equation_tree._BinaryTree__right_tree)
             # Insert the target variable as the left child of the rearranged tree
             rearranged_tree.insert_left(target_variable)
             # Remove the target variable from the left subtree of the original tree
-            equation_tree.right_tree.left_tree.set_key(None)
+            equation_tree._BinaryTree__right_tree._BinaryTree__left_tree.set_key(None)
             # Save the right subtree of the original tree as the right subtree of the rearranged tree
-            tree_no_subject = equation_tree.right_tree
-            rearranged_tree.right_tree = tree_no_subject
+            tree_no_subject = equation_tree._BinaryTree__right_tree
+            rearranged_tree._BinaryTree__right_tree = tree_no_subject
             # Set the left subtree of the rearranged tree to be the left subtree of the original tree
-            rearranged_tree.right_tree.left_tree = equation_tree.left_tree
+            rearranged_tree._BinaryTree__right_tree._BinaryTree__left_tree = equation_tree._BinaryTree__left_tree
 
         # Case for (y+3)=(2+x)
-        elif target_variable == equation_tree.right_tree.right_tree.get_key():
+        elif target_variable == equation_tree._BinaryTree__right_tree._BinaryTree__right_tree.get_key():
             # Invert the operator of the right subtree to isolate the target variable
-            self.__invert_operator(equation_tree.right_tree)
+            self.__invert_operator(equation_tree._BinaryTree__right_tree)
             # Insert the target variable as the left child of the rearranged tree
             rearranged_tree.insert_left(target_variable)
             # Remove the target variable from the right subtree of the original tree
-            equation_tree.right_tree.right_tree.set_key(None)
+            equation_tree._BinaryTree__right_tree._BinaryTree__right_tree.set_key(None)
             # Save the right subtree of the original tree as the right subtree of the rearranged tree
-            tree_no_subject = equation_tree.right_tree
-            rearranged_tree.right_tree = tree_no_subject
+            tree_no_subject = equation_tree._BinaryTree__right_tree
+            rearranged_tree._BinaryTree__right_tree = tree_no_subject
             # Set the right subtree of the rearranged tree to be the left subtree of the original tree
-            rearranged_tree.right_tree.right_tree = equation_tree.left_tree
+            rearranged_tree._BinaryTree__right_tree._BinaryTree__right_tree = equation_tree._BinaryTree__left_tree
             # Invert right binary tree to keep the original right tree on the left
-            self.__shallow_invert_binary_tree(rearranged_tree.right_tree)
+            self.__shallow_invert_binary_tree(rearranged_tree._BinaryTree__right_tree)
 
         return rearranged_tree
     
@@ -373,6 +373,6 @@ class EquationParseTree(ParseTree):
         else:
             temp = node  
             # swap the pointers in this node
-            temp = node.left_tree
-            node.left_tree = node.right_tree  
-            node.right_tree = temp
+            temp = node._BinaryTree__left_tree
+            node._BinaryTree__left_tree = node._BinaryTree__right_tree  
+            node._BinaryTree__right_tree = temp
